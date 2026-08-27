@@ -69,6 +69,11 @@
         <sc-if value="{{ esPanel }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
         <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Panel</span>
       </button>
+      <button onClick="{{ goInbox }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
+        <sc-if value="{{ esInbox }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
+        <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Inbox</span>
+        <span style="position:relative;font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:600;color:var(--gold)">{{ nInbox }}</span>
+      </button>
       <button onClick="{{ goAgente }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
         <sc-if value="{{ esAgente }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
         <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Agente IA</span>
@@ -97,6 +102,11 @@
       <button onClick="{{ goEquipo }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
         <sc-if value="{{ esEquipo }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
         <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Equipo</span>
+      </button>
+      <button onClick="{{ goTareas }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
+        <sc-if value="{{ esTareas }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
+        <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Tareas</span>
+        <span style="position:relative;font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:600;color:var(--gold)">{{ nTareasPend }}</span>
       </button>
       <button onClick="{{ goAjustes }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
         <sc-if value="{{ esAjustes }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
@@ -148,6 +158,24 @@
         </div>
       </div>
 
+      <div style="background:var(--sf);border:1px solid var(--hot);border-radius:10px;box-shadow:var(--shadow);padding:14px 18px;display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;align-items:center;gap:10px">
+          <span style="width:6px;height:6px;border-radius:999px;background:var(--hot);flex:none"></span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--hot)">Necesita acción ahora</span>
+        </div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <sc-for list="{{ accionAhora }}" as="a" hint-placeholder-count="4">
+            <button onClick="{{ a.ir }}" style="display:flex;align-items:baseline;gap:9px;border:1px solid var(--ln);background:var(--sf2);border-radius:8px;padding:11px 14px;cursor:pointer;text-align:left" style-hover="border-color:var(--hot)">
+              <span style="font:600 19px/1 'Source Serif 4',Georgia,serif;color:{{ a.color }}">{{ a.n }}</span>
+              <span style="display:flex;flex-direction:column;gap:3px">
+                <span style="font:500 12px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ a.label }}</span>
+                <span style="font:400 9px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ a.detalle }}</span>
+              </span>
+            </button>
+          </sc-for>
+        </div>
+      </div>
+
       <div style="display:grid;grid-template-columns:{{ kpiCols }};gap:12px">
         <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="5">
           <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:9px;min-width:0">
@@ -156,6 +184,42 @@
             <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ k.color }}">{{ k.delta }}</span>
           </div>
         </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;align-items:stretch">
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Estado del bot</span>
+            <span style="display:flex;align-items:center;gap:7px">
+              <span style="width:6px;height:6px;border-radius:999px;background:var(--ok)"></span>
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ok)">operativo</span>
+            </span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ botEstado }}" as="b" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--ln2)">
+                <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ b.k }}</span>
+                <span style="font:600 13px/1 'Source Serif 4',Georgia,serif;color:{{ b.color }}">{{ b.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Costo OpenAI del mes</span>
+            <span style="font:600 22px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">US$ 84,30</span>
+          </div>
+          <div style="height:3px;background:var(--bar)"><div style="height:100%;width:56%;background:var(--ac)"></div></div>
+          <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">56% del presupuesto mensual (US$ 150). Proyección al cierre: US$ 97.</span>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ costoIA }}" as="c" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--ln2)">
+                <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ c.k }}</span>
+                <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)">{{ c.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
       </div>
 
       <div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px;align-items:start">
@@ -237,6 +301,55 @@
     </div>
     </sc-if>
 
+    <!-- INBOX -->
+    <sc-if value="{{ esInbox }}">
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:28px;align-items:start;max-width:1300px">
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:11px;border-bottom:1px solid var(--ln)">
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Aprobaciones pendientes</span>
+          <span style="font:400 12px/1 'Source Serif 4',Georgia,serif;color:var(--ink2)">{{ nAprobaciones }}</span>
+        </div>
+        <sc-if value="{{ sinAprobaciones }}">
+          <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--fnt);padding:8px 0">No queda nada por aprobar. Bien ahí.</span>
+        </sc-if>
+        <sc-for list="{{ aprobaciones }}" as="a" hint-placeholder-count="3">
+          <div style="background:var(--sf);border:1px solid var(--ln);border-left:2px solid var(--hot);border-radius:9px;box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;gap:11px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span style="font:500 13px/1.35 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ a.asunto }}</span>
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt);flex:none">{{ a.hora }}</span>
+            </div>
+            <span style="font:400 11px/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ a.detalle }}</span>
+            <span style="font:400 9px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--ac)">{{ a.regla }}</span>
+            <div style="display:flex;gap:10px;padding-top:10px;border-top:1px solid var(--ln2)">
+              <button onClick="{{ a.aprobar }}" style="border:0;background:var(--btn);color:var(--btnink);border-radius:6px;padding:10px 15px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Aprobar</button>
+              <button onClick="{{ a.rechazar }}" style="border:1px solid var(--ln);background:transparent;color:var(--ink);border-radius:6px;padding:10px 15px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Rechazar</button>
+              <button onClick="{{ a.ver }}" style="border:0;background:transparent;color:var(--mut);padding:10px 4px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Ver detalle</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:11px;border-bottom:1px solid var(--ln)">
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Llamados de atención</span>
+          <span style="font:400 12px/1 'Source Serif 4',Georgia,serif;color:var(--ink2)">{{ nAvisos }}</span>
+        </div>
+        <sc-for list="{{ avisos }}" as="v" hint-placeholder-count="4">
+          <div style="background:var(--sf);border:1px solid var(--ln);border-left:2px solid {{ v.color }};border-radius:9px;box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+              <span style="font:500 13px/1.35 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ v.asunto }}</span>
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:{{ v.color }};flex:none">{{ v.sev }}</span>
+            </div>
+            <span style="font:400 11px/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ v.detalle }}</span>
+            <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:9px;border-top:1px solid var(--ln2)">
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ v.hora }}</span>
+              <button onClick="{{ v.ir }}" style="border:0;border-bottom:1px solid var(--ln);background:transparent;color:var(--ink);padding:0 0 4px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">{{ v.accion }}</button>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+    </sc-if>
+
     <!-- AGENTE IA -->
     <sc-if value="{{ esAgente }}">
     <div style="display:flex;flex-direction:column;gap:30px">
@@ -249,6 +362,9 @@
         </button>
         <button onClick="{{ subGuion }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Guion del agente
           <sc-if value="{{ subEsGuion }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subBase }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Base de conocimiento
+          <sc-if value="{{ subEsBase }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
         </button>
       </div>
 
@@ -435,6 +551,57 @@
         </div>
       </div>
       </sc-if>
+
+      <sc-if value="{{ subEsBase }}">
+      <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:start;max-width:1180px">
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Lo que el bot sabe responder</span>
+              <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">FAQ, políticas y horarios que el agente consulta antes de responder. El system prompt raíz no se toca: esto se suma como contexto.</span>
+            </div>
+            <button onClick="{{ kbAgregar }}" style="flex:none;border:0;background:var(--btn);color:var(--btnink);border-radius:6px;padding:11px 16px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Agregar entrada</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ kbEntradas }}" as="k" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:14px;padding:15px 0;border-bottom:1px solid var(--ln2);align-items:start">
+                <span style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                  <span style="font:500 13px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ k.q }}</span>
+                  <span style="font:400 12px/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ k.a }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">{{ k.cat }} · usada {{ k.usos }} veces este mes</span>
+                </span>
+                <span style="display:flex;gap:12px;flex:none">
+                  <button onClick="{{ k.editar }}" style="border:0;background:transparent;color:var(--mut);padding:0;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Editar</button>
+                  <button onClick="{{ k.toggle }}" style="border:0;border-bottom:1px solid {{ k.estBorde }};background:transparent;color:{{ k.estColor }};padding:0 0 3px;font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">{{ k.estado }}</button>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:40px">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Horarios que informa</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ kbHorarios }}" as="h" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:13px 0;border-bottom:1px solid var(--ln2)">
+                  <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ h.k }}</span>
+                  <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink);white-space:nowrap">{{ h.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Cómo lo usa el bot</span>
+            <span style="font:400 12px/1.7 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">Antes de responder, el agente busca acá. Si la respuesta está, la usa con sus palabras. Si no está, dice que lo consulta con el equipo y crea una entrada sugerida para que el gerente la complete.</span>
+            <div style="background:var(--sf);border:1px solid var(--ln);border-left:2px solid var(--ac);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:7px">
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--ac)">Sugerida por el bot · sin responder aún</span>
+              <span style="font:500 13px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">¿Hacen envíos de unidades al interior de Chubut?</span>
+              <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Preguntada 3 veces esta semana. Completala para que el bot deje de derivarla.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
     </div>
     </sc-if>
 
@@ -447,6 +614,9 @@
         </button>
         <button onClick="{{ subAtencion }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Mesa de atención
           <sc-if value="{{ subEsAtencion }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subReclamos }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Reclamos
+          <sc-if value="{{ subEsReclamos }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
         </button>
       </div>
 
@@ -500,6 +670,42 @@
         </sc-for>
       </div>
       </sc-if>
+
+      <sc-if value="{{ subEsReclamos }}">
+      <div style="display:flex;flex-direction:column;gap:20px;max-width:1300px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Cuando el bot detecta enojo o un problema serio, corta la venta, deriva a un humano y abre el ticket solo. Todo reclamo abierto acá también aparece en "Necesita acción ahora".</span>
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);white-space:nowrap">{{ nReclamosAbiertos }} abiertos · SLA 4 h</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ reclamos }}" as="r" hint-placeholder-count="4">
+            <div style="background:var(--sf);border:1px solid var(--ln);border-left:2px solid {{ r.sevColor }};border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+                <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+                  <span style="font:500 14px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ r.asunto }}</span>
+                  <span style="font:400 11px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ r.cliente }} · {{ r.unidad }} · ticket {{ r.nro }}</span>
+                </span>
+                <span style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex:none">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ r.sevColor }}">{{ r.sev }}</span>
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ r.slaColor }}">{{ r.sla }}</span>
+                </span>
+              </div>
+              <div style="background:var(--sf2);border:1px solid var(--ln2);border-radius:7px;padding:11px 14px;display:flex;flex-direction:column;gap:5px">
+                <span style="font:400 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Lo que detectó el bot</span>
+                <span style="font:400 12px/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);font-style:italic">"{{ r.frase }}"</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:10px;border-top:1px solid var(--ln2);flex-wrap:wrap">
+                <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">asignado a {{ r.asignado }} · {{ r.estado }}</span>
+                <div style="display:flex;gap:14px">
+                  <button onClick="{{ r.abrirChat }}" style="border:0;background:transparent;color:var(--mut);padding:0;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Ver conversación</button>
+                  <button onClick="{{ r.resolver }}" style="border:0;border-bottom:1px solid var(--ln);background:transparent;color:var(--ink);padding:0 0 4px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Marcar resuelto</button>
+                </div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
     </div>
     </sc-if>
 
@@ -518,6 +724,12 @@
         </button>
         <button onClick="{{ subTasacion }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Tasación de usados
           <sc-if value="{{ subEsTasacion }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subPresupuestos }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Presupuestos
+          <sc-if value="{{ subEsPresupuestos }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subPlanAhorro }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Plan ahorro
+          <sc-if value="{{ subEsPlanAhorro }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
         </button>
       </div>
 
@@ -610,6 +822,36 @@
       </sc-if>
 
       <sc-if value="{{ subEsTasacion }}">
+      <div style="display:flex;flex-direction:column;gap:20px;max-width:1180px;padding-bottom:40px;margin-bottom:8px;border-bottom:1px solid var(--ln)">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Permutas que recolectó el bot</span>
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">En el chat, el bot pide datos y fotos de la unidad que entrega el cliente y propone un valor de toma. El gerente retasa, acepta o rechaza.</span>
+          </div>
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);white-space:nowrap">{{ nPermutasPend }} pendientes de revisión</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ permutasBot }}" as="p" hint-placeholder-count="3">
+            <div style="background:var(--sf);border:1px solid var(--ln);border-left:2px solid {{ p.borde }};border-radius:10px;box-shadow:var(--shadow);padding:16px 18px;display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr) auto;gap:18px;align-items:center">
+              <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+                <span style="font:500 13px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ p.unidad }}</span>
+                <span style="font:400 11px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ p.cliente }} · quiere {{ p.interes }}</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--fnt)">{{ p.fotos }} fotos · {{ p.km }} · recibida {{ p.hora }}</span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:5px">
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">tasación IA sugerida</span>
+                <span style="font:600 18px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ p.valor }}</span>
+                <span style="font:400 9px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ p.estadoColor }}">{{ p.estado }}</span>
+              </span>
+              <span style="display:flex;gap:10px;flex:none;flex-wrap:wrap">
+                <button onClick="{{ p.retasar }}" style="border:1px solid var(--ln);background:transparent;color:var(--ink);border-radius:6px;padding:10px 14px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Retasar</button>
+                <button onClick="{{ p.aceptar }}" style="border:0;background:var(--btn);color:var(--btnink);border-radius:6px;padding:10px 14px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Aceptar</button>
+                <button onClick="{{ p.rechazar }}" style="border:0;background:transparent;color:var(--mut);padding:10px 4px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Rechazar</button>
+              </span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:48px 56px;align-items:start;max-width:1180px">
         <div style="display:flex;flex-direction:column;gap:34px">
           <div style="display:flex;flex-direction:column;gap:7px">
@@ -687,6 +929,127 @@
         </div>
       </div>
       </sc-if>
+
+      <sc-if value="{{ subEsPresupuestos }}">
+      <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:56px;align-items:start;max-width:1240px">
+        <div style="display:flex;flex-direction:column;gap:26px">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Nuevo presupuesto</span>
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">El catálogo se autocompleta desde Inventario. Antes de enviarse, la IA valida las reglas internas; si algo no cierra, pasa al gerente.</span>
+          </div>
+          <label style="display:flex;flex-direction:column;gap:9px">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">Unidad · escribí para buscar en el catálogo</span>
+            <input value="{{ ppUnidadTxt }}" onChange="{{ ppBuscar }}" placeholder="Pick-up, SUV, tractor…" style="border:0;border-bottom:1px solid var(--ln);background:transparent;padding:9px 2px;font:400 17px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink);outline:0" />
+          </label>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ ppSugerencias }}" as="s" hint-placeholder-count="3">
+              <button onClick="{{ s.elegir }}" style="display:flex;align-items:center;justify-content:space-between;gap:14px;text-align:left;border:0;border-bottom:1px solid var(--ln2);background:{{ s.fondo }};padding:12px 6px;cursor:pointer;width:100%" style-hover="background:var(--sf2)">
+                <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                  <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ s.modelo }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--fnt)">{{ s.tipo }} · {{ s.anio }} · {{ s.km }} · {{ s.estado }}</span>
+                </span>
+                <span style="font:600 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink);white-space:nowrap">{{ s.precio }}</span>
+              </button>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:20px">
+            <label style="display:flex;flex-direction:column;gap:8px">
+              <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">Anticipo</span>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px"><span style="font:400 17px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ ppAnticipoLabel }}</span></div>
+              <input type="range" min="0" max="60" step="5" value="{{ ppAnticipo }}" onChange="{{ setPpAnticipo }}" style="width:100%;accent-color:var(--ink)" />
+            </label>
+            <label style="display:flex;flex-direction:column;gap:8px">
+              <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">Cuotas</span>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px"><span style="font:400 17px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ ppCuotas }}</span></div>
+              <input type="range" min="0" max="60" step="6" value="{{ ppCuotas }}" onChange="{{ setPpCuotas }}" style="width:100%;accent-color:var(--ink)" />
+            </label>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:12px;padding-top:18px;border-top:1px solid var(--ln)">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Validación IA contra reglas internas</span>
+            <sc-for list="{{ ppReglas }}" as="r" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:16px minmax(0,1fr);gap:11px;align-items:start">
+                <span style="font:400 12px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ r.color }}">{{ r.icono }}</span>
+                <span style="font:400 12px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:{{ r.texto }}">{{ r.label }}</span>
+              </div>
+            </sc-for>
+            <div style="display:flex;gap:12px;padding-top:8px;flex-wrap:wrap">
+              <button onClick="{{ ppEnviar }}" style="border:0;background:{{ ppBtnFondo }};color:{{ ppBtnTexto }};border-radius:6px;padding:12px 18px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">{{ ppBtnLabel }}</button>
+              <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut);align-self:center">{{ ppNota }}</span>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:11px;border-bottom:1px solid var(--ln)">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Esperando aprobación del gerente</span>
+            <span style="font:400 12px/1 'Source Serif 4',Georgia,serif;color:var(--ink2)">{{ nPresupPend }}</span>
+          </div>
+          <sc-for list="{{ presupPend }}" as="p" hint-placeholder-count="3">
+            <div style="background:var(--sf);border:1px solid var(--ln);border-left:2px solid var(--hot);border-radius:9px;box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;gap:10px">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+                <span style="font:500 13px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ p.cliente }}</span>
+                <span style="font:600 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ p.total }}</span>
+              </div>
+              <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ p.unidad }} · {{ p.plan }} · armado por {{ p.vendedor }}</span>
+              <span style="font:400 9px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--hot)">{{ p.motivo }}</span>
+              <div style="display:flex;gap:10px;padding-top:9px;border-top:1px solid var(--ln2)">
+                <button onClick="{{ p.aprobar }}" style="border:0;background:var(--btn);color:var(--btnink);border-radius:6px;padding:9px 14px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Aprobar y enviar</button>
+                <button onClick="{{ p.rechazar }}" style="border:1px solid var(--ln);background:transparent;color:var(--ink);border-radius:6px;padding:9px 14px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Devolver al vendedor</button>
+              </div>
+            </div>
+          </sc-for>
+          <span style="font:400 11px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--fnt)">Los presupuestos que pasan todas las reglas salen solos, sin pasar por acá.</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsPlanAhorro }}">
+      <div style="display:flex;flex-direction:column;gap:30px;max-width:1300px">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Planes de ahorro</span>
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">El gerente arma los planes y define qué vendedores los ofrecen. El bot los menciona cuando el presupuesto del cliente no llega al contado.</span>
+          </div>
+          <button onClick="{{ paNuevo }}" style="border:0;background:var(--btn);color:var(--btnink);border-radius:6px;padding:12px 18px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Nuevo plan</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:0;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)">
+          <sc-for list="{{ paKpis }}" as="k" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:12px;padding:22px 24px;border-left:1px solid var(--ln2)">
+              <span style="font:400 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">{{ k.label }}</span>
+              <span style="font:400 26px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.02em;color:var(--ink);white-space:nowrap">{{ k.valor }}</span>
+              <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ k.color }}">{{ k.delta }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;align-items:start">
+          <sc-for list="{{ planesAhorro }}" as="p" hint-placeholder-count="3">
+            <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:13px">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+                <span style="display:flex;flex-direction:column;gap:5px">
+                  <span style="font:600 16px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ p.nombre }}</span>
+                  <span style="font:400 11px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ p.unidad }}</span>
+                </span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ p.estadoColor }};flex:none">{{ p.estado }}</span>
+              </div>
+              <div style="display:flex;align-items:baseline;gap:8px">
+                <span style="font:600 20px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ p.cuota }}</span>
+                <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">/ mes · {{ p.cuotas }} cuotas</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)">{{ p.suscriptos }} suscriptos</span>
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">meta {{ p.meta }}</span>
+                </div>
+                <div style="height:3px;background:var(--bar)"><div style="height:100%;width:{{ p.pct }};background:{{ p.barColor }}"></div></div>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:10px;border-top:1px solid var(--ln2)">
+                <span style="font:400 9px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--fnt)">ofrecen · {{ p.vendedores }}</span>
+                <button onClick="{{ p.editar }}" style="border:0;background:transparent;color:var(--ac);padding:0;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Editar</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
     </div>
     </sc-if>
 
@@ -699,6 +1062,9 @@
         </button>
         <button onClick="{{ subPrep }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Preparación y gastos
           <sc-if value="{{ subEsPrep }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subEntregas }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Entregas 0km
+          <sc-if value="{{ subEsEntregas }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
         </button>
       </div>
 
@@ -850,6 +1216,46 @@
         </div>
       </div>
       </sc-if>
+
+      <sc-if value="{{ subEsEntregas }}">
+      <div style="display:flex;flex-direction:column;gap:16px;max-width:1300px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Cada 0km vendido, desde el pedido a fábrica hasta la entrega. En cada cambio de etapa el bot le avisa al cliente por WhatsApp, solo.</span>
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);white-space:nowrap">{{ nEntregasCurso }} en curso · 1 demorada</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ entregas }}" as="e" hint-placeholder-count="4">
+            <div style="background:var(--sf);border:1px solid var(--ln);border-left:2px solid {{ e.borde }};border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:15px">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+                <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+                  <span style="font:600 15px/1.25 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ e.unidad }}</span>
+                  <span style="font:400 11px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ e.cliente }} · vendida por {{ e.vendedor }} · {{ e.fechaVenta }}</span>
+                </span>
+                <span style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex:none">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ e.etaColor }}">{{ e.eta }}</span>
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ e.dias }} días desde la seña</span>
+                </span>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:6px">
+                <sc-for list="{{ e.pasos }}" as="s" hint-placeholder-count="5">
+                  <div style="display:flex;flex-direction:column;gap:7px;min-width:0">
+                    <div style="height:3px;background:{{ s.bar }};border-radius:2px"></div>
+                    <span style="font:400 8px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:{{ s.texto }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.label }}</span>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:11px;border-top:1px solid var(--ln2);flex-wrap:wrap">
+                <span style="display:flex;align-items:center;gap:9px;min-width:0">
+                  <span style="width:5px;height:5px;border-radius:999px;background:var(--ok);flex:none"></span>
+                  <span style="font:400 11px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut);min-width:0">Último aviso del bot: "{{ e.aviso }}" · {{ e.avisoHora }}</span>
+                </span>
+                <button onClick="{{ e.avanzar }}" style="border:0;border-bottom:1px solid var(--ln);background:transparent;color:var(--ink);padding:0 0 4px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;flex:none">{{ e.btn }}</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
     </div>
     </sc-if>
 
@@ -984,6 +1390,9 @@
         </button>
         <button onClick="{{ subAgenteM }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Agente IA
           <sc-if value="{{ subEsAgenteM }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subCampanas }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Campañas
+          <sc-if value="{{ subEsCampanas }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
         </button>
       </div>
 
@@ -1139,6 +1548,55 @@
         </div>
       </div>
       </sc-if>
+
+      <sc-if value="{{ subEsCampanas }}">
+      <div style="display:flex;flex-direction:column;gap:36px;max-width:1450px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Conectado a Meta Ads por API. Cada lead entra con su tag UTM, así el revenue es de ventas reales facturadas, no estimado.</span>
+          <span style="display:flex;align-items:center;gap:8px;flex:none">
+            <span style="width:6px;height:6px;border-radius:999px;background:var(--ok)"></span>
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ok)">Meta API conectada · sync hace 4 min</span>
+          </span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:0;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)">
+          <sc-for list="{{ campKpis }}" as="k" hint-placeholder-count="5">
+            <div style="display:flex;flex-direction:column;gap:12px;padding:22px 24px;border-left:1px solid var(--ln2)">
+              <span style="font:400 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">{{ k.label }}</span>
+              <span style="font:400 26px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.02em;color:var(--ink);white-space:nowrap">{{ k.valor }}</span>
+              <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ k.color }}">{{ k.delta }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;min-width:1050px">
+          <div style="display:grid;grid-template-columns:1.6fr .7fr .9fr .8fr .7fr .7fr 1fr .6fr;gap:18px;padding:0 4px 12px;border-bottom:1px solid var(--ln)">
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Campaña</span>
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Estado</span>
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Inversión</span>
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Leads</span>
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">CPL</span>
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Ventas</span>
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Revenue real (UTM)</span>
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">ROAS</span>
+          </div>
+          <sc-for list="{{ campanas }}" as="c" hint-placeholder-count="5">
+            <div style="display:grid;grid-template-columns:1.6fr .7fr .9fr .8fr .7fr .7fr 1fr .6fr;gap:18px;padding:{{ rowPad }} 4px;border-bottom:1px solid var(--ln2);align-items:center" style-hover="background:var(--sf2)">
+              <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.nombre }}</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;color:var(--fnt)">{{ c.utm }}</span>
+              </span>
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ c.estadoColor }}">{{ c.estado }}</span>
+              <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2)">{{ c.inversion }}</span>
+              <span style="font:400 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2)">{{ c.leads }}</span>
+              <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)">{{ c.cpl }}</span>
+              <span style="font:400 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2)">{{ c.ventas }}</span>
+              <span style="font:600 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink);white-space:nowrap">{{ c.revenue }}</span>
+              <span style="font:600 15px/1 'Source Serif 4',Georgia,serif;color:{{ c.roasColor }}">{{ c.roas }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <span style="font:400 11px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--fnt)">CAC del mes: inversión total ÷ ventas atribuidas = $ 386.000 por unidad vendida. La campaña de Agro paga sola el resto de la pauta.</span>
+      </div>
+      </sc-if>
     </div>
     </sc-if>
 
@@ -1155,9 +1613,24 @@
         <button onClick="{{ subTTR }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">TTR y SLA
           <sc-if value="{{ subEsTTR }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
         </button>
+        <button onClick="{{ subCompulsa }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Compulsa
+          <sc-if value="{{ subEsCompulsa }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subEquipos }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Equipos
+          <sc-if value="{{ subEsEquipos }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
       </div>
       <sc-if value="{{ subEsVendedores }}" hint-placeholder-val="{{ true }}">
-      <div style="display:flex;flex-direction:column;max-width:1400px;min-width:1020px">
+      <div style="display:flex;flex-direction:column;gap:18px;max-width:1400px;min-width:1020px">
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+        <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ vistaNota }}</span>
+        <div style="display:flex;border:1px solid var(--ln);border-radius:7px;overflow:hidden;background:var(--sf);flex:none">
+          <button onClick="{{ setVistaGerente }}" style="border:0;background:{{ vgFondo }};color:{{ vgTexto }};padding:8px 14px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Vista del gerente</button>
+          <button onClick="{{ setVistaPublica }}" style="border:0;border-left:1px solid var(--ln);background:{{ vpFondo }};color:{{ vpTexto }};padding:8px 14px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Vista pública (salón)</button>
+        </div>
+      </div>
+      <sc-if value="{{ vistaGerente }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column">
       <div style="display:grid;grid-template-columns:1.3fr 1.1fr .6fr .6fr .6fr .8fr 1fr;gap:20px;padding:0 4px 12px;border-bottom:1px solid var(--ln)">
         <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Vendedor</span>
         <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Especialidad</span>
@@ -1181,6 +1654,31 @@
           </div>
         </div>
       </sc-for>
+      </div>
+      </sc-if>
+      <sc-if value="{{ vistaPublica }}">
+      <div style="display:flex;flex-direction:column;max-width:860px">
+        <sc-for list="{{ rankingPublico }}" as="v" hint-placeholder-count="6">
+          <div style="display:grid;grid-template-columns:44px minmax(0,1.4fr) .8fr .6fr auto;gap:20px;padding:17px 4px;border-bottom:1px solid var(--ln2);align-items:center;background:{{ v.fondo }}">
+            <span style="font:600 22px/1 'Source Serif 4',Georgia,serif;color:{{ v.posColor }}">{{ v.pos }}</span>
+            <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+              <span style="font:500 14px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ v.nombre }}</span>
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">{{ v.equipo }}</span>
+            </span>
+            <span style="display:flex;flex-direction:column;gap:4px">
+              <span style="font:600 16px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ v.cierres }}</span>
+              <span style="font:400 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">cierres</span>
+            </span>
+            <span style="display:flex;flex-direction:column;gap:4px">
+              <span style="font:600 16px/1 'Source Serif 4',Georgia,serif;color:{{ v.tasaColor }}">{{ v.tasa }}</span>
+              <span style="font:400 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">cierre</span>
+            </span>
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ v.deltaColor }};white-space:nowrap">{{ v.delta }}</span>
+          </div>
+        </sc-for>
+        <span style="font:400 11px/1.7 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--fnt);padding-top:14px">Esta vista se proyecta en el salón: solo posición, cierres y tasa. Los tiempos de respuesta, la carga y las tareas vencidas los ve únicamente el gerente.</span>
+      </div>
+      </sc-if>
       </div>
       </sc-if>
 
@@ -1335,12 +1833,212 @@
         </div>
       </div>
       </sc-if>
+
+      <sc-if value="{{ subEsCompulsa }}">
+      <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:start;max-width:1280px">
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Compulsa en vivo</span>
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Cuando entra un lead caliente, se les ofrece a la vez a los mejores vendedores por conversión. El primero que acepta se lo lleva. Si nadie lo toma antes del TTL, vuelve a la ronda común.</span>
+          </div>
+          <div style="background:var(--sf);border:1px solid var(--hot);border-radius:10px;box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;gap:16px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+              <span style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--hot)">Compulsa activa</span>
+                <span style="font:600 17px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ compLead.nombre }} · score {{ compLead.score }}</span>
+                <span style="font:400 11px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ compLead.detalle }}</span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:5px;align-items:flex-end;flex:none">
+                <span style="font:600 30px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.02em;color:var(--hot)">{{ compLead.restante }}</span>
+                <span style="font:400 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">para que expire · TTL {{ compTTL }}</span>
+              </span>
+            </div>
+            <div style="height:3px;background:var(--bar)"><div style="height:100%;width:{{ compLead.pct }};background:var(--hot)"></div></div>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ compInvitados }}" as="i" hint-placeholder-count="3">
+                <div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) auto;gap:14px;padding:13px 0;border-bottom:1px solid var(--ln2);align-items:center">
+                  <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                    <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ i.nombre }}</span>
+                    <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--fnt)">{{ i.tasa }} de cierre · puesto {{ i.pos }} del ranking</span>
+                  </span>
+                  <span style="font:400 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ i.estadoColor }}">{{ i.estado }}</span>
+                  <button onClick="{{ i.adjudicar }}" style="border:1px solid var(--ln);background:transparent;color:var(--ink);border-radius:6px;padding:9px 13px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;flex:none">Adjudicar</button>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Últimas compulsas</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ compHistorial }}" as="h" hint-placeholder-count="4">
+                <div style="display:grid;grid-template-columns:minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:14px;padding:12px 0;border-bottom:1px solid var(--ln2);align-items:center">
+                  <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);min-width:0">{{ h.lead }}</span>
+                  <span style="font:400 11px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:{{ h.color }}">{{ h.resultado }}</span>
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt);text-align:right">{{ h.cuando }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:34px">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Ranking de la compulsa</span>
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Entra a la compulsa el top 3 por conversión de los últimos 30 días. El que acepta un lead y no lo cierra, baja: el ranking se defiende cerrando.</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ compRanking }}" as="r" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:30px minmax(0,1.3fr) .6fr auto;gap:14px;padding:13px 0;border-bottom:1px solid var(--ln2);align-items:center;background:{{ r.fondo }}">
+                  <span style="font:600 15px/1 'Source Serif 4',Georgia,serif;color:{{ r.posColor }}">{{ r.pos }}</span>
+                  <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                    <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ r.nombre }}</span>
+                    <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:{{ r.marcaColor }}">{{ r.marca }}</span>
+                  </span>
+                  <span style="font:400 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink2)">{{ r.tasa }}</span>
+                  <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ r.deltaColor }}">{{ r.delta }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Reglas de la compulsa</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ compReglas }}" as="r" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--ln2)">
+                  <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ r.k }}</span>
+                  <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink);white-space:nowrap">{{ r.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+            <span style="font:400 11px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--fnt)">El TTL y el umbral se cambian en Ajustes → Operación.</span>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsEquipos }}">
+      <div style="display:flex;flex-direction:column;gap:26px;max-width:1300px">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Equipos de venta</span>
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">El gerente arma equipos con un líder y una meta combinada del mes. La meta es del equipo: si uno afloja, el líder lo ve primero.</span>
+          </div>
+          <button onClick="{{ eqNuevo }}" style="border:0;background:var(--btn);color:var(--btnink);border-radius:6px;padding:12px 18px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Crear equipo</button>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:12px;align-items:start">
+          <sc-for list="{{ equipos }}" as="e" hint-placeholder-count="2">
+            <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:20px;display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:14px">
+                <span style="display:flex;flex-direction:column;gap:5px">
+                  <span style="font:600 17px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ e.nombre }}</span>
+                  <span style="font:400 10px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--fnt)">líder · {{ e.lider }}</span>
+                </span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ e.estadoColor }};flex:none">{{ e.estado }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">meta combinada</span>
+                  <span style="font:600 15px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ e.avance }} / {{ e.meta }}</span>
+                </div>
+                <div style="height:5px;background:var(--bar);border-radius:3px"><div style="height:100%;width:{{ e.pct }};background:{{ e.barColor }};border-radius:3px"></div></div>
+                <span style="font:400 11px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ e.nota }}</span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+                <sc-for list="{{ e.miembros }}" as="m" hint-placeholder-count="3">
+                  <div style="display:grid;grid-template-columns:minmax(0,1.4fr) .7fr minmax(0,1fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--ln2);align-items:center">
+                    <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);min-width:0">{{ m.nombre }}{{ m.esLider }}</span>
+                    <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2)">{{ m.cierres }} u.</span>
+                    <div style="display:flex;align-items:center;gap:10px">
+                      <div style="flex:1;height:3px;background:var(--bar)"><div style="height:100%;width:{{ m.pct }};background:{{ m.color }}"></div></div>
+                      <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ m.pct }}</span>
+                    </div>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- TAREAS -->
+    <sc-if value="{{ esTareas }}">
+    <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:start;max-width:1280px">
+      <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+          <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Tareas que el gerente asigna a los vendedores. Al asignar, le llega la notificación por WhatsApp; si vence sin hacerse, aparece en el Inbox.</span>
+        </div>
+        <div style="display:flex;gap:16px;flex-wrap:wrap">
+          <sc-for list="{{ tareasFiltros }}" as="f" hint-placeholder-count="3">
+            <button onClick="{{ f.set }}" style="border:0;border-bottom:1px solid {{ f.borde }};background:transparent;color:{{ f.texto }};padding:0 0 5px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">{{ f.label }} <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ f.n }}</span></button>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln)">
+          <sc-for list="{{ tareas }}" as="t" hint-placeholder-count="6">
+            <div style="display:grid;grid-template-columns:minmax(0,1.7fr) minmax(0,1fr) auto;gap:16px;padding:15px 4px;border-bottom:1px solid var(--ln2);align-items:center;background:{{ t.fondo }}">
+              <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+                <span style="font:500 13px/1.35 'Helvetica Neue',Helvetica,Arial,sans-serif;color:{{ t.tituloColor }}">{{ t.titulo }}</span>
+                <span style="font:400 9px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--fnt)">{{ t.ref }}</span>
+              </span>
+              <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+                <span style="font:400 12px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ t.asignado }}</span>
+                <span style="font:400 9px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ t.venceColor }}">{{ t.vence }} · {{ t.notif }}</span>
+              </span>
+              <button onClick="{{ t.accionar }}" style="border:0;border-bottom:1px solid {{ t.btnBorde }};background:transparent;color:{{ t.btnColor }};padding:0 0 4px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;justify-self:end">{{ t.btn }}</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Nueva tarea</span>
+          <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Se notifica al vendedor apenas la creás.</span>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:9px">
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">Qué hay que hacer</span>
+          <input value="{{ tareaTxt }}" onChange="{{ setTareaTxt }}" placeholder="Llamar a…, preparar la unidad…, confirmar el turno…" style="border:0;border-bottom:1px solid var(--ln);background:transparent;padding:9px 2px;font:400 15px/1.35 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink);outline:0" />
+        </label>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">Asignar a</span>
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <sc-for list="{{ tareaVendedores }}" as="v" hint-placeholder-count="6">
+              <button onClick="{{ v.set }}" style="border:0;border-bottom:1px solid {{ v.borde }};background:transparent;color:{{ v.texto }};padding:0 0 5px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">{{ v.nombre }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">Vence</span>
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <sc-for list="{{ tareaPlazos }}" as="p" hint-placeholder-count="4">
+              <button onClick="{{ p.set }}" style="border:0;border-bottom:1px solid {{ p.borde }};background:transparent;color:{{ p.texto }};padding:0 0 5px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">{{ p.label }}</button>
+            </sc-for>
+          </div>
+        </div>
+        <button onClick="{{ tareaCrear }}" style="align-self:flex-start;border:0;background:var(--btn);color:var(--btnink);border-radius:6px;padding:12px 20px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Asignar y notificar</button>
+      </div>
     </div>
     </sc-if>
 
     <!-- AJUSTES -->
     <sc-if value="{{ esAjustes }}">
-    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;max-width:1050px">
+    <div style="display:flex;flex-direction:column;gap:30px">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-bottom:1px solid var(--ln)">
+        <button onClick="{{ subAjGeneral }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">General
+          <sc-if value="{{ subEsAjGeneral }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subAjMarcas }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Marcas
+          <sc-if value="{{ subEsAjMarcas }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subAjImport }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Importar datos
+          <sc-if value="{{ subEsAjImport }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subAjAudit }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Auditoría
+          <sc-if value="{{ subEsAjAudit }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+      </div>
+
+      <sc-if value="{{ subEsAjGeneral }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;max-width:1050px">
       <div style="display:flex;flex-direction:column;gap:34px">
         <div style="display:flex;flex-direction:column;gap:7px">
           <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Identidad de la empresa</span>
@@ -1381,6 +2079,103 @@
           <span style="font:400 12px/1.7 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);text-wrap:pretty">Los datos son de demostración. Falta definir: integración real de canales, motor de financiación, firma de documentación y permisos por rol.</span>
         </div>
       </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsAjMarcas }}">
+      <div style="display:flex;flex-direction:column;gap:26px;max-width:900px">
+        <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Marcas que comercializa</span>
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Para concesionarias multimarca. Cada unidad, lead y campaña queda etiquetada con su marca, y todo se puede filtrar por marca.</span>
+          </div>
+          <button onClick="{{ marcaAgregar }}" style="border:0;background:var(--btn);color:var(--btnink);border-radius:6px;padding:12px 18px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Agregar marca</button>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln)">
+          <sc-for list="{{ marcas }}" as="m" hint-placeholder-count="4">
+            <div style="display:grid;grid-template-columns:minmax(0,1.3fr) .8fr .8fr auto;gap:18px;padding:16px 4px;border-bottom:1px solid var(--ln2);align-items:center">
+              <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                <span style="font:500 14px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ m.nombre }}</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--fnt)">{{ m.tipo }}</span>
+              </span>
+              <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2)">{{ m.unidades }} unidades</span>
+              <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)">{{ m.leads }} leads / mes</span>
+              <button onClick="{{ m.toggle }}" style="border:0;border-bottom:1px solid {{ m.estBorde }};background:transparent;color:{{ m.estColor }};padding:0 0 4px;font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">{{ m.estado }}</button>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsAjImport }}">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;max-width:1050px">
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Importar desde el sistema anterior</span>
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Subí el CSV que exporta tu sistema viejo: clientes, stock o histórico de ventas. No hace falta que las columnas coincidan.</span>
+          </div>
+          <button onClick="{{ csvSubir }}" style="border:1px dashed var(--ln);background:var(--sf);border-radius:10px;padding:38px 24px;display:flex;flex-direction:column;align-items:center;gap:10px;cursor:pointer" style-hover="border-color:var(--ac)">
+            <span style="font:400 22px/1 'Source Serif 4',Georgia,serif;color:var(--fnt)">↑</span>
+            <span style="font:500 13px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">Arrastrá el archivo o hacé clic</span>
+            <span style="font:400 10px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">.csv · .xlsx · hasta 50.000 filas</span>
+          </button>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ csvHistorial }}" as="h" hint-placeholder-count="2">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--ln2)">
+                <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                  <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ h.archivo }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ h.detalle }}</span>
+                </span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ h.color }};flex:none">{{ h.estado }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Middleware formateador con IA</span>
+            <span style="font:400 12px/1.7 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">Recomendado: antes de importar, un paso de IA lee el CSV crudo, detecta qué es cada columna ("tel_cel_2" → teléfono, "obs" → notas), normaliza formatos y separa duplicados. Vos solo confirmás el mapeo propuesto.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ csvMapeo }}" as="m" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) 22px minmax(0,1fr);gap:12px;padding:11px 0;border-bottom:1px solid var(--ln2);align-items:center">
+                <span style="font:400 11px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.origen }}</span>
+                <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt);text-align:center">→</span>
+                <span style="font:500 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink);min-width:0">{{ m.destino }} <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ m.confColor }}">{{ m.conf }}</span></span>
+              </div>
+            </sc-for>
+          </div>
+          <span style="font:400 11px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--fnt)">Mapeo de ejemplo del último archivo analizado.</span>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsAjAudit }}">
+      <div style="display:flex;flex-direction:column;gap:20px;max-width:1100px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Registro inmutable de cambios sensibles: precios, descuentos, reasignaciones y configuración. Visible solo para el rol Admin.</span>
+          <span style="display:flex;align-items:center;gap:8px;flex:none">
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ac)">rol actual · admin</span>
+          </span>
+        </div>
+        <div style="display:flex;flex-direction:column;min-width:900px">
+          <div style="display:grid;grid-template-columns:110px minmax(0,.9fr) minmax(0,1.6fr) minmax(0,1.4fr);gap:18px;padding:0 4px 12px;border-bottom:1px solid var(--ln)">
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Cuándo</span>
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Quién</span>
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Qué hizo</span>
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Antes → después</span>
+          </div>
+          <sc-for list="{{ auditoria }}" as="a" hint-placeholder-count="8">
+            <div style="display:grid;grid-template-columns:110px minmax(0,.9fr) minmax(0,1.6fr) minmax(0,1.4fr);gap:18px;padding:{{ rowPad }} 4px;border-bottom:1px solid var(--ln2);align-items:center" style-hover="background:var(--sf2)">
+              <span style="font:400 10px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ a.cuando }}</span>
+              <span style="font:500 12px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ a.quien }}</span>
+              <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);min-width:0">{{ a.que }}</span>
+              <span style="font:400 11px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);min-width:0">{{ a.cambio }}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
     </div>
     </sc-if>
 
@@ -1400,7 +2195,10 @@ class Component extends DCLogic {
     this.state = {
       tab: 'panel', sub: {}, leadId: 'l1', filtro: 'todos', tipoFiltro: 'Todos',
       empresa: null, tipos: null, umbral: null, pesos: null, acciones: null,
-      leads: null, ops: null, toast: null, tema: 'claro', menu: false
+      leads: null, ops: null, toast: null, tema: 'claro', menu: false,
+      vistaEquipo: 'gerente', inboxDone: [], permutas: {}, tareasHechas: [], tareasExtra: [],
+      kbOff: [], marcasOff: [], tareaTxt: '', tareaVend: 'Diego Fuentes', tareaPlazo: 'Hoy',
+      tareaFiltro: 'todas', ppTxt: '', ppSel: null, ppAnticipo: 20, ppCuotas: 36
     };
     this.TIPOS_BASE = ['Autos', 'Motos', 'Camionetas', 'SUV', 'Camiones', 'Agro', 'Utilitarios', 'Náutica'];
     this.LEADS = [
@@ -1710,6 +2508,68 @@ class Component extends DCLogic {
     const valorStock = unidades.reduce((a, u) => a + u[4], 0);
     const pipeColors = ['var(--ln)', 'var(--ac)', 'var(--ac)', 'var(--hot)', 'var(--ok)'];
 
+    const inboxDone = this.state.inboxDone;
+    const APROB = [
+      ['ap1', 'Presupuesto 0413 · Transporte Bermúdez', 'Camión chasis 4x2 en 48 cuotas: la cuota queda en 46% del ingreso declarado. La regla interna es 40% como máximo.', 'regla · cuota máxima sobre ingreso', '10:12'],
+      ['ap2', 'Descuento fuera de política · Marcos Aliaga', 'Nahuel pide 9% sobre la SUV 7 plazas para cerrar hoy. El tope sin aprobación es 5%.', 'regla · descuento máximo 5%', '09:40'],
+      ['ap3', 'Retasación de permuta · Lorena Giménez', 'El bot tasó el hatchback 2019 en $ 8,9 M y Camila propone tomarlo en $ 9,6 M para no perder la operación.', 'regla · toma por encima del rango IA', 'ayer 18:22']
+    ];
+    const aprobPend = APROB.filter(a => inboxDone.indexOf(a[0]) === -1);
+    const AVISOS = [
+      ['Lead caliente sin respuesta hace 25 min', 'Rodrigo Paz (score 92) fue derivado a Diego y sigue sin respuesta humana. El SLA de calientes es 5 min.', 'crítico', 'var(--hot)', '11:47', 'Reasignar por ronda', () => { this.go('equipo'); this.setSub('equipo', 'ttr'); }],
+      ['3 acciones de venta atrasadas', 'Bruno acumula 2 llamados vencidos y una preparación de test drive sin hacer.', 'alto', 'var(--hot)', '11:10', 'Ver tareas', () => this.go('tareas')],
+      ['Reclamo escalado por el bot', 'Marcos Aliaga se enojó por un ruido en el tren delantero. El bot frenó la conversación de venta y abrió ticket.', 'alto', 'var(--hot)', '10:05', 'Abrir reclamo', () => { this.go('clientes'); this.setSub('clientes', 'reclamos'); }],
+      ['Compulsa por expirar sin ganador', 'El lead de Cooperativa La Alborada lleva 3:40 publicado y nadie lo tomó todavía (TTL 5 min).', 'medio', 'var(--ac)', '11:52', 'Ver compulsa', () => { this.go('equipo'); this.setSub('equipo', 'compulsa'); }]
+    ];
+    const PRESUP = [
+      ['pp1', 'Transporte Bermúdez', 'Camión chasis 4x2', this.fmt(94500000), '48 cuotas · anticipo 10%', 'Diego Fuentes', 'cuota 46% del ingreso (máx. 40%) · anticipo bajo mínimo'],
+      ['pp2', 'Valeria Ocampo', 'SUV compacta automática', this.fmt(28900000), '60 cuotas · anticipo 30%', 'Nahuel Ferrer', 'plazo mayor al máximo de 48 cuotas']
+    ];
+    const presupPend = PRESUP.filter(p => inboxDone.indexOf(p[0]) === -1);
+    const RECL = [
+      ['rc1', 'Ruido en tren delantero tras la entrega', 'Marcos Aliaga', 'SUV 7 plazas', '#7024', 'alta', 'vence en 40 min', 'Hace dos semanas que la tengo y suena todo, esto es una vergüenza, quiero que me la arreglen YA', 'Paula Meder', 'en diagnóstico con taller'],
+      ['rc2', 'Demora en el patentamiento', 'Hernán Cáceres', 'Pick-up cabina simple', '#7031', 'media', 'vence hoy 18:00', 'Me dijeron 10 días y ya pasaron tres semanas, ¿me están cargando?', 'Paula Meder', 'esperando al gestor'],
+      ['rc3', 'Diferencia en la factura', 'Coop. La Alborada', 'Tractor 180 HP', '#7035', 'media', 'vence mañana', 'La factura vino con otro importe del que firmamos, así no podemos rendirla', 'M. Rivas', 'en revisión con administración']
+    ];
+    const reclOff = this.state.reclamosOff ?? [];
+    const reclAbiertos = RECL.filter(r => reclOff.indexOf(r[0]) === -1);
+    const tHechas = this.state.tareasHechas;
+    const TAREAS = (this.state.tareasExtra || []).concat([
+      ['t1', 'Llamar a Transporte Bermúdez por el certificado de dominio', 'Camión 4x2 · negociación', 'Diego Fuentes', 'hoy 15:00', 'pendiente'],
+      ['t2', 'Preparar la SUV 7 plazas para el test drive del miércoles', 'Marcos Aliaga · mié 08:45', 'Diego Fuentes', 'mié 08:00', 'pendiente'],
+      ['t3', 'Confirmar el turno de Lorena Giménez', 'test drive · jue 17:30', 'Camila Roldán', 'venció ayer', 'vencida'],
+      ['t4', 'Enviar la propuesta de leasing a La Alborada', 'Tractor 180 HP', 'Sofía Ledesma', 'venció ayer', 'vencida'],
+      ['t5', 'Cargar las fotos del furgón mediano al portal', 'publicación', 'Bruno Iriarte', 'venció el lunes', 'vencida'],
+      ['t6', 'Cerrar los papeles de la pulverizadora', 'Agro Del Sur · facturada', 'Sofía Ledesma', 'ayer', 'hecha']
+    ]).map(t => tHechas.indexOf(t[0]) !== -1 ? [t[0], t[1], t[2], t[3], 'recién', 'hecha'] : t);
+    const nTareasVencidas = TAREAS.filter(t => t[5] === 'vencida').length;
+    const nTareasPend = TAREAS.filter(t => t[5] !== 'hecha').length;
+    const PERM = [
+      ['pm1', 'Sedán 2018 · 90.000 km', 'Rodrigo Paz', 'la Pick-up 4x4 2023', 6, '11:31', 11200000],
+      ['pm2', 'Moto 2020 · 21.000 km', 'Hernán Cáceres', 'la Pick-up cabina simple', 4, '09:15', 3100000],
+      ['pm3', 'Hatchback 2019 · 64.000 km', 'Lorena Giménez', 'el Hatchback full 2021', 8, 'ayer', 8900000]
+    ];
+    const permEst = this.state.permutas;
+    const nPermutasPend = PERM.filter(p => !permEst[p[0]]).length;
+    const ppTxt = this.state.ppTxt;
+    const ppSel = this.state.ppSel;
+    const ppMatch = ppTxt.trim().length
+      ? this.UNIDADES.filter(u => (u[0] + ' ' + u[1]).toLowerCase().indexOf(ppTxt.trim().toLowerCase()) !== -1).slice(0, 4)
+      : (ppSel ? this.UNIDADES.filter(u => u[0] === ppSel) : this.UNIDADES.slice(0, 3));
+    const ppUnidad = this.UNIDADES.find(u => u[0] === ppSel) || null;
+    const ppPrecio = ppUnidad ? ppUnidad[4] : 0;
+    const ant = this.state.ppAnticipo, cuo = this.state.ppCuotas;
+    const cuotaMes = cuo > 0 && ppPrecio ? Math.round(ppPrecio * (1 - ant / 100) * 1.45 / cuo) : 0;
+    const INGRESO = 2400000;
+    const ppChecks = [
+      [!!ppUnidad, ppUnidad ? 'Unidad del catálogo: ' + ppUnidad[0] + ' · precio y stock verificados' : 'Elegí una unidad del catálogo para validar'],
+      [ant >= 20, 'Anticipo mínimo 20% · propuesto ' + ant + '%'],
+      [cuo <= 48, 'Plazo máximo 48 cuotas · propuesto ' + (cuo === 0 ? 'contado' : cuo + ' cuotas')],
+      [cuo === 0 || !ppPrecio || cuotaMes <= INGRESO * 0.4, 'Cuota ≤ 40% del ingreso declarado ($ 2,4 M) · estimada ' + (cuo === 0 || !ppPrecio ? 'sin cuotas' : this.cShort(cuotaMes))]
+    ];
+    const ppOk = ppChecks.every(c => c[0]);
+    const vEquipo = this.state.vistaEquipo;
+
     return {
       empresa, tipos, tiposLinea: tipos.join(' · '),
       inicial: (empresa || 'A').trim().charAt(0).toUpperCase() || 'A',
@@ -1751,8 +2611,8 @@ class Component extends DCLogic {
       listaMax: mov ? '360px' : 'calc(100vh - 300px)',
       chatMax: mov ? '420px' : 'calc(100vh - 420px)',
       subtituloMarca: tipos.length + ' tipos · 3 sucursales',
-      kicker: ({ caja: 'Ingresos y egresos', panel: 'Resumen operativo', agente: 'Atención automatizada', clientes: 'Gestión de personas', comercial: 'Oportunidades y cierres', inventario: 'Stock de unidades', metricas: 'Rendimiento', equipo: 'Vendedores y reparto', ajustes: 'Configuración' })[tab],
-      titulo: ({ caja: 'Caja', panel: 'Panel operativo', agente: 'Agente IA', clientes: 'Clientes', comercial: 'Comercial', inventario: 'Inventario', metricas: 'Métricas', equipo: 'Equipo', ajustes: 'Ajustes' })[tab],
+      kicker: ({ caja: 'Ingresos y egresos', panel: 'Resumen operativo', inbox: 'Lo que espera tu decisión', agente: 'Atención automatizada', clientes: 'Gestión de personas', comercial: 'Oportunidades y cierres', inventario: 'Stock de unidades', metricas: 'Rendimiento', equipo: 'Vendedores y reparto', tareas: 'Asignación y seguimiento', ajustes: 'Configuración' })[tab],
+      titulo: ({ caja: 'Caja', panel: 'Panel operativo', inbox: 'Inbox del gerente', agente: 'Agente IA', clientes: 'Clientes', comercial: 'Comercial', inventario: 'Inventario', metricas: 'Métricas', equipo: 'Equipo', tareas: 'Tareas', ajustes: 'Ajustes' })[tab],
       trend: (() => {
         const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago'];
         const leads = [212, 238, 255, 271, 289, 264, 301, 318];
@@ -1781,6 +2641,8 @@ class Component extends DCLogic {
       esPanel: tab === 'panel', esAgente: tab === 'agente', esClientes: tab === 'clientes',
       esComercial: tab === 'comercial', esInventario: tab === 'inventario', esMetricas: tab === 'metricas',
       esEquipo: tab === 'equipo', esAjustes: tab === 'ajustes', esCaja: tab === 'caja',
+      esInbox: tab === 'inbox', esTareas: tab === 'tareas',
+      goInbox: () => this.go('inbox'), goTareas: () => this.go('tareas'),
       goCaja: () => this.go('caja'),
       subEsUnidades: this.subOf('inventario', 'unidades') === 'unidades',
       subEsPrep: this.subOf('inventario', 'unidades') === 'prep',
@@ -1819,6 +2681,7 @@ class Component extends DCLogic {
         { label: 'Leads del mes', valor: '318', delta: '+14% vs julio', color: 'var(--ok)' },
         { label: 'Derivados por IA', valor: '96', delta: '30% del total', color: 'var(--mut)' },
         { label: 'Tasa de cierre', valor: '23%', delta: '+5 pts', color: 'var(--ok)' },
+        { label: 'TTFR 1ª respuesta', valor: '38 s', delta: 'bot · humano 7 min', color: 'var(--ok)' },
         { label: 'Unidades vendidas', valor: '41', delta: 'meta 45', color: 'var(--hot)' },
         { label: 'Facturación', valor: '$ 1.284 M', delta: '+9% vs julio', color: 'var(--ok)' }
       ],
@@ -2198,6 +3061,8 @@ class Component extends DCLogic {
           ['Reparto parejo entre todos', 'Cada lead va al vendedor con menos leads del día. Con 10 leads y 2 vendedores: 5 y 5.'],
           ['Parejo por especialidad', 'Reparte parejo, pero solo entre los vendedores del segmento del vehículo.'],
           ['Round robin puro', 'Orden estricto de la lista, sin mirar cuántos lleva cada uno.'],
+          ['Híbrido: compulsa + ronda', 'Los calientes van a compulsa entre los top por conversión; el resto sigue la ronda pareja.'],
+          ['Solo compulsa', 'Todo lead ≥ umbral se subasta. Si expira el TTL sin tomarse, vuelve a la ronda.'],
           ['Manual del supervisor', 'Los derivados quedan en cola caliente y el supervisor asigna.']
         ];
         return {
@@ -2245,6 +3110,383 @@ class Component extends DCLogic {
         };
       })(),
 
+      subEsBase: this.subOf('agente', 'bandeja') === 'base',
+      subBase: () => this.setSub('agente', 'base'),
+      subEsReclamos: this.subOf('clientes', 'personas') === 'reclamos',
+      subReclamos: () => this.setSub('clientes', 'reclamos'),
+      subEsPresupuestos: this.subOf('comercial', 'pipeline') === 'presupuestos',
+      subPresupuestos: () => this.setSub('comercial', 'presupuestos'),
+      subEsPlanAhorro: this.subOf('comercial', 'pipeline') === 'planahorro',
+      subPlanAhorro: () => this.setSub('comercial', 'planahorro'),
+      subEsEntregas: this.subOf('inventario', 'unidades') === 'entregas',
+      subEntregas: () => this.setSub('inventario', 'entregas'),
+      subEsCampanas: this.subOf('metricas', 'comercial') === 'campanas',
+      subCampanas: () => this.setSub('metricas', 'campanas'),
+      subEsCompulsa: this.subOf('equipo', 'vendedores') === 'compulsa',
+      subCompulsa: () => this.setSub('equipo', 'compulsa'),
+      subEsEquipos: this.subOf('equipo', 'vendedores') === 'equipos',
+      subEquipos: () => this.setSub('equipo', 'equipos'),
+      subEsAjGeneral: this.subOf('ajustes', 'general') === 'general',
+      subAjGeneral: () => this.setSub('ajustes', 'general'),
+      subEsAjMarcas: this.subOf('ajustes', 'general') === 'marcas',
+      subAjMarcas: () => this.setSub('ajustes', 'marcas'),
+      subEsAjImport: this.subOf('ajustes', 'general') === 'import',
+      subAjImport: () => this.setSub('ajustes', 'import'),
+      subEsAjAudit: this.subOf('ajustes', 'general') === 'audit',
+      subAjAudit: () => this.setSub('ajustes', 'audit'),
+
+      nInbox: aprobPend.length + AVISOS.length,
+      nTareasPend,
+      accionAhora: [
+        { n: 2, label: 'Leads sin atender', detalle: 'derivados sin respuesta humana', color: 'var(--hot)', ir: () => { this.go('equipo'); this.setSub('equipo', 'ttr'); } },
+        { n: nTareasVencidas, label: 'Acciones atrasadas', detalle: 'tareas vencidas de vendedores', color: nTareasVencidas ? 'var(--hot)' : 'var(--ok)', ir: () => this.go('tareas') },
+        { n: reclAbiertos.length, label: 'Reclamos abiertos', detalle: 'escalados por el bot', color: reclAbiertos.length ? 'var(--hot)' : 'var(--ok)', ir: () => { this.go('clientes'); this.setSub('clientes', 'reclamos'); } },
+        { n: presupPend.length, label: 'Presupuestos a revisar', detalle: 'fuera de las reglas internas', color: presupPend.length ? 'var(--ac)' : 'var(--ok)', ir: () => { this.go('comercial'); this.setSub('comercial', 'presupuestos'); } }
+      ],
+      botEstado: [
+        { k: 'Conversaciones hoy', v: '41', color: 'var(--ink)' },
+        { k: 'Uptime últimos 30 días', v: '99,2%', color: 'var(--ok)' },
+        { k: 'Latencia media de respuesta', v: '2,8 s', color: 'var(--ink)' },
+        { k: 'Errores últimas 24 h', v: '1 · reintentado ok', color: 'var(--mut)' }
+      ],
+      costoIA: [
+        { k: 'Por conversación', v: 'US$ 0,35' },
+        { k: 'Por lead derivado', v: 'US$ 0,88' },
+        { k: 'Tokens del mes', v: '2,4 M entrada · 610 K salida' }
+      ],
+
+      nAprobaciones: aprobPend.length, sinAprobaciones: aprobPend.length === 0,
+      aprobaciones: aprobPend.map(a => ({
+        asunto: a[1], detalle: a[2], regla: a[3], hora: a[4],
+        aprobar: () => { this.setState({ inboxDone: inboxDone.concat([a[0]]) }); this.toast('Aprobado: ' + a[1]); },
+        rechazar: () => { this.setState({ inboxDone: inboxDone.concat([a[0]]) }); this.toast('Rechazado y devuelto al vendedor'); },
+        ver: () => this.toast('En el MVP el detalle vive en Comercial')
+      })),
+      nAvisos: AVISOS.length,
+      avisos: AVISOS.map(v => ({ asunto: v[0], detalle: v[1], sev: v[2], color: v[3], hora: v[4], accion: v[5], ir: v[6] })),
+
+      kbAgregar: () => this.toast('Nueva entrada creada: completala y el bot la usa al instante'),
+      kbEntradas: [
+        ['kb1', '¿Trabajan con financiación bancaria?', 'Sí: prendarios con tres bancos y financiación propia hasta 48 cuotas. El anticipo mínimo es 20%.', 'Financiación', 44],
+        ['kb2', '¿Toman permutas?', 'Sí, cualquier vehículo. El bot pide fotos y datos, y la tasación final la confirma un asesor.', 'Permutas', 38],
+        ['kb3', '¿Qué garantía tienen los usados?', 'Todos los usados salen con service completo y 6 meses de garantía de motor y caja.', 'Políticas', 27],
+        ['kb4', '¿Hacen envíos a otras provincias?', 'Sí, con transportista asegurado. El costo se cotiza según destino y se suma al presupuesto.', 'Logística', 15],
+        ['kb5', '¿Cuál es el horario de los salones?', 'Casa central y Sucursal Norte: lunes a viernes de 9 a 19, sábados de 9 a 13.', 'Horarios', 52],
+        ['kb6', '¿Reservan unidades con seña?', 'Con el 5% queda reservada 7 días. Si no se concreta, la seña se devuelve completa.', 'Políticas', 21]
+      ].map(k => {
+        const off = this.state.kbOff.indexOf(k[0]) !== -1;
+        return {
+          q: k[1], a: k[2], cat: k[3], usos: k[4],
+          estado: off ? 'pausada' : 'activa',
+          estColor: off ? 'var(--fnt)' : 'var(--ok)', estBorde: off ? 'var(--ln)' : 'var(--ok)',
+          editar: () => this.toast('Editá la respuesta y el bot la usa al guardar'),
+          toggle: () => this.setState({ kbOff: off ? this.state.kbOff.filter(x => x !== k[0]) : this.state.kbOff.concat([k[0]]) })
+        };
+      }),
+      kbHorarios: [
+        { k: 'Salones', v: 'Lun–Vie 9–19 · Sáb 9–13' },
+        { k: 'Taller y service', v: 'Lun–Vie 8–17' },
+        { k: 'Bot fuera de horario', v: 'atiende 24/7 y agenda' }
+      ],
+
+      nReclamosAbiertos: reclAbiertos.length,
+      reclamos: reclAbiertos.map(r => ({
+        asunto: r[1], cliente: r[2], unidad: r[3], nro: r[4],
+        sev: r[5], sevColor: r[5] === 'alta' ? 'var(--hot)' : 'var(--ac)',
+        sla: r[6], slaColor: r[6].indexOf('min') !== -1 ? 'var(--hot)' : 'var(--mut)',
+        frase: r[7], asignado: r[8], estado: r[9],
+        abrirChat: () => this.toast('Conversación completa en Agente IA · Bandeja'),
+        resolver: () => { this.setState({ reclamosOff: reclOff.concat([r[0]]) }); this.toast('Reclamo ' + r[4] + ' resuelto · el bot le avisa al cliente'); }
+      })),
+
+      ppUnidadTxt: ppTxt,
+      ppBuscar: e => this.setState({ ppTxt: e.target.value, ppSel: null }),
+      ppSugerencias: ppMatch.map(u => ({
+        modelo: u[0], tipo: u[1], anio: u[2], km: u[3], estado: u[5], precio: this.fmt(u[4]),
+        fondo: ppSel === u[0] ? 'var(--sf)' : 'transparent',
+        elegir: () => this.setState({ ppSel: u[0], ppTxt: '' })
+      })),
+      ppAnticipo: ant, ppAnticipoLabel: ant + '%',
+      setPpAnticipo: e => this.setState({ ppAnticipo: parseInt(e.target.value, 10) }),
+      ppCuotas: cuo,
+      setPpCuotas: e => this.setState({ ppCuotas: parseInt(e.target.value, 10) }),
+      ppReglas: ppChecks.map(c => ({
+        icono: c[0] ? '✓' : '✕', color: c[0] ? 'var(--ok)' : 'var(--hot)',
+        label: c[1], texto: c[0] ? 'var(--ink2)' : 'var(--hot)'
+      })),
+      ppBtnLabel: ppOk ? 'Enviar al cliente' : 'Mandar al gerente para aprobar',
+      ppBtnFondo: ppOk ? 'var(--btn)' : 'var(--hot)', ppBtnTexto: ppOk ? 'var(--btnink)' : '#FFFFFF',
+      ppNota: ppOk ? 'Pasa todas las reglas: sale sin aprobación.' : 'La IA detectó reglas incumplidas: no sale sin visto bueno.',
+      ppEnviar: () => this.toast(ppOk ? 'Presupuesto enviado al cliente por WhatsApp' : 'Presupuesto enviado al gerente para aprobar'),
+      nPresupPend: presupPend.length,
+      presupPend: presupPend.map(p => ({
+        cliente: p[1], unidad: p[2], total: p[3], plan: p[4], vendedor: p[5], motivo: p[6],
+        aprobar: () => { this.setState({ inboxDone: inboxDone.concat([p[0]]) }); this.toast('Aprobado: se envió al cliente'); },
+        rechazar: () => { this.setState({ inboxDone: inboxDone.concat([p[0]]) }); this.toast('Devuelto a ' + p[5] + ' con observaciones'); }
+      })),
+
+      paNuevo: () => this.toast('Armá el plan: unidad, cuota y vendedores que lo ofrecen'),
+      paKpis: [
+        { label: 'Planes activos', valor: '3', delta: '1 en pausa', color: 'var(--mut)' },
+        { label: 'Suscriptos', valor: '104', delta: '+11 este mes', color: 'var(--ok)' },
+        { label: 'Recaudación mensual', valor: '$ 41,3 M', delta: 'cuotas al día 92%', color: 'var(--ok)' },
+        { label: 'Adjudicaciones', valor: '4', delta: 'próxima: 5 sep', color: 'var(--mut)' }
+      ],
+      planesAhorro: [
+        ['Plan Naked 300', 'Naked 300cc 0km', 'activo', 262000, 60, 48, 60, 'Camila · Bruno'],
+        ['Plan Hatch 0km', 'Hatchback full 0km', 'activo', 388000, 84, 41, 50, 'Camila · Bruno · Nahuel'],
+        ['Plan Pick-up Trabajo', 'Pick-up cabina simple 0km', 'activo', 610000, 84, 15, 30, 'Diego · Nahuel'],
+        ['Plan Agro Semilla', 'Tractor compacto 0km', 'en pausa', 2900000, 48, 0, 12, 'Sofía']
+      ].map(p => ({
+        nombre: p[0], unidad: p[1], estado: p[2],
+        estadoColor: p[2] === 'activo' ? 'var(--ok)' : 'var(--fnt)',
+        cuota: this.fmt(p[3]), cuotas: p[4], suscriptos: p[5], meta: p[6],
+        pct: Math.min(100, Math.round(p[5] / p[6] * 100)) + '%',
+        barColor: p[5] / p[6] >= 0.8 ? 'var(--ok)' : 'var(--ac)',
+        vendedores: p[7],
+        editar: () => this.toast('Editando ' + p[0])
+      })),
+
+      nPermutasPend,
+      permutasBot: PERM.map(p => {
+        const est = permEst[p[0]];
+        return {
+          unidad: p[1], cliente: p[2], interes: p[3], fotos: p[4], km: p[1].split('·')[1] ? p[1].split('·')[1].trim() : '', hora: p[5],
+          valor: this.fmt(p[6]),
+          estado: est === 'aceptada' ? 'aceptada · sumada como parte de pago' : est === 'rechazada' ? 'rechazada · el bot le avisó al cliente' : 'esperando decisión del gerente',
+          estadoColor: est === 'aceptada' ? 'var(--ok)' : est === 'rechazada' ? 'var(--fnt)' : 'var(--hot)',
+          borde: est === 'aceptada' ? 'var(--ok)' : est === 'rechazada' ? 'var(--ln)' : 'var(--hot)',
+          retasar: () => this.toast('Ajustá el valor con la calculadora de abajo y guardá'),
+          aceptar: () => { this.setState({ permutas: Object.assign({}, permEst, { [p[0]]: 'aceptada' }) }); this.toast('Permuta aceptada en ' + this.fmt(p[6])); },
+          rechazar: () => { this.setState({ permutas: Object.assign({}, permEst, { [p[0]]: 'rechazada' }) }); this.toast('Permuta rechazada · el bot le avisa al cliente'); }
+        };
+      }),
+
+      nEntregasCurso: 3,
+      entregas: [
+        ['SUV 7 plazas 0km · blanco perla', 'Marcos Aliaga', 'Diego Fuentes', 'señada 02 ago', 2, 'llega 04 sep', 24, false, 'Tu SUV ya está en el barco, estimamos arribo el 4 de septiembre', 'hace 2 días'],
+        ['Pick-up 4x4 0km · gris grafito', 'Rodrigo Paz', 'Diego Fuentes', 'señada 12 ago', 3, 'patentamiento en curso', 14, false, 'Arrancamos el patentamiento, en unos 7 días hábiles está', 'ayer 16:40'],
+        ['Naked 300cc 0km · roja', 'Matías Sánchez', 'Camila Roldán', 'señada 18 ago', 4, 'lista para retirar', 8, false, 'Tu moto está lista, ¿venís el sábado a la mañana a retirarla?', 'hoy 09:12'],
+        ['Furgón mediano 0km · blanco', 'Ignacio Vera', 'Nahuel Ferrer', 'señada 28 jul', 1, 'demorada en fábrica', 29, true, 'Fábrica nos corrió la fecha una semana, te compensamos con el service de 10.000 bonificado', 'hace 3 días']
+      ].map(e => {
+        const PASOS = ['Pedido a fábrica', 'En tránsito', 'Arribo a agencia', 'Patentamiento', 'Entregado'];
+        return {
+          unidad: e[0], cliente: e[1], vendedor: e[2], fechaVenta: e[3],
+          eta: e[5], etaColor: e[7] ? 'var(--hot)' : e[4] === 4 ? 'var(--ok)' : 'var(--ac)',
+          dias: e[6], borde: e[7] ? 'var(--hot)' : e[4] === 4 ? 'var(--ok)' : 'var(--ac)',
+          pasos: PASOS.map((p, i) => ({
+            label: p,
+            bar: i < e[4] ? 'var(--ok)' : i === e[4] ? (e[7] ? 'var(--hot)' : 'var(--ac)') : 'var(--bar)',
+            texto: i < e[4] ? 'var(--ok)' : i === e[4] ? (e[7] ? 'var(--hot)' : 'var(--ink)') : 'var(--fnt)'
+          })),
+          aviso: e[8], avisoHora: e[9],
+          btn: e[4] === 4 ? 'Confirmar entrega' : 'Pasar a la etapa siguiente',
+          avanzar: () => this.toast(e[4] === 4 ? 'Entrega confirmada · el bot pide reseña al cliente' : 'Etapa avanzada · el bot le avisa a ' + e[1])
+        };
+      }),
+
+      campKpis: [
+        { label: 'Inversión del mes', valor: '$ 6,2 M', delta: 'Meta Ads · 4 campañas', color: 'var(--mut)' },
+        { label: 'Leads por pauta', valor: '127', delta: 'CPL medio $ 48.800', color: 'var(--mut)' },
+        { label: 'Ventas atribuidas', valor: '16', delta: 'por tag UTM', color: 'var(--ok)' },
+        { label: 'CAC', valor: '$ 386 K', delta: 'inversión / ventas', color: 'var(--mut)' },
+        { label: 'ROAS global', valor: '71×', delta: 'revenue real / inversión', color: 'var(--ok)' }
+      ],
+      campanas: [
+        ['Pick-ups agosto · conversiones', 'utm_campaign=pickups-ago', 'activa', 1800000, 38, 5, 168000000],
+        ['Agro · cosecha gruesa', 'utm_campaign=agro-gruesa', 'activa', 1400000, 12, 3, 214000000],
+        ['SUV familiares · remarketing', 'utm_campaign=suv-rmk', 'activa', 1100000, 31, 4, 41000000],
+        ['Motos 0km · leads', 'utm_campaign=motos-leads', 'activa', 900000, 34, 3, 15400000],
+        ['Usados destacados', 'utm_campaign=usados-jul', 'pausada', 1000000, 12, 1, 6300000]
+      ].map(c => {
+        const roas = c[6] / c[3];
+        return {
+          nombre: c[0], utm: c[1], estado: c[2],
+          estadoColor: c[2] === 'activa' ? 'var(--ok)' : 'var(--fnt)',
+          inversion: this.cShort(c[3]), leads: c[4],
+          cpl: this.cShort(Math.round(c[3] / c[4])).replace(' M', ' M'),
+          ventas: c[5], revenue: this.cShort(c[6]),
+          roas: Math.round(roas) + '×',
+          roasColor: roas >= 30 ? 'var(--ok)' : roas >= 10 ? 'var(--ink)' : 'var(--hot)'
+        };
+      }),
+
+      vistaGerente: vEquipo === 'gerente', vistaPublica: vEquipo === 'publica',
+      setVistaGerente: () => this.setState({ vistaEquipo: 'gerente' }),
+      setVistaPublica: () => this.setState({ vistaEquipo: 'publica' }),
+      vgFondo: vEquipo === 'gerente' ? 'var(--btn)' : 'transparent', vgTexto: vEquipo === 'gerente' ? 'var(--btnink)' : 'var(--mut)',
+      vpFondo: vEquipo === 'publica' ? 'var(--btn)' : 'transparent', vpTexto: vEquipo === 'publica' ? 'var(--btnink)' : 'var(--mut)',
+      vistaNota: vEquipo === 'gerente'
+        ? 'Tracking completo: asignados, cierre, primera respuesta y carga. Solo lo ve el gerente.'
+        : 'Ranking público del mes: lo que ven los vendedores. Sana competencia, sin exponer tiempos ni carga.',
+      rankingPublico: [
+        ['Camila Roldán', 'Equipo Salón', 11, '27%', '↑ 1 puesto'],
+        ['Diego Fuentes', 'Equipo Campo', 9, '26%', '↓ 1 puesto'],
+        ['Nahuel Ferrer', 'Equipo Salón', 8, '28%', '= se mantiene'],
+        ['Sofía Ledesma', 'Equipo Campo', 6, '29%', '↑ 1 puesto'],
+        ['Bruno Iriarte', 'Equipo Salón', 5, '19%', '↓ 1 puesto'],
+        ['Paula Meder', 'Postventa', 2, '11%', '= se mantiene']
+      ].map((v, i) => ({
+        pos: String(i + 1).padStart(2, '0'), nombre: v[0], equipo: v[1], cierres: v[2], tasa: v[3],
+        posColor: i === 0 ? 'var(--gold)' : i < 3 ? 'var(--ink)' : 'var(--fnt)',
+        fondo: i === 0 ? 'var(--sf)' : 'transparent',
+        tasaColor: parseInt(v[3], 10) >= 27 ? 'var(--ok)' : 'var(--ink2)',
+        delta: v[4],
+        deltaColor: v[4].indexOf('↑') !== -1 ? 'var(--ok)' : v[4].indexOf('↓') !== -1 ? 'var(--hot)' : 'var(--fnt)'
+      })),
+
+      compTTL: '5 min',
+      compLead: { nombre: 'Cooperativa La Alborada', score: 88, detalle: 'Tractor 180 HP + pulverizadora · leasing · antes de septiembre', restante: '1:20', pct: '27%' },
+      compInvitados: [
+        ['Sofía Ledesma', '29%', 1, 'viendo el detalle…', 'var(--ac)'],
+        ['Nahuel Ferrer', '28%', 2, 'notificado · sin abrir', 'var(--fnt)'],
+        ['Camila Roldán', '27%', 3, 'lo dejó pasar', 'var(--fnt)']
+      ].map(i => ({
+        nombre: i[0], tasa: i[1], pos: i[2], estado: i[3], estadoColor: i[4],
+        adjudicar: () => this.toast('Lead adjudicado a ' + i[0] + ' · tiene 15 min para el primer contacto')
+      })),
+      compHistorial: [
+        { lead: 'Rodrigo Paz · score 92', resultado: 'tomado por Diego en 0:42', color: 'var(--ok)', cuando: 'hoy 11:43' },
+        { lead: 'Valeria Ocampo · score 84', resultado: 'tomado por Nahuel en 1:15', color: 'var(--ok)', cuando: 'hoy 09:50' },
+        { lead: 'Ignacio Vera · score 81', resultado: 'expiró · fue a la ronda', color: 'var(--hot)', cuando: 'ayer 17:03' },
+        { lead: 'Hernán Cáceres · score 83', resultado: 'tomado por Nahuel en 2:31', color: 'var(--ok)', cuando: 'ayer 12:19' }
+      ],
+      compRanking: [
+        ['Sofía Ledesma', '29%', 'en compulsa', '↑ 1', 'var(--ok)'],
+        ['Nahuel Ferrer', '28%', 'en compulsa', '= ', 'var(--fnt)'],
+        ['Camila Roldán', '27%', 'en compulsa', '↓ 1 · no cerró el del lunes', 'var(--hot)'],
+        ['Diego Fuentes', '26%', 'a 1 cierre de entrar', '↑ 1', 'var(--ok)'],
+        ['Bruno Iriarte', '19%', 'fuera del top', '= ', 'var(--fnt)'],
+        ['Paula Meder', '11%', 'postventa · no participa', '= ', 'var(--fnt)']
+      ].map((r, i) => ({
+        pos: String(i + 1).padStart(2, '0'), nombre: r[0], tasa: r[1], marca: r[2],
+        posColor: i < 3 ? 'var(--ink)' : 'var(--fnt)',
+        fondo: i < 3 ? 'var(--sf)' : 'transparent',
+        marcaColor: i < 3 ? 'var(--ok)' : 'var(--fnt)',
+        delta: r[3], deltaColor: r[4]
+      })),
+      compReglas: [
+        { k: 'Entran a la compulsa', v: 'top 3 por conversión' },
+        { k: 'Se compulsa todo lead con', v: 'score ≥ ' + umbral },
+        { k: 'TTL para tomarlo', v: '5 min' },
+        { k: 'Tomado y no cerrado en 7 días', v: 'baja 1 puesto' },
+        { k: 'Si expira sin ganador', v: 'vuelve a la ronda pareja' }
+      ],
+
+      eqNuevo: () => this.toast('Elegí líder, integrantes y meta combinada del mes'),
+      equipos: [
+        ['Equipo Salón', 'Nahuel Ferrer', 'en meta', 24, 30, 'Faltan 6 unidades con 4 días hábiles: se llega si Bruno levanta.', [
+          ['Nahuel Ferrer', true, 8, 80], ['Camila Roldán', false, 11, 110], ['Bruno Iriarte', false, 5, 50]
+        ]],
+        ['Equipo Campo', 'Sofía Ledesma', 'meta cumplida', 15, 14, 'Meta superada gracias a la pulverizadora de Agro Del Sur.', [
+          ['Sofía Ledesma', true, 6, 120], ['Diego Fuentes', false, 9, 90]
+        ]]
+      ].map(e => ({
+        nombre: e[0], lider: e[1], estado: e[2],
+        estadoColor: e[2] === 'meta cumplida' ? 'var(--ok)' : 'var(--ac)',
+        avance: e[3], meta: e[4] + ' u.',
+        pct: Math.min(100, Math.round(e[3] / e[4] * 100)) + '%',
+        barColor: e[3] >= e[4] ? 'var(--ok)' : 'var(--ac)',
+        nota: e[5],
+        miembros: e[6].map(m => ({
+          nombre: m[0], esLider: m[1] ? ' · líder' : '', cierres: m[2],
+          pct: Math.min(120, m[3]) + '%', color: m[3] >= 100 ? 'var(--ok)' : 'var(--ink2)'
+        }))
+      })),
+
+      tareasFiltros: ['todas', 'pendientes', 'vencidas'].map(f => ({
+        label: f.charAt(0).toUpperCase() + f.slice(1),
+        n: f === 'todas' ? TAREAS.length : TAREAS.filter(t => f === 'pendientes' ? t[5] === 'pendiente' : t[5] === 'vencida').length,
+        set: () => this.setState({ tareaFiltro: f }),
+        borde: this.state.tareaFiltro === f ? 'var(--ink)' : 'transparent',
+        texto: this.state.tareaFiltro === f ? 'var(--ink)' : 'var(--mut)'
+      })),
+      tareas: TAREAS.filter(t => this.state.tareaFiltro === 'todas' ? true : this.state.tareaFiltro === 'pendientes' ? t[5] === 'pendiente' : t[5] === 'vencida').map(t => {
+        const hecha = t[5] === 'hecha';
+        const vencida = t[5] === 'vencida';
+        return {
+          titulo: t[1], ref: t[2], asignado: t[3],
+          tituloColor: hecha ? 'var(--fnt)' : 'var(--ink)',
+          fondo: vencida ? 'var(--sf)' : 'transparent',
+          vence: t[4], venceColor: vencida ? 'var(--hot)' : hecha ? 'var(--ok)' : 'var(--mut)',
+          notif: hecha ? 'completada' : 'WhatsApp enviado',
+          btn: hecha ? 'Hecha ✓' : vencida ? 'Reclamar ahora' : 'Marcar hecha',
+          btnColor: hecha ? 'var(--ok)' : vencida ? 'var(--hot)' : 'var(--ink)',
+          btnBorde: hecha ? 'transparent' : vencida ? 'var(--hot)' : 'var(--ln)',
+          accionar: () => {
+            if (hecha) return;
+            if (vencida) { this.toast('Recordatorio urgente enviado a ' + t[3].split(' ')[0]); return; }
+            this.setState({ tareasHechas: tHechas.concat([t[0]]) });
+            this.toast('Tarea completada');
+          }
+        };
+      }),
+      tareaTxt: this.state.tareaTxt,
+      setTareaTxt: e => this.setState({ tareaTxt: e.target.value }),
+      tareaVendedores: ['Diego Fuentes', 'Sofía Ledesma', 'Nahuel Ferrer', 'Camila Roldán', 'Bruno Iriarte', 'Paula Meder'].map(v => ({
+        nombre: v.split(' ')[0],
+        set: () => this.setState({ tareaVend: v }),
+        borde: this.state.tareaVend === v ? 'var(--ink)' : 'transparent',
+        texto: this.state.tareaVend === v ? 'var(--ink)' : 'var(--fnt)'
+      })),
+      tareaPlazos: ['Hoy', 'Mañana', 'Esta semana', 'Fecha exacta'].map(p => ({
+        label: p,
+        set: () => this.setState({ tareaPlazo: p }),
+        borde: this.state.tareaPlazo === p ? 'var(--ink)' : 'transparent',
+        texto: this.state.tareaPlazo === p ? 'var(--ink)' : 'var(--fnt)'
+      })),
+      tareaCrear: () => {
+        const txt = this.state.tareaTxt.trim();
+        if (!txt) { this.toast('Escribí qué hay que hacer'); return; }
+        const id = 'tx' + (this.state.tareasExtra.length + 1);
+        this.setState({
+          tareasExtra: [[id, txt, 'asignada por el gerente', this.state.tareaVend, (this.state.tareaPlazo === 'Hoy' ? 'hoy' : this.state.tareaPlazo.toLowerCase()), 'pendiente']].concat(this.state.tareasExtra),
+          tareaTxt: ''
+        });
+        this.toast('Tarea asignada · WhatsApp enviado a ' + this.state.tareaVend.split(' ')[0]);
+      },
+
+      marcaAgregar: () => this.toast('Alta de marca: nombre, logo y segmentos que cubre'),
+      marcas: [
+        ['mk1', 'Toyota', 'Oficial · 0km y usados', 9, 84],
+        ['mk2', 'Volkswagen', 'Oficial · 0km y usados', 7, 61],
+        ['mk3', 'John Deere', 'Agro · representante zonal', 4, 22],
+        ['mk4', 'Honda Motos', 'Multimarca · usados', 6, 47]
+      ].map(m => {
+        const off = this.state.marcasOff.indexOf(m[0]) !== -1;
+        return {
+          nombre: m[1], tipo: m[2], unidades: m[3], leads: m[4],
+          estado: off ? 'pausada' : 'activa',
+          estColor: off ? 'var(--fnt)' : 'var(--ok)', estBorde: off ? 'var(--ln)' : 'var(--ok)',
+          toggle: () => this.setState({ marcasOff: off ? this.state.marcasOff.filter(x => x !== m[0]) : this.state.marcasOff.concat([m[0]]) })
+        };
+      }),
+
+      csvSubir: () => this.toast('En el MVP la carga es demostrativa: pedile el CSV a tu sistema actual'),
+      csvHistorial: [
+        { archivo: 'clientes_sistema_viejo.csv', detalle: '2.418 filas · importado 14 ago', estado: 'importado', color: 'var(--ok)' },
+        { archivo: 'stock_agosto.xlsx', detalle: '96 filas · 3 duplicados resueltos por IA', estado: 'importado', color: 'var(--ok)' },
+        { archivo: 'ventas_2019_2024.csv', detalle: '11.204 filas · esperando confirmación de mapeo', estado: 'en revisión', color: 'var(--hot)' }
+      ],
+      csvMapeo: [
+        { origen: 'NOM_CLI', destino: 'Nombre del cliente', conf: '99%', confColor: 'var(--ok)' },
+        { origen: 'tel_cel_2', destino: 'Teléfono (WhatsApp)', conf: '97%', confColor: 'var(--ok)' },
+        { origen: 'obs', destino: 'Notas internas', conf: '91%', confColor: 'var(--ok)' },
+        { origen: 'FEC_ULT_COMP', destino: 'Última compra', conf: '88%', confColor: 'var(--ac)' },
+        { origen: 'col_17', destino: 'Sin identificar · revisar', conf: '34%', confColor: 'var(--hot)' }
+      ],
+
+      auditoria: [
+        { cuando: 'hoy 11:58', quien: 'M. Rivas', que: 'Aprobó el descuento de 9% para Marcos Aliaga', cambio: '5% → 9% · SUV 7 plazas' },
+        { cuando: 'hoy 11:40', quien: 'Sistema', que: 'Compulsa expirada devuelta a la ronda', cambio: 'Ignacio Vera → ronda pareja' },
+        { cuando: 'hoy 10:22', quien: 'M. Rivas', que: 'Cambió el precio de la Pick-up 4x4', cambio: '$ 36,5 M → $ 37,2 M' },
+        { cuando: 'hoy 09:15', quien: 'Camila R.', que: 'Reasignó el lead de Matías Sánchez', cambio: 'Bruno → Camila' },
+        { cuando: 'ayer 18:30', quien: 'M. Rivas', que: 'Subió el umbral de derivación', cambio: '75 → 80' },
+        { cuando: 'ayer 17:02', quien: 'Sistema', que: 'Bot pausado 4 min por corte de API', cambio: 'operativo → degradado → operativo' },
+        { cuando: 'ayer 12:44', quien: 'M. Rivas', que: 'Editó la regla de cuota máxima', cambio: '35% → 40% del ingreso' },
+        { cuando: 'lun 16:20', quien: 'Paula M.', que: 'Cerró el reclamo #7011', cambio: 'abierto → resuelto' }
+      ],
+
       setEmpresa: e => this.setState({ empresa: e.target.value }),
       tiposToggle: this.TIPOS_BASE.map(t => {
         const on = tipos.indexOf(t) !== -1;
@@ -2256,6 +3498,10 @@ class Component extends DCLogic {
       opsConf: this.state.ops ?? [
         { k: 'Alcance', desc: 'Sucursales activas en el sistema', v: '3 sucursales' },
         { k: 'Moneda', desc: 'Para cotizaciones y reportes', v: 'ARS' },
+        { k: 'Ruteo de leads', desc: 'Cómo se reparten los derivados', v: 'Híbrido: compulsa + ronda' },
+        { k: 'Umbral hot por score', desc: 'Desde acá el lead se considera caliente', v: '≥ ' + umbral },
+        { k: 'TTL de compulsa', desc: 'Tiempo para que alguien tome el lead', v: '5 min' },
+        { k: 'Horario laboral', desc: 'Fuera de esto atiende solo el bot', v: 'Lun–Vie 9–19 · Sáb 9–13' },
         { k: 'Horario del agente IA', desc: 'Fuera de horario deja mensaje', v: '24 / 7' },
         { k: 'Reasignación automática', desc: 'Si el vendedor no responde', v: '15 min' }
       ]
