@@ -1,0 +1,2267 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap" />
+<style>
+  *{box-sizing:border-box}
+  :root{
+    --nav:#0A0A0B; --navInk:#E8E6E1; --navMut:#8B8880; --navLine:rgba(255,255,255,.10);
+    --bg:#F6F5F2; --sf:#FFFFFF; --sf2:#FAF9F6;
+    --ln:#E5E2DB; --ln2:#EFEDE7;
+    --ink:#131211; --ink2:#454340; --mut:#726F69; --fnt:#A3A09A;
+    --ac:#8A6B18; --hot:#A3441C; --ok:#1F7A55;
+    --btn:#0A0A0B; --btnink:#FFFFFF; --bar:#EAE7E0;
+    --gold:#C9A227;
+    --shadow:0 1px 2px rgba(19,18,17,.05), 0 10px 24px -14px rgba(19,18,17,.20);
+  }
+  :root[data-theme="dark"]{
+    --bg:#0C0C0D; --sf:#151517; --sf2:#1A1A1D;
+    --ln:#2A2A2D; --ln2:#212124;
+    --ink:#F1EFEA; --ink2:#C6C3BC; --mut:#8B8880; --fnt:#6A6862;
+    --ac:#D8B546; --hot:#E0885F; --ok:#5FBE93;
+    --btn:#F1EFEA; --btnink:#0A0A0B; --bar:#242427;
+    --gold:#D8B546;
+    --shadow:0 1px 2px rgba(0,0,0,.5);
+  }
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);-webkit-font-smoothing:antialiased}
+  a{color:var(--ac);text-decoration:none}
+  a:hover{color:var(--ink);text-decoration:underline}
+  button{font-family:inherit}
+  input,textarea{font-family:inherit}
+  input::placeholder,textarea::placeholder{color:var(--fnt)}
+  ::-webkit-scrollbar{width:10px;height:10px}
+  ::-webkit-scrollbar-thumb{background:var(--ln);border-radius:8px;border:3px solid var(--bg)}
+</style>
+</helmet>
+
+<div style="display:grid;grid-template-columns:{{ rootCols }};grid-template-rows:{{ rootRows }};height:100vh;overflow:hidden;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;background:var(--bg);color:var(--ink)">
+
+  <aside style="display:flex;flex-direction:{{ asideDir }};align-items:{{ asideAlign }};gap:{{ asideGap }};padding:{{ asidePad }};min-width:0;background:var(--nav);color:var(--navInk);overflow-x:{{ asideOvX }};overflow-y:hidden;border-bottom:{{ asideBorder }}">
+    <div style="display:flex;align-items:center;flex:none;gap:{{ brandGap }};padding:{{ brandPad }};border-right:{{ brandBorderR }};border-bottom:{{ brandBorderB }}">
+      <img src="assets/logo-bys.png" alt="{{ empresa }}" style="width:{{ logoW }};height:{{ logoH }};object-fit:contain;flex:none" />
+      <span style="display:flex;flex-direction:column;gap:3px;min-width:0;flex:1 1 auto">
+        <span style="font:600 14px/1.15 'Source Serif 4',Georgia,serif;color:#FFFFFF;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ empresa }}</span>
+        <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--navMut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ subtituloMarca }}</span>
+      </span>
+      <sc-if value="{{ esMovil }}">
+        <button onClick="{{ toggleMenu }}" style="flex:none;display:flex;align-items:center;gap:9px;border:1px solid var(--navLine);background:rgba(255,255,255,.05);color:var(--navInk);border-radius:8px;padding:11px 13px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;min-height:44px">
+          <span style="display:flex;flex-direction:column;gap:3px;flex:none">
+            <span style="width:15px;height:1.5px;background:var(--gold);display:block"></span>
+            <span style="width:15px;height:1.5px;background:var(--gold);display:block"></span>
+            <span style="width:15px;height:1.5px;background:var(--gold);display:block"></span>
+          </span>
+          {{ menuLabel }}
+        </button>
+      </sc-if>
+    </div>
+    <sc-if value="{{ navVisible }}">
+    <div style="display:flex;flex-direction:column;min-height:0;flex:{{ drawerFlex }};border-top:{{ drawerBorder }}">
+    <nav style="display:flex;flex:1 1 auto;min-width:0;min-height:0;flex-direction:column;gap:2px;padding:{{ navPad }};overflow-x:hidden;overflow-y:auto;max-height:{{ navMax }}">
+      <button onClick="{{ goPanel }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
+        <sc-if value="{{ esPanel }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
+        <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Panel</span>
+      </button>
+      <button onClick="{{ goAgente }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
+        <sc-if value="{{ esAgente }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
+        <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Agente IA</span>
+        <span style="position:relative;font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;font-weight:600;color:var(--gold)">{{ nCalientes }}</span>
+      </button>
+      <button onClick="{{ goClientes }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
+        <sc-if value="{{ esClientes }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
+        <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Clientes</span>
+      </button>
+      <button onClick="{{ goComercial }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
+        <sc-if value="{{ esComercial }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
+        <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Comercial</span>
+      </button>
+      <button onClick="{{ goInventario }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
+        <sc-if value="{{ esInventario }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
+        <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Inventario</span>
+      </button>
+      <button onClick="{{ goCaja }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
+        <sc-if value="{{ esCaja }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
+        <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Caja</span>
+      </button>
+      <button onClick="{{ goMetricas }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
+        <sc-if value="{{ esMetricas }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
+        <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Métricas</span>
+      </button>
+      <button onClick="{{ goEquipo }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
+        <sc-if value="{{ esEquipo }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
+        <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Equipo</span>
+      </button>
+      <button onClick="{{ goAjustes }}" style="position:relative;display:flex;align-items:center;justify-content:space-between;gap:8px;border:0;background:transparent;border-radius:7px;padding:{{ navItemPad }};min-height:{{ tapMin }};cursor:pointer;text-align:left;align-self:stretch;flex:none;white-space:nowrap" style-hover="background:rgba(255,255,255,.06)">
+        <sc-if value="{{ esAjustes }}"><span style="position:absolute;left:0;top:0;right:0;bottom:0;background:rgba(201,162,39,.18);border:1px solid rgba(201,162,39,.38);border-radius:7px"></span><span style="position:absolute;left:0;top:5px;bottom:5px;width:3px;background:var(--gold);border-radius:0 3px 3px 0"></span></sc-if>
+        <span style="position:relative;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--navInk)">Ajustes</span>
+      </button>
+    </nav>
+    <div style="display:flex;flex:none;flex-direction:{{ footDir }};align-items:{{ footAlign }};gap:{{ footGap }};padding:{{ footPad }};border-top:{{ footBorder }}">
+      <div style="display:flex;border:1px solid var(--navLine);border-radius:7px;overflow:hidden">
+        <button onClick="{{ modoClaro }}" style="flex:1;border:0;min-height:{{ tapMin }};background:{{ claroFondo }};color:{{ claroTexto }};padding:8px 0;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Claro</button>
+        <button onClick="{{ modoOscuro }}" style="flex:1;border:0;min-height:{{ tapMin }};background:{{ oscuroFondo }};color:{{ oscuroTexto }};padding:8px 0;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Oscuro</button>
+      </div>
+      <div style="display:flex;align-items:center;gap:9px;min-width:0">
+        <span style="width:26px;height:26px;border-radius:999px;background:rgba(255,255,255,.14);color:#FFFFFF;display:flex;align-items:center;justify-content:center;font:600 10px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;flex:none">MR</span>
+        <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+          <span style="font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:#FFFFFF">M. Rivas</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--navMut)">Supervisor</span>
+        </span>
+      </div>
+    </div>
+    </div>
+    </sc-if>
+  </aside>
+
+  <div style="display:grid;grid-template-rows:auto minmax(0,1fr);min-width:0;overflow:hidden">
+    <header style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding:{{ headPad }};background:var(--sf);border-bottom:1px solid var(--ln);min-width:0">
+      <div style="display:flex;flex-direction:column;gap:6px;min-width:0">
+        <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">{{ kicker }}</span>
+        <h1 style="margin:0;font:600 21px/1.15 'Source Serif 4',Georgia,serif;letter-spacing:-0.01em;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ titulo }}</h1>
+      </div>
+      <sc-if value="{{ esAncho }}">
+      <div style="display:flex;align-items:center;gap:16px;flex:0 0 auto">
+        <input placeholder="Buscar cliente, unidad, patente" style="border:1px solid var(--ln);border-radius:7px;background:var(--sf2);outline:0;font:400 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink);width:210px;min-width:0;padding:9px 11px" />
+        <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--fnt);white-space:nowrap">mié 26 ago 2026</span>
+      </div>
+      </sc-if>
+    </header>
+  <main style="min-width:0;overflow:auto;padding:{{ mainPad }};background:var(--bg)">
+
+    <!-- PANEL -->
+    <sc-if value="{{ esPanel }}" hint-placeholder-val="{{ true }}">
+    <div style="display:flex;flex-direction:column;gap:16px;max-width:1480px">
+
+      <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap">
+        <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Agosto 2026, a la fecha</span>
+        <div style="display:flex;border:1px solid var(--ln);border-radius:7px;overflow:hidden;background:var(--sf)">
+          <button style="border:0;background:var(--btn);color:var(--btnink);padding:8px 14px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Mes</button>
+          <button style="border:0;border-left:1px solid var(--ln);background:transparent;color:var(--mut);padding:8px 14px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Trimestre</button>
+          <button style="border:0;border-left:1px solid var(--ln);background:transparent;color:var(--mut);padding:8px 14px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Año</button>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:{{ kpiCols }};gap:12px">
+        <sc-for list="{{ kpis }}" as="k" hint-placeholder-count="5">
+          <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:9px;min-width:0">
+            <span style="font:400 9px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">{{ k.label }}</span>
+            <span style="font:600 27px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.02em;color:var(--ink);white-space:nowrap">{{ k.valor }}</span>
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ k.color }}">{{ k.delta }}</span>
+          </div>
+        </sc-for>
+      </div>
+
+      <div style="display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:12px;align-items:start">
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0">
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Embudo de conversión</span>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ embudo }}" as="e" hint-placeholder-count="5">
+              <div style="display:grid;grid-template-columns:minmax(0,1fr) 72px 56px;align-items:center;gap:14px;padding:11px 0;border-bottom:1px solid var(--ln2)">
+                <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);min-width:0">{{ e.etapa }}</span>
+                <span style="font:600 16px/1 'Source Serif 4',Georgia,serif;color:var(--ink);text-align:right">{{ e.n }}</span>
+                <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);text-align:right">{{ e.pct }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:12px;min-width:0">
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Cola caliente del agente</span>
+            <button onClick="{{ goAgente }}" style="border:0;background:transparent;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ac);cursor:pointer;padding:0">Ver bandeja</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ calientes }}" as="l" hint-placeholder-count="4">
+              <button onClick="{{ l.abrir }}" style="display:grid;grid-template-columns:38px minmax(0,1fr) auto;align-items:center;gap:13px;text-align:left;border:0;border-bottom:1px solid var(--ln2);background:transparent;padding:10px 2px;cursor:pointer;width:100%" style-hover="background:var(--sf2)">
+                <span style="font:600 16px/1 'Source Serif 4',Georgia,serif;color:{{ l.scoreColor }}">{{ l.score }}</span>
+                <span style="display:flex;flex-direction:column;gap:3px;min-width:0">
+                  <span style="font:500 12px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ l.nombre }}</span>
+                  <span style="font:400 10px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ l.vehiculo }}</span>
+                </span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ l.hora }}</span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(268px,1fr));gap:12px;align-items:start">
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0">
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Leads por canal</span>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ canales }}" as="c" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--ln2)">
+                <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.nombre }}</span>
+                <span style="display:flex;align-items:baseline;gap:8px;flex:none">
+                  <span style="font:600 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ c.n }}</span>
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt);width:34px;text-align:right">{{ c.pct }}</span>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0">
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Unidades vendidas por tipo</span>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ porTipo }}" as="c" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--ln2)">
+                <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.nombre }}</span>
+                <span style="display:flex;align-items:baseline;gap:8px;flex:none">
+                  <span style="font:600 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ c.n }}</span>
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt);width:34px;text-align:right">{{ c.pct }}</span>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0">
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Atención al cliente</span>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ atencionResumen }}" as="a" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:9px 0;border-bottom:1px solid var(--ln2)">
+                <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);min-width:0">{{ a.label }}</span>
+                <span style="font:600 14px/1 'Source Serif 4',Georgia,serif;color:{{ a.color }};flex:none">{{ a.valor }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <button onClick="{{ goAtencion }}" style="align-self:flex-start;border:0;background:transparent;padding:0;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ac);cursor:pointer">Abrir mesa de atención</button>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+    <!-- AGENTE IA -->
+    <sc-if value="{{ esAgente }}">
+    <div style="display:flex;flex-direction:column;gap:30px">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-bottom:1px solid var(--ln)">
+        <button onClick="{{ subBandeja }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Bandeja
+          <sc-if value="{{ subEsBandeja }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subReglas }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Reglas de calificación
+          <sc-if value="{{ subEsReglas }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subGuion }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Guion del agente
+          <sc-if value="{{ subEsGuion }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+      </div>
+
+      <sc-if value="{{ subEsBandeja }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:{{ bandejaCols }};gap:{{ gapGrande }};align-items:start">
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <div style="display:flex;gap:16px;flex-wrap:wrap">
+            <sc-for list="{{ filtros }}" as="f" hint-placeholder-count="4">
+              <button onClick="{{ f.set }}" style="border:0;border-bottom:1px solid {{ f.borde }};background:transparent;color:{{ f.texto }};padding:0 0 5px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">{{ f.label }} <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ f.n }}</span></button>
+            </sc-for>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0;max-height:{{ listaMax }};overflow:auto;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ listaLeads }}" as="l" hint-placeholder-count="7">
+              <button onClick="{{ l.abrir }}" style="display:grid;grid-template-columns:44px 1fr;gap:14px;text-align:left;background:{{ l.fondo }};border:0;border-bottom:1px solid var(--ln2);border-left:2px solid {{ l.borde }};padding:15px 14px;cursor:pointer;width:100%" style-hover="background:var(--sf2)">
+                <span style="font:400 19px/1 'Source Serif 4',Georgia,serif;color:{{ l.scoreColor }}">{{ l.score }}</span>
+                <span style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                  <span style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+                    <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ l.nombre }}</span>
+                    <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt);flex:none">{{ l.hora }}</span>
+                  </span>
+                  <span style="font:400 11px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut);overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ l.ultimo }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ l.estadoColor }}">{{ l.canal }} · {{ l.tipo }} · {{ l.estadoLabel }}</span>
+                </span>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;align-items:start">
+          <div style="min-width:0;display:flex;flex-direction:column;gap:24px">
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:20px;border-bottom:1px solid var(--ln)">
+              <div style="display:flex;flex-direction:column;gap:7px">
+                <span style="font:400 24px/1.15 'Source Serif 4',Georgia,serif;letter-spacing:-0.01em;color:var(--ink)">{{ sel.nombre }}</span>
+                <span style="font:400 11px/1.3 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)">{{ sel.telefono }} · {{ sel.canal }} · {{ sel.zona }}</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:16px;flex:none">
+                <button style="border:0;background:transparent;padding:0;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut);cursor:pointer">Intervenir</button>
+                <button onClick="{{ derivar }}" style="border:0;background:{{ sel.btnFondo }};border-radius:6px;padding:11px 16px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:{{ sel.btnTexto }};cursor:pointer">{{ sel.btnLabel }}</button>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:18px;max-height:{{ chatMax }};overflow:auto;padding-right:6px">
+              <sc-for list="{{ sel.chat }}" as="m" hint-placeholder-count="5">
+                <div style="display:flex;flex-direction:column;gap:6px;align-self:{{ m.align }};max-width:76%">
+                  <div style="background:{{ m.fondo }};color:{{ m.texto }};border:1px solid {{ m.borde }};border-radius:10px;padding:13px 15px;font:400 13px/1.55 'Helvetica Neue',Helvetica,Arial,sans-serif">{{ m.texto_ }}</div>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt);align-self:{{ m.align }}">{{ m.quien }} · {{ m.hora }}</span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:10px;padding-top:16px;border-top:1px solid var(--ln)">
+              <span style="width:5px;height:5px;border-radius:999px;background:var(--ok);flex:none"></span>
+              <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">El agente sigue conversando. Va a preguntar por plazo de compra y forma de pago.</span>
+            </div>
+          </div>
+
+          <div style="display:flex;flex-direction:column;gap:34px">
+            <div style="display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+                <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Calificación</span>
+                <span style="font:400 40px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.02em;color:{{ sel.scoreColor }}">{{ sel.score }}</span>
+              </div>
+              <div style="height:3px;background:var(--bar);position:relative">
+                <div style="height:100%;width:{{ sel.scorePct }};background:{{ sel.scoreColor }}"></div>
+                <div style="position:absolute;top:-4px;bottom:-4px;left:{{ umbralPct }};width:1px;background:var(--ink)"></div>
+              </div>
+              <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Umbral de derivación en {{ umbral }}. {{ sel.veredicto }}</span>
+              <div style="display:flex;flex-direction:column;gap:11px;padding-top:8px">
+                <sc-for list="{{ sel.senales }}" as="s" hint-placeholder-count="6">
+                  <div style="display:grid;grid-template-columns:1fr 70px 26px;align-items:center;gap:10px">
+                    <span style="font:400 12px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ s.k }}</span>
+                    <div style="height:3px;background:var(--bar)"><div style="height:100%;width:{{ s.pct }};background:{{ s.color }}"></div></div>
+                    <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);text-align:right">{{ s.v }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Datos capturados</span>
+              <sc-for list="{{ sel.datos }}" as="d" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:14px 1fr;gap:11px;align-items:start">
+                  <span style="font:400 11px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ d.color }}">{{ d.icono }}</span>
+                  <span style="display:flex;flex-direction:column;gap:3px">
+                    <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">{{ d.k }}</span>
+                    <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ d.v }}</span>
+                  </span>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;flex-direction:column;gap:9px;padding-top:22px;border-top:1px solid var(--ln)">
+              <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Derivación sugerida</span>
+              <span style="font:400 17px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ sel.vendedor }}</span>
+              <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ sel.razonVendedor }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsReglas }}">
+      <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:56px;align-items:start;max-width:1180px">
+        <div style="display:flex;flex-direction:column;gap:26px">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Peso de cada señal</span>
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">El score final es la suma ponderada. Los pesos deben totalizar 100.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <sc-for list="{{ pesos }}" as="p" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:180px 1fr 34px;align-items:center;gap:18px">
+                <span style="font:400 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ p.k }}</span>
+                <input type="range" min="0" max="40" value="{{ p.v }}" onChange="{{ p.set }}" style="width:100%;accent-color:var(--ink)" />
+                <span style="font:400 13px/1 'Source Serif 4',Georgia,serif;color:var(--ink);text-align:right">{{ p.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:18px;border-top:1px solid var(--ln)">
+            <span style="font:400 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Total asignado</span>
+            <span style="font:400 16px/1 'Source Serif 4',Georgia,serif;color:{{ totalPesosColor }}">{{ totalPesos }} / 100</span>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:44px">
+          <div style="display:flex;flex-direction:column;gap:18px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Umbral de derivación</span>
+            <div style="display:flex;align-items:baseline;gap:10px">
+              <span style="font:400 52px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.03em;color:var(--hot)">{{ umbral }}</span>
+              <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">de 100</span>
+            </div>
+            <input type="range" min="50" max="100" step="5" value="{{ umbral }}" onChange="{{ setUmbral }}" style="width:100%;accent-color:var(--hot)" />
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Con este umbral se derivarían {{ nSobreUmbral }} de {{ nTotal }} conversaciones abiertas.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Al superar el umbral</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ acciones }}" as="a" hint-placeholder-count="4">
+                <button onClick="{{ a.toggle }}" style="display:flex;align-items:center;gap:13px;text-align:left;border:0;border-bottom:1px solid var(--ln2);background:transparent;padding:14px 2px;cursor:pointer;width:100%" style-hover="background:var(--sf2)">
+                  <span style="width:14px;height:14px;border:1px solid {{ a.marcaBorde }};background:{{ a.marcaFondo }};color:{{ a.marcaTexto }};font:400 9px/13px ui-monospace,SFMono-Regular,Menlo,monospace;text-align:center;flex:none">{{ a.marca }}</span>
+                  <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:{{ a.texto }}">{{ a.label }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsGuion }}">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;max-width:1180px">
+        <div style="display:flex;flex-direction:column;gap:24px">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Preguntas que hace el agente</span>
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">En orden. Cada respuesta alimenta una señal del score.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ guion }}" as="g" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:24px 1fr;gap:14px;align-items:start;padding:15px 0;border-bottom:1px solid var(--ln2)">
+                <span style="font:400 12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ g.n }}</span>
+                <span style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font:400 13px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ g.q }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">alimenta · {{ g.senal }}</span>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:44px">
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Tono y límites</span>
+            <textarea style="width:100%;min-height:170px;resize:vertical;border:1px solid var(--ln);border-radius:8px;padding:16px;font:400 13px/1.7 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);outline:0;background:var(--sf)">Trato cordial y directo, tuteo. Nunca confirma precio final ni bonificaciones: eso lo cierra el vendedor. Si el cliente pide financiación, deriva a Créditos. Si menciona reclamo o service, deriva a Atención.</textarea>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:16px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Canales conectados</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ canalesConf }}" as="c" hint-placeholder-count="5">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:13px 0;border-bottom:1px solid var(--ln2)">
+                  <span style="font:400 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ c.nombre }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ c.color }}">{{ c.estado }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- CLIENTES -->
+    <sc-if value="{{ esClientes }}">
+    <div style="display:flex;flex-direction:column;gap:30px">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-bottom:1px solid var(--ln)">
+        <button onClick="{{ subPersonas }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Personas
+          <sc-if value="{{ subEsPersonas }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subAtencion }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Mesa de atención
+          <sc-if value="{{ subEsAtencion }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+      </div>
+
+      <sc-if value="{{ subEsPersonas }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;min-width:1080px">
+        <div style="display:grid;grid-template-columns:1.5fr 1fr 1.4fr .6fr .9fr .9fr .7fr;gap:20px;padding:0 4px 12px;border-bottom:1px solid var(--ln)">
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Cliente</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Teléfono</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Interés</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Score</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Etapa</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Vendedor</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Contacto</span>
+        </div>
+        <sc-for list="{{ personas }}" as="p" hint-placeholder-count="9">
+          <div style="display:grid;grid-template-columns:1.5fr 1fr 1.4fr .6fr .9fr .9fr .7fr;gap:20px;padding:{{ rowPad }} 4px;border-bottom:1px solid var(--ln2);align-items:center" style-hover="background:var(--sf2)">
+            <div style="display:flex;flex-direction:column;gap:4px;min-width:0">
+              <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ p.nombre }}</span>
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--fnt)">{{ p.origen }}</span>
+            </div>
+            <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)">{{ p.tel }}</span>
+            <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ p.interes }}</span>
+            <span style="font:400 15px/1 'Source Serif 4',Georgia,serif;color:{{ p.scoreColor }}">{{ p.score }}</span>
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--mut)">{{ p.etapa }}</span>
+            <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ p.vendedor }}</span>
+            <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ p.ultimo }}</span>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsAtencion }}">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:32px;align-items:start;min-width:1100px">
+        <sc-for list="{{ colasAtencion }}" as="col" hint-placeholder-count="4">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:11px;border-bottom:1px solid var(--ln)">
+              <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">{{ col.titulo }}</span>
+              <span style="font:400 12px/1 'Source Serif 4',Georgia,serif;color:var(--ink2)">{{ col.n }}</span>
+            </div>
+            <sc-for list="{{ col.items }}" as="t" hint-placeholder-count="3">
+              <div style="background:var(--sf);border:1px solid var(--ln);border-left:2px solid {{ t.prioColor }};border-radius:8px;padding:16px;display:flex;flex-direction:column;gap:10px">
+                <span style="font:500 13px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ t.asunto }}</span>
+                <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ t.cliente }} · {{ t.unidad }}</span>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:9px;border-top:1px solid var(--ln2)">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ t.prioColor }}">{{ t.prio }}</span>
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ t.sla }}</span>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- COMERCIAL -->
+    <sc-if value="{{ esComercial }}">
+    <div style="display:flex;flex-direction:column;gap:30px">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-bottom:1px solid var(--ln)">
+        <button onClick="{{ subPipeline }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Pipeline
+          <sc-if value="{{ subEsPipeline }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subTestdrive }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Test drive
+          <sc-if value="{{ subEsTestdrive }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subCotizaciones }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Cotizaciones
+          <sc-if value="{{ subEsCotizaciones }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subTasacion }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Tasación de usados
+          <sc-if value="{{ subEsTasacion }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+      </div>
+
+      <sc-if value="{{ subEsPipeline }}" hint-placeholder-val="{{ true }}">
+      <div style="display:grid;grid-template-columns:repeat(5,minmax(220px,1fr));gap:26px;align-items:start;min-width:1200px">
+        <sc-for list="{{ pipeline }}" as="col" hint-placeholder-count="5">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <div style="display:flex;flex-direction:column;gap:8px;padding-bottom:11px;border-bottom:1px solid {{ col.color }}">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+                <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">{{ col.titulo }}</span>
+                <span style="font:400 12px/1 'Source Serif 4',Georgia,serif;color:var(--ink2)">{{ col.n }}</span>
+              </div>
+              <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)">{{ col.monto }}</span>
+            </div>
+            <sc-for list="{{ col.items }}" as="o" hint-placeholder-count="3">
+              <div style="background:var(--sf);border:1px solid var(--ln);border-radius:9px;box-shadow:var(--shadow);padding:16px;display:flex;flex-direction:column;gap:11px">
+                <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px">
+                  <span style="font:500 13px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ o.cliente }}</span>
+                  <span style="font:400 14px/1 'Source Serif 4',Georgia,serif;color:{{ o.scoreColor }};flex:none">{{ o.score }}</span>
+                </div>
+                <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ o.unidad }}</span>
+                <span style="font:400 15px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ o.monto }}</span>
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding-top:10px;border-top:1px solid var(--ln2)">
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ o.vendedor }} · {{ o.dias }}d</span>
+                  <div style="display:flex;gap:10px">
+                    <button onClick="{{ o.atras }}" style="border:0;background:transparent;font:400 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--fnt);cursor:pointer;padding:0">←</button>
+                    <button onClick="{{ o.adelante }}" style="border:0;background:transparent;font:400 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink);cursor:pointer;padding:0">→</button>
+                  </div>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsCotizaciones }}">
+      <div style="display:flex;flex-direction:column;max-width:1400px;min-width:1000px">
+        <div style="display:grid;grid-template-columns:.55fr 1.3fr 1.5fr 1fr 1fr .9fr;gap:20px;padding:0 4px 12px;border-bottom:1px solid var(--ln)">
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Nº</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Cliente</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Unidad</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Total</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Parte de pago</span>
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Estado</span>
+        </div>
+        <sc-for list="{{ cotizaciones }}" as="c" hint-placeholder-count="7">
+          <div style="display:grid;grid-template-columns:.55fr 1.3fr 1.5fr 1fr 1fr .9fr;gap:20px;padding:{{ rowPad }} 4px;border-bottom:1px solid var(--ln2);align-items:center" style-hover="background:var(--sf2)">
+            <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ c.nro }}</span>
+            <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ c.cliente }}</span>
+            <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ c.unidad }}</span>
+            <span style="font:400 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ c.total }}</span>
+            <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ c.permuta }}</span>
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ c.color }}">{{ c.estado }}</span>
+          </div>
+        </sc-for>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsTestdrive }}">
+      <div style="display:flex;flex-direction:column;gap:30px;min-width:1150px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:0;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)">
+          <sc-for list="{{ tdStats }}" as="k" hint-placeholder-count="4">
+            <div style="display:flex;flex-direction:column;gap:12px;padding:22px 24px;border-left:1px solid var(--ln2)">
+              <span style="font:400 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">{{ k.label }}</span>
+              <span style="font:400 26px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.02em;color:var(--ink);white-space:nowrap">{{ k.valor }}</span>
+              <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ k.color }}">{{ k.delta }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:24px;align-items:start">
+          <sc-for list="{{ tdSemana }}" as="d" hint-placeholder-count="5">
+            <div style="display:flex;flex-direction:column;gap:14px">
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:11px;border-bottom:1px solid var(--ln)">
+                <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">{{ d.dia }} {{ d.fecha }}</span>
+                <span style="font:400 12px/1 'Source Serif 4',Georgia,serif;color:var(--ink2)">{{ d.n }}</span>
+              </div>
+              <sc-for list="{{ d.items }}" as="t" hint-placeholder-count="2">
+                <button onClick="{{ t.accion }}" style="text-align:left;background:var(--sf);border:1px solid var(--ln);border-left:2px solid {{ t.color }};border-radius:8px;padding:15px;display:flex;flex-direction:column;gap:9px;cursor:pointer;width:100%" style-hover="background:var(--sf2)">
+                  <span style="font:400 16px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ t.hora }}</span>
+                  <span style="font:500 13px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ t.cliente }}</span>
+                  <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ t.unidad }}</span>
+                  <span style="font:400 9px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ t.color }}">{{ t.estado }} · {{ t.vendedor }}</span>
+                </button>
+              </sc-for>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsTasacion }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:48px 56px;align-items:start;max-width:1180px">
+        <div style="display:flex;flex-direction:column;gap:34px">
+          <div style="display:flex;flex-direction:column;gap:7px">
+            <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Tasación de usados</span>
+            <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Para permutas y compra directa. El valor de toma ya descuenta el margen de agencia.</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Tipo de unidad</span>
+            <div style="display:flex;gap:20px;flex-wrap:wrap">
+              <sc-for list="{{ tasTipos }}" as="t" hint-placeholder-count="7">
+                <button onClick="{{ t.set }}" style="border:0;border-bottom:1px solid {{ t.borde }};background:transparent;color:{{ t.texto }};padding:0 0 5px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">{{ t.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+              <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Año</span>
+              <span style="font:400 17px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ tas.anio }}</span>
+            </div>
+            <input type="range" min="2008" max="2026" value="{{ tas.anio }}" onChange="{{ setTasAnio }}" style="width:100%;accent-color:var(--ink)" />
+          </div>
+          <div style="display:flex;flex-direction:column;gap:11px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+              <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Kilometraje / horas</span>
+              <span style="font:400 17px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ tas.kmLabel }}</span>
+            </div>
+            <input type="range" min="0" max="320000" step="5000" value="{{ tas.km }}" onChange="{{ setTasKm }}" style="width:100%;accent-color:var(--ink)" />
+            <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--fnt)">{{ tas.kmNota }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Estado general</span>
+            <div style="display:flex;gap:20px;flex-wrap:wrap">
+              <sc-for list="{{ tasEstados }}" as="e" hint-placeholder-count="4">
+                <button onClick="{{ e.set }}" style="border:0;border-bottom:1px solid {{ e.borde }};background:transparent;color:{{ e.texto }};padding:0 0 5px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">{{ e.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:34px">
+          <div style="display:flex;flex-direction:column;gap:10px;padding-bottom:24px;border-bottom:1px solid var(--ln)">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Valor de toma sugerido</span>
+            <span style="font:400 46px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.03em;color:var(--ink);white-space:nowrap">{{ tas.toma }}</span>
+            <span style="font:400 12px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Rango de negociación {{ tas.rango }} · reventa estimada {{ tas.mercado }} · margen {{ tas.margen }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Cómo se llega a ese valor</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ tas.desglose }}" as="d" hint-placeholder-count="6">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--ln2)">
+                  <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ d.k }}</span>
+                  <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ d.color }};white-space:nowrap">{{ d.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Comparables recientes</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ tas.comparables }}" as="c" hint-placeholder-count="3">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:12px 0;border-bottom:1px solid var(--ln2)">
+                  <span style="display:flex;flex-direction:column;gap:3px">
+                    <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ c.desc }}</span>
+                    <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">{{ c.origen }}</span>
+                  </span>
+                  <span style="font:400 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink2);white-space:nowrap">{{ c.precio }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;gap:14px;flex-wrap:wrap">
+            <button onClick="{{ tas.usar }}" style="border:0;background:var(--btn);color:var(--btnink);border-radius:6px;padding:12px 18px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Usar como parte de pago</button>
+            <button onClick="{{ tas.enviar }}" style="border:1px solid var(--ln);background:transparent;color:var(--ink);border-radius:6px;padding:12px 18px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Enviar tasación al cliente</button>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- INVENTARIO -->
+    <sc-if value="{{ esInventario }}">
+    <div style="display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-bottom:1px solid var(--ln)">
+        <button onClick="{{ subUnidades }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Unidades
+          <sc-if value="{{ subEsUnidades }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subPrep }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Preparación y gastos
+          <sc-if value="{{ subEsPrep }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+      </div>
+
+      <sc-if value="{{ subEsUnidades }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:16px;max-width:1480px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <div style="display:flex;gap:8px;flex-wrap:wrap">
+            <sc-for list="{{ filtrosTipo }}" as="f" hint-placeholder-count="7">
+              <button onClick="{{ f.set }}" style="border:1px solid {{ f.borde }};background:{{ f.fondo }};color:{{ f.texto }};border-radius:7px;padding:8px 13px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;min-height:{{ tapMin }}">{{ f.label }}</button>
+            </sc-for>
+          </div>
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)">{{ nUnidades }} unidades · {{ valorStock }} en venta · {{ invertidoStock }} invertido</span>
+        </div>
+
+        <sc-if value="{{ esMovil }}">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ unidades }}" as="u" hint-placeholder-count="6">
+            <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:14px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;align-items:center;gap:12px;min-width:0">
+                <span style="width:56px;height:42px;border-radius:5px;background-color:var(--bar);background-image:repeating-linear-gradient(135deg,rgba(128,128,128,.10) 0 1px,transparent 1px 7px);border:1px solid var(--ln);flex:none"></span>
+                <span style="display:flex;flex-direction:column;gap:5px;min-width:0;flex:1 1 auto">
+                  <span style="font:500 14px/1.25 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ u.modelo }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">{{ u.tipo }} · {{ u.anio }} · {{ u.km }}</span>
+                </span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2)">{{ u.ubicacion }}</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ u.etapaColor }}">{{ u.etapa }}</span>
+              </div>
+              <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-top:11px;border-top:1px solid var(--ln2)">
+                <span style="display:flex;flex-direction:column;gap:4px">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">precio</span>
+                  <span style="font:600 18px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ u.precio }}</span>
+                </span>
+                <span style="display:flex;flex-direction:column;gap:4px;text-align:right">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">invertido</span>
+                  <span style="font:600 15px/1 'Source Serif 4',Georgia,serif;color:var(--ink2)">{{ u.invertido }}</span>
+                </span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px">
+                <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ u.diasColor }}">{{ u.dias }} días en stock</span>
+                <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ u.margenColor }}">margen {{ u.margen }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ esAncho }}">
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);overflow:hidden">
+          <div style="overflow-x:auto">
+            <div style="min-width:1080px;display:flex;flex-direction:column">
+              <div style="display:grid;grid-template-columns:56px minmax(0,1.7fr) 92px minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr) 62px;gap:12px;padding:11px 16px;background:var(--sf2);border-bottom:1px solid var(--ln)">
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)"></span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Unidad</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Año</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Dónde está</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Precio</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Invertido</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Margen</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Días</span>
+              </div>
+              <sc-for list="{{ unidades }}" as="u" hint-placeholder-count="10">
+                <div style="display:grid;grid-template-columns:56px minmax(0,1.7fr) 92px minmax(0,1.2fr) minmax(0,1fr) minmax(0,1fr) minmax(0,.9fr) 62px;gap:12px;padding:{{ rowPad }} 16px;border-bottom:1px solid var(--ln2);align-items:center" style-hover="background:var(--sf2)">
+                  <span style="height:38px;border-radius:5px;background-color:var(--bar);background-image:repeating-linear-gradient(135deg,rgba(128,128,128,.10) 0 1px,transparent 1px 7px);border:1px solid var(--ln);display:flex;align-items:flex-end;justify-content:center;padding-bottom:3px">
+                    <span style="font:400 7px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.08em;text-transform:uppercase;color:var(--fnt)">foto</span>
+                  </span>
+                  <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                    <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ u.modelo }}</span>
+                    <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">{{ u.tipo }} · {{ u.km }}</span>
+                  </span>
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2)">{{ u.anio }}</span>
+                  <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                    <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ u.ubicacion }}</span>
+                    <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ u.etapaColor }}">{{ u.etapa }}</span>
+                  </span>
+                  <span style="font:600 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink);white-space:nowrap">{{ u.precio }}</span>
+                  <span style="display:flex;flex-direction:column;gap:4px">
+                    <span style="font:600 13px/1 'Source Serif 4',Georgia,serif;color:var(--ink2);white-space:nowrap">{{ u.invertido }}</span>
+                    <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">+{{ u.gastos }} gastos</span>
+                  </span>
+                  <span style="font:600 13px/1 'Source Serif 4',Georgia,serif;color:{{ u.margenColor }};white-space:nowrap">{{ u.margen }}</span>
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ u.diasColor }}">{{ u.dias }} d</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsPrep }}">
+      <div style="display:flex;flex-direction:column;gap:16px;max-width:1180px">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:20px;flex-wrap:wrap">
+          <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Dónde está cada unidad, qué se le hizo y cuánto se gastó. Todo egreso de acá impacta en Caja.</span>
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);white-space:nowrap">{{ gastoPrepTotal }} en preparación</span>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:12px">
+          <sc-for list="{{ prepUnidades }}" as="p" hint-placeholder-count="5">
+            <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:16px">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:16px;flex-wrap:wrap">
+                <span style="display:flex;flex-direction:column;gap:6px;min-width:0">
+                  <span style="font:600 17px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ p.modelo }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">{{ p.tipo }} · {{ p.anio }} · {{ p.km }}</span>
+                </span>
+                <span style="display:flex;flex-direction:column;gap:6px;align-items:flex-end;flex:none">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ p.etapaColor }}">{{ p.etapa }}</span>
+                  <span style="font:400 12px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ p.ubicacion }}</span>
+                </span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+                <sc-for list="{{ p.trabajos }}" as="t" hint-placeholder-count="3">
+                  <div style="display:grid;grid-template-columns:64px minmax(0,1.6fr) minmax(0,1fr) minmax(0,.8fr);gap:12px;padding:10px 0;border-bottom:1px solid var(--ln2);align-items:center">
+                    <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ t.fecha }}</span>
+                    <span style="font:400 12px/1.35 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink);min-width:0">{{ t.trabajo }}</span>
+                    <span style="font:400 11px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut);min-width:0">{{ t.proveedor }}</span>
+                    <span style="font:600 13px/1 'Source Serif 4',Georgia,serif;color:var(--ink2);text-align:right;white-space:nowrap">{{ t.costo }}</span>
+                  </div>
+                </sc-for>
+                <sc-if value="{{ p.sinTrabajos }}">
+                  <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--fnt);padding:10px 0">Sin trabajos registrados todavía.</span>
+                </sc-if>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(128px,1fr));gap:12px;padding-top:14px;border-top:1px solid var(--ln)">
+                <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">compra</span>
+                  <span style="font:600 15px/1 'Source Serif 4',Georgia,serif;color:var(--ink2);white-space:nowrap">{{ p.compra }}</span>
+                </span>
+                <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">gastos</span>
+                  <span style="font:600 15px/1 'Source Serif 4',Georgia,serif;color:var(--hot);white-space:nowrap">{{ p.gastos }}</span>
+                </span>
+                <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">invertido</span>
+                  <span style="font:600 15px/1 'Source Serif 4',Georgia,serif;color:var(--ink);white-space:nowrap">{{ p.invertido }}</span>
+                </span>
+                <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">precio de venta</span>
+                  <span style="font:600 15px/1 'Source Serif 4',Georgia,serif;color:var(--ink);white-space:nowrap">{{ p.precio }}</span>
+                </span>
+                <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">margen esperado</span>
+                  <span style="font:600 15px/1 'Source Serif 4',Georgia,serif;color:{{ p.margenColor }};white-space:nowrap">{{ p.margen }}</span>
+                </span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- CAJA -->
+    <sc-if value="{{ esCaja }}">
+    <div style="display:flex;flex-direction:column;gap:20px;max-width:1480px">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-bottom:1px solid var(--ln)">
+        <button onClick="{{ subMovs }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Movimientos
+          <sc-if value="{{ subEsMovs }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subResumen }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Resumen del mes
+          <sc-if value="{{ subEsResumen }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+      </div>
+
+      <sc-if value="{{ subEsMovs }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:grid;grid-template-columns:{{ kpiCols }};gap:12px">
+        <sc-for list="{{ cajaKpis }}" as="k" hint-placeholder-count="5">
+          <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:9px;min-width:0">
+            <span style="font:400 9px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">{{ k.label }}</span>
+            <span style="font:600 24px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.02em;color:{{ k.valorColor }};white-space:nowrap">{{ k.valor }}</span>
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ k.color }}">{{ k.delta }}</span>
+          </div>
+        </sc-for>
+      </div>
+
+        <sc-if value="{{ esMovil }}">
+        <div style="display:flex;flex-direction:column;gap:10px">
+          <sc-for list="{{ movimientos }}" as="m" hint-placeholder-count="8">
+            <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:14px;display:flex;flex-direction:column;gap:10px;border-left:2px solid {{ m.color }}">
+              <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px">
+                <span style="display:flex;flex-direction:column;gap:5px;min-width:0">
+                  <span style="font:500 13px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ m.concepto }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">{{ m.fecha }} · {{ m.categoria }}</span>
+                </span>
+                <span style="font:600 15px/1 'Source Serif 4',Georgia,serif;color:{{ m.color }};white-space:nowrap;flex:none">{{ m.monto }}</span>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding-top:9px;border-top:1px solid var(--ln2)">
+                <span style="font:400 11px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut);min-width:0">{{ m.referencia }}</span>
+                <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2);white-space:nowrap">saldo {{ m.saldo }}</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ esAncho }}">
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);overflow:hidden">
+          <div style="overflow-x:auto">
+            <div style="min-width:1020px;display:flex;flex-direction:column">
+              <div style="display:grid;grid-template-columns:76px minmax(0,1.7fr) minmax(0,1.1fr) minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:14px;padding:11px 16px;background:var(--sf2);border-bottom:1px solid var(--ln)">
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Fecha</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Concepto</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Categoría</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Referencia</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Monto</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Saldo</span>
+              </div>
+              <sc-for list="{{ movimientos }}" as="m" hint-placeholder-count="12">
+                <div style="display:grid;grid-template-columns:76px minmax(0,1.7fr) minmax(0,1.1fr) minmax(0,1.3fr) minmax(0,1fr) minmax(0,1fr);gap:14px;padding:{{ rowPad }} 16px;border-bottom:1px solid var(--ln2);align-items:center" style-hover="background:var(--sf2)">
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ m.fecha }}</span>
+                  <span style="font:500 13px/1.25 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink);min-width:0">{{ m.concepto }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--mut);min-width:0">{{ m.categoria }}</span>
+                  <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ m.referencia }}</span>
+                  <span style="font:600 14px/1 'Source Serif 4',Georgia,serif;color:{{ m.color }};white-space:nowrap">{{ m.monto }}</span>
+                  <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2);white-space:nowrap">{{ m.saldo }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsResumen }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:12px;align-items:start">
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0">
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Egresos por categoría</span>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ egresosCat }}" as="c" hint-placeholder-count="6">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--ln2)">
+                <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);min-width:0">{{ c.k }}</span>
+                <span style="display:flex;align-items:baseline;gap:9px;flex:none">
+                  <span style="font:600 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ c.v }}</span>
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt);width:34px;text-align:right">{{ c.pct }}</span>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0">
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Ingresos por categoría</span>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ ingresosCat }}" as="c" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--ln2)">
+                <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);min-width:0">{{ c.k }}</span>
+                <span style="display:flex;align-items:baseline;gap:9px;flex:none">
+                  <span style="font:600 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ c.v }}</span>
+                  <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt);width:34px;text-align:right">{{ c.pct }}</span>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0">
+          <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Más invertido en stock</span>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ invPorUnidad }}" as="u" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 0;border-bottom:1px solid var(--ln2)">
+                <span style="display:flex;flex-direction:column;gap:4px;min-width:0">
+                  <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ u.modelo }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">{{ u.dias }} días · {{ u.gastos }} gastos</span>
+                </span>
+                <span style="font:600 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink);flex:none;white-space:nowrap">{{ u.invertido }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- METRICAS -->
+    <sc-if value="{{ esMetricas }}">
+    <div style="display:flex;flex-direction:column;gap:30px">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-bottom:1px solid var(--ln)">
+        <button onClick="{{ subComercialM }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Comercial
+          <sc-if value="{{ subEsComercialM }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subAgenteM }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Agente IA
+          <sc-if value="{{ subEsAgenteM }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+      </div>
+
+      <sc-if value="{{ subEsComercialM }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;gap:48px;max-width:1450px">
+        <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Leads y cierres por mes</span>
+            <div style="display:flex;gap:16px">
+              <span style="display:flex;align-items:center;gap:7px;font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)"><span style="width:14px;height:2px;background:var(--ac)"></span>leads</span>
+              <span style="display:flex;align-items:center;gap:7px;font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)"><span style="width:14px;height:2px;background:var(--hot)"></span>cierres</span>
+            </div>
+          </div>
+          <svg viewBox="0 0 320 110" preserveAspectRatio="none" style="width:100%;height:206px;display:block">
+            <path d="{{ trend.area }}" fill="var(--ac)" fill-opacity="0.09"></path>
+            <path d="{{ trend.line }}" fill="none" stroke="var(--ac)" stroke-width="2" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+            <path d="{{ trend.line2 }}" fill="none" stroke="var(--hot)" stroke-width="1.5" stroke-dasharray="4 3" stroke-linejoin="round" vector-effect="non-scaling-stroke"></path>
+          </svg>
+          <div style="display:grid;grid-template-columns:repeat(8,minmax(0,1fr));gap:6px;padding-top:10px;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ trend.meses }}" as="m" hint-placeholder-count="8">
+              <span style="display:flex;flex-direction:column;gap:4px;align-items:center;min-width:0">
+                <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2)">{{ m.n }}</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--fnt)">{{ m.mes }}</span>
+              </span>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:12px;align-items:start">
+          <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0">
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Mix de unidades vendidas</span>
+            <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+              <div style="position:relative;width:124px;height:124px;flex:none">
+                <svg viewBox="0 0 42 42" style="width:124px;height:124px;display:block">
+                  <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--bar)" stroke-width="4.4"></circle>
+                  <sc-for list="{{ donutMix.segs }}" as="s" hint-placeholder-count="6">
+                    <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--ac)" stroke-opacity="{{ s.op }}" stroke-width="4.4" stroke-dasharray="{{ s.dash }}" stroke-dashoffset="{{ s.offset }}" transform="rotate(-90 21 21)"></circle>
+                  </sc-for>
+                </svg>
+                <div style="position:absolute;left:0;top:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px">
+                  <span style="font:600 24px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ donutMix.total }}</span>
+                  <span style="font:400 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">unidades</span>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:7px;flex:1 1 130px;min-width:0">
+                <sc-for list="{{ donutMix.segs }}" as="s" hint-placeholder-count="6">
+                  <div style="display:flex;align-items:center;gap:9px;min-width:0">
+                    <span style="width:9px;height:9px;border-radius:2px;background:var(--ac);opacity:{{ s.op }};flex:none"></span>
+                    <span style="font:400 12px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);flex:1 1 auto;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ s.label }}</span>
+                    <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);flex:none">{{ s.n }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:14px;min-width:0">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;flex-wrap:wrap">
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Cuándo entran las consultas</span>
+              <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)">{{ heat.pico }}</span>
+            </div>
+            <div style="display:flex;flex-direction:column;gap:4px">
+              <div style="display:grid;grid-template-columns:34px repeat(6,minmax(0,1fr));gap:4px">
+                <span></span>
+                <sc-for list="{{ heat.cols }}" as="c" hint-placeholder-count="6">
+                  <span style="font:400 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt);text-align:center">{{ c }}</span>
+                </sc-for>
+              </div>
+              <sc-for list="{{ heat.rows }}" as="r" hint-placeholder-count="7">
+                <div style="display:grid;grid-template-columns:34px repeat(6,minmax(0,1fr));gap:4px;align-items:center">
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.06em;text-transform:uppercase;color:var(--fnt)">{{ r.dia }}</span>
+                  <sc-for list="{{ r.cells }}" as="c" hint-placeholder-count="6">
+                    <span style="height:20px;border-radius:3px;background:var(--ac);opacity:{{ c.o }}"></span>
+                  </sc-for>
+                </div>
+              </sc-for>
+            </div>
+            <div style="display:flex;align-items:center;gap:7px;padding-top:2px">
+              <span style="font:400 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">menos</span>
+              <sc-for list="{{ heat.escala }}" as="s" hint-placeholder-count="5">
+                <span style="width:16px;height:7px;border-radius:2px;background:var(--ac);opacity:{{ s }}"></span>
+              </sc-for>
+              <span style="font:400 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">más</span>
+            </div>
+          </div>
+          <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0">
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Motivos de pérdida</span>
+            <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+              <div style="position:relative;width:124px;height:124px;flex:none">
+                <svg viewBox="0 0 42 42" style="width:124px;height:124px;display:block">
+                  <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--bar)" stroke-width="4.4"></circle>
+                  <sc-for list="{{ donutPerdidas.segs }}" as="s" hint-placeholder-count="5">
+                    <circle cx="21" cy="21" r="15.9155" fill="none" stroke="var(--hot)" stroke-opacity="{{ s.op }}" stroke-width="4.4" stroke-dasharray="{{ s.dash }}" stroke-dashoffset="{{ s.offset }}" transform="rotate(-90 21 21)"></circle>
+                  </sc-for>
+                </svg>
+                <div style="position:absolute;left:0;top:0;right:0;bottom:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px">
+                  <span style="font:600 22px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">277</span>
+                  <span style="font:400 8px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">perdidos</span>
+                </div>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:8px;flex:1 1 150px;min-width:0">
+                <sc-for list="{{ donutPerdidas.segs }}" as="s" hint-placeholder-count="5">
+                  <div style="display:flex;align-items:center;gap:9px;min-width:0">
+                    <span style="width:9px;height:9px;border-radius:2px;background:var(--hot);opacity:{{ s.op }};flex:none"></span>
+                    <span style="font:400 12px/1.3 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);flex:1 1 auto;min-width:0">{{ s.label }}</span>
+                    <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);flex:none">{{ s.pct }}</span>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+          <div style="background:var(--sf);border:1px solid var(--ln);border-radius:10px;box-shadow:var(--shadow);padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0">
+            <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Rotación de stock por tipo</span>
+            <div style="display:flex;flex-direction:column;gap:15px">
+              <sc-for list="{{ rotacion }}" as="p" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:130px 1fr 66px;align-items:center;gap:16px">
+                  <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ p.k }}</span>
+                  <div style="height:7px;background:var(--bar)"><div style="height:100%;width:{{ p.pct }};background:var(--ac)"></div></div>
+                  <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);text-align:right">{{ p.dias }} días</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsAgenteM }}">
+      <div style="display:flex;flex-direction:column;gap:44px;max-width:1450px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:0;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)">
+          <sc-for list="{{ kpisAgente }}" as="k" hint-placeholder-count="5">
+            <div style="display:flex;flex-direction:column;gap:12px;padding:22px 24px;border-left:1px solid var(--ln2)">
+              <span style="font:400 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">{{ k.label }}</span>
+              <span style="font:400 26px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.02em;color:var(--ink);white-space:nowrap">{{ k.valor }}</span>
+              <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ k.color }}">{{ k.delta }}</span>
+            </div>
+          </sc-for>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:24px;max-width:900px">
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Tasa de cierre según score al derivar</span>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;align-items:end;height:190px;border-bottom:1px solid var(--ln)">
+            <sc-for list="{{ cierrePorScore }}" as="b" hint-placeholder-count="5">
+              <div style="display:flex;flex-direction:column;justify-content:flex-end;align-items:center;gap:10px;height:100%">
+                <span style="font:400 14px/1 'Source Serif 4',Georgia,serif;color:var(--ink)">{{ b.pct }}</span>
+                <div style="width:100%;height:{{ b.h }};background:{{ b.color }}"></div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px">
+            <sc-for list="{{ cierrePorScore }}" as="b" hint-placeholder-count="5">
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;color:var(--fnt);text-align:center">{{ b.rango }}</span>
+            </sc-for>
+          </div>
+          <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">El salto entre 60-79 y 80-89 es lo que justifica el umbral de derivación en {{ umbral }}.</span>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- EQUIPO -->
+    <sc-if value="{{ esEquipo }}">
+    <div style="display:flex;flex-direction:column;gap:30px">
+      <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap;border-bottom:1px solid var(--ln)">
+        <button onClick="{{ subVendedores }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Vendedores
+          <sc-if value="{{ subEsVendedores }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subRR }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">Reparto de leads
+          <sc-if value="{{ subEsRR }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+        <button onClick="{{ subTTR }}" style="border:0;background:transparent;padding:0 0 12px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);cursor:pointer;position:relative">TTR y SLA
+          <sc-if value="{{ subEsTTR }}"><span style="position:absolute;left:0;right:0;bottom:-1px;height:1px;background:var(--ink)"></span></sc-if>
+        </button>
+      </div>
+      <sc-if value="{{ subEsVendedores }}" hint-placeholder-val="{{ true }}">
+      <div style="display:flex;flex-direction:column;max-width:1400px;min-width:1020px">
+      <div style="display:grid;grid-template-columns:1.3fr 1.1fr .6fr .6fr .6fr .8fr 1fr;gap:20px;padding:0 4px 12px;border-bottom:1px solid var(--ln)">
+        <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Vendedor</span>
+        <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Especialidad</span>
+        <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Asignados</span>
+        <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Cierres</span>
+        <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Cierre %</span>
+        <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">1ª respuesta</span>
+        <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Carga actual</span>
+      </div>
+      <sc-for list="{{ equipo }}" as="v" hint-placeholder-count="6">
+        <div style="display:grid;grid-template-columns:1.3fr 1.1fr .6fr .6fr .6fr .8fr 1fr;gap:20px;padding:16px 4px;border-bottom:1px solid var(--ln2);align-items:center" style-hover="background:var(--sf2)">
+          <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ v.nombre }}</span>
+          <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ v.especialidad }}</span>
+          <span style="font:400 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2)">{{ v.asignados }}</span>
+          <span style="font:400 13px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2)">{{ v.cierres }}</span>
+          <span style="font:400 15px/1 'Source Serif 4',Georgia,serif;color:{{ v.tasaColor }}">{{ v.tasa }}</span>
+          <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)">{{ v.respuesta }}</span>
+          <div style="display:flex;align-items:center;gap:12px">
+            <div style="flex:1;height:3px;background:var(--bar)"><div style="height:100%;width:{{ v.cargaPct }};background:{{ v.cargaColor }}"></div></div>
+            <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut)">{{ v.cargaPct }}</span>
+          </div>
+        </div>
+      </sc-for>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsRR }}">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(560px,1fr));gap:48px 56px;align-items:start;max-width:1240px">
+        <div style="display:flex;flex-direction:column;gap:30px">
+          <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px">
+            <div style="display:flex;flex-direction:column;gap:7px">
+              <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Ronda de reparto</span>
+              <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Todo lead con score ≥ {{ umbral }} se reparte parejo entre los vendedores hábiles. Con score ≥ 95 salta la ronda y va al de mejor cierre.</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:12px;flex-wrap:wrap">
+            <button onClick="{{ rr.asignar }}" style="border:0;background:var(--btn);color:var(--btnink);border-radius:6px;padding:12px 18px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Asignar 1 lead</button>
+            <button onClick="{{ rr.asignarLote }}" style="border:1px solid var(--ln);background:transparent;color:var(--ink);border-radius:6px;padding:12px 18px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Repartir 10 leads</button>
+            <button onClick="{{ rr.asignarTop }}" style="border:1px solid var(--hot);background:transparent;color:var(--hot);border-radius:6px;padding:12px 18px;font:500 12px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">Lead excepcional ≥ 95</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;padding:16px 0;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)">
+            <span style="font:400 12px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ rr.balance }}</span>
+            <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Los excepcionales van a {{ rr.excepcional }}</span>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln)">
+            <div style="display:grid;grid-template-columns:26px 1.25fr 1fr .55fr 1fr .75fr;gap:16px;padding:12px 4px;border-bottom:1px solid var(--ln2)">
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">#</span>
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Vendedor</span>
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Especialidad</span>
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Cierre</span>
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Hoy / tope</span>
+              <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Estado</span>
+            </div>
+            <sc-for list="{{ rr.orden }}" as="v" hint-placeholder-count="6">
+              <div style="display:grid;grid-template-columns:26px 1.25fr 1fr .55fr 1fr .75fr;gap:16px;padding:15px 4px;border-bottom:1px solid var(--ln2);align-items:center;background:{{ v.fondo }}">
+                <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ v.nColor }}">{{ v.n }}</span>
+                <span style="display:flex;flex-direction:column;gap:4px">
+                  <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ v.nombre }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ v.marcaColor }}">{{ v.marca }}</span>
+                </span>
+                <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ v.esp }}</span>
+                <span style="font:400 14px/1 'Source Serif 4',Georgia,serif;color:{{ v.tasaColor }}">{{ v.tasa }}</span>
+                <span style="display:flex;align-items:center;gap:11px">
+                  <span style="flex:1;height:3px;background:var(--bar)"><span style="display:block;height:100%;width:{{ v.cargaPct }};background:{{ v.cargaColor }}"></span></span>
+                  <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);white-space:nowrap">{{ v.hoy }} / {{ v.tope }}</span>
+                </span>
+                <button onClick="{{ v.toggle }}" style="justify-self:start;border:0;border-bottom:1px solid {{ v.dispBorde }};background:transparent;color:{{ v.dispColor }};padding:0 0 4px;font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;cursor:pointer">{{ v.disp }}</button>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:40px">
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Criterio de reparto</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ rr.modos }}" as="m" hint-placeholder-count="4">
+                <button onClick="{{ m.set }}" style="display:flex;align-items:flex-start;gap:13px;text-align:left;border:0;border-bottom:1px solid var(--ln2);background:transparent;padding:14px 2px;cursor:pointer;width:100%" style-hover="background:var(--sf2)">
+                  <span style="width:14px;height:14px;border-radius:999px;border:1px solid {{ m.marcaBorde }};background:{{ m.marcaFondo }};flex:none;margin-top:2px"></span>
+                  <span style="display:flex;flex-direction:column;gap:4px">
+                    <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:{{ m.texto }}">{{ m.label }}</span>
+                    <span style="font:400 11px/1.5 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ m.desc }}</span>
+                  </span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:14px">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Reglas de la ronda</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ rr.reglas }}" as="r" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 0;border-bottom:1px solid var(--ln2)">
+                  <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ r.k }}</span>
+                  <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink);white-space:nowrap">{{ r.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ subEsTTR }}">
+      <div style="display:flex;flex-direction:column;gap:48px;max-width:1420px;min-width:1000px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(168px,1fr));gap:0;border-top:1px solid var(--ln);border-bottom:1px solid var(--ln)">
+          <sc-for list="{{ ttrKpis }}" as="k" hint-placeholder-count="5">
+            <div style="display:flex;flex-direction:column;gap:12px;padding:22px 24px;border-left:1px solid var(--ln2)">
+              <span style="font:400 10px/1.2 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">{{ k.label }}</span>
+              <span style="font:400 26px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.02em;color:var(--ink);white-space:nowrap">{{ k.valor }}</span>
+              <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ k.color }}">{{ k.delta }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <div style="display:flex;flex-direction:column;gap:20px">
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Con el reloj corriendo</span>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln)">
+            <sc-for list="{{ ttrRiesgo }}" as="r" hint-placeholder-count="4">
+              <div style="display:grid;grid-template-columns:1.2fr 1fr .8fr 1.2fr auto;gap:20px;padding:15px 4px;border-bottom:1px solid var(--ln2);align-items:center">
+                <span style="display:flex;flex-direction:column;gap:4px">
+                  <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ r.cliente }}</span>
+                  <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--fnt)">{{ r.origen }}</span>
+                </span>
+                <span style="font:400 12px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">{{ r.vendedor }}</span>
+                <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:{{ r.color }}">{{ r.prio }}</span>
+                <span style="display:flex;align-items:center;gap:12px">
+                  <span style="flex:1;height:3px;background:var(--bar)"><span style="display:block;height:100%;width:{{ r.pct }};background:{{ r.color }}"></span></span>
+                  <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ r.color }};white-space:nowrap">{{ r.restante }}</span>
+                </span>
+                <button onClick="{{ r.reasignar }}" style="border:0;border-bottom:1px solid var(--ln);background:transparent;color:var(--ink);padding:0 0 4px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer;justify-self:end">Reasignar</button>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:56px;align-items:start">
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">TTR por vendedor</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln)">
+              <div style="display:grid;grid-template-columns:1.2fr .8fr .8fr 1fr .6fr;gap:18px;padding:12px 4px;border-bottom:1px solid var(--ln2)">
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Vendedor</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">1º contacto</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Respuesta</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Dentro de SLA</span>
+                <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Vencidos</span>
+              </div>
+              <sc-for list="{{ ttrVendedores }}" as="v" hint-placeholder-count="6">
+                <div style="display:grid;grid-template-columns:1.2fr .8fr .8fr 1fr .6fr;gap:18px;padding:15px 4px;border-bottom:1px solid var(--ln2);align-items:center">
+                  <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ v.nombre }}</span>
+                  <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:{{ v.pcColor }}">{{ v.primer }}</span>
+                  <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2)">{{ v.respuesta }}</span>
+                  <span style="display:flex;align-items:center;gap:11px">
+                    <span style="flex:1;height:3px;background:var(--bar)"><span style="display:block;height:100%;width:{{ v.slaPct }};background:{{ v.slaColor }}"></span></span>
+                    <span style="font:400 11px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--mut);white-space:nowrap">{{ v.slaPct }}</span>
+                  </span>
+                  <span style="font:400 13px/1 'Source Serif 4',Georgia,serif;color:{{ v.vencColor }}">{{ v.vencidos }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:20px">
+            <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Objetivos de SLA</span>
+            <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+              <sc-for list="{{ slaObjetivos }}" as="s" hint-placeholder-count="4">
+                <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--ln2)">
+                  <span style="display:flex;flex-direction:column;gap:4px">
+                    <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ s.k }}</span>
+                    <span style="font:400 11px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ s.desc }}</span>
+                  </span>
+                  <span style="font:400 15px/1 'Source Serif 4',Georgia,serif;color:var(--ink);white-space:nowrap">{{ s.v }}</span>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+    </div>
+    </sc-if>
+
+    <!-- AJUSTES -->
+    <sc-if value="{{ esAjustes }}">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;max-width:1050px">
+      <div style="display:flex;flex-direction:column;gap:34px">
+        <div style="display:flex;flex-direction:column;gap:7px">
+          <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Identidad de la empresa</span>
+          <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Lo que cambies acá se refleja en toda la aplicación.</span>
+        </div>
+        <label style="display:flex;flex-direction:column;gap:9px">
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">Nombre de la empresa</span>
+          <input value="{{ empresa }}" onChange="{{ setEmpresa }}" style="border:0;border-bottom:1px solid var(--ln);background:transparent;padding:9px 2px;font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink);outline:0" />
+        </label>
+        <div style="display:flex;flex-direction:column;gap:14px">
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">Tipos de vehículo que comercializa</span>
+          <div style="display:flex;gap:20px;flex-wrap:wrap">
+            <sc-for list="{{ tiposToggle }}" as="t" hint-placeholder-count="8">
+              <button onClick="{{ t.toggle }}" style="border:0;border-bottom:1px solid {{ t.borde }};background:transparent;color:{{ t.texto }};padding:0 0 5px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">{{ t.label }}</button>
+            </sc-for>
+          </div>
+          <span style="font:400 11px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--fnt)">Los tipos activos filtran el inventario, las métricas por tipo y la especialidad de los vendedores.</span>
+        </div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:40px">
+        <div style="display:flex;flex-direction:column;gap:18px">
+          <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Operación</span>
+          <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
+            <sc-for list="{{ opsConf }}" as="o" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;border-bottom:1px solid var(--ln2)">
+                <span style="display:flex;flex-direction:column;gap:4px">
+                  <span style="font:500 13px/1.2 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink)">{{ o.k }}</span>
+                  <span style="font:400 11px/1.4 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">{{ o.desc }}</span>
+                </span>
+                <span style="font:400 12px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ink2);flex:none">{{ o.v }}</span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        <div style="display:flex;flex-direction:column;gap:10px;padding-top:22px;border-top:1px solid var(--ln)">
+          <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.13em;text-transform:uppercase;color:var(--fnt)">Alcance del MVP</span>
+          <span style="font:400 12px/1.7 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);text-wrap:pretty">Los datos son de demostración. Falta definir: integración real de canales, motor de financiación, firma de documentación y permisos por rol.</span>
+        </div>
+      </div>
+    </div>
+    </sc-if>
+
+  </main>
+  </div>
+
+  <sc-if value="{{ hayToast }}">
+    <div style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);background:var(--btn);color:var(--btnink);border-radius:8px;padding:13px 20px;font:500 13px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;z-index:50">{{ toast }}</div>
+  </sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;companyName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;ByS Automotores&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Marca&quot;},&quot;vehicleTypes&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Autos, Motos, Camionetas, SUV, Camiones, Agro, Utilitarios&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Marca&quot;},&quot;umbralDerivacion&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:80,&quot;min&quot;:50,&quot;max&quot;:100,&quot;step&quot;:5,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Agente IA&quot;},&quot;mostrarChatCompleto&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Agente IA&quot;},&quot;densidad&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;compacta&quot;,&quot;media&quot;,&quot;espaciada&quot;],&quot;default&quot;:&quot;compacta&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Interfaz&quot;}}">
+class Component extends DCLogic {
+  constructor(p) {
+    super(p);
+    this.state = {
+      tab: 'panel', sub: {}, leadId: 'l1', filtro: 'todos', tipoFiltro: 'Todos',
+      empresa: null, tipos: null, umbral: null, pesos: null, acciones: null,
+      leads: null, ops: null, toast: null, tema: 'claro', menu: false
+    };
+    this.TIPOS_BASE = ['Autos', 'Motos', 'Camionetas', 'SUV', 'Camiones', 'Agro', 'Utilitarios', 'Náutica'];
+    this.LEADS = [
+      { id: 'l1', nombre: 'Rodrigo Paz', tel: '+54 9 341 55-2018', canal: 'WhatsApp', zona: 'Rosario', tipo: 'Camionetas', vehiculo: 'Pick-up doble cabina 4x4', score: 92, estado: 'listo', hora: '11:42', ultimo: 'Tengo la plata lista, quiero verla mañana temprano.',
+        senales: [['Presupuesto', 95], ['Forma de pago', 90], ['Plazo de compra', 96], ['Unidad concreta', 92], ['Datos de contacto', 100], ['Interacción', 82]],
+        datos: [['Presupuesto', '$ 38.000.000 tope', 1], ['Forma de pago', 'Contado + permuta', 1], ['Plazo', 'Esta semana', 1], ['Unidad', 'Pick-up 4x4 2023', 1], ['Permuta', 'Sedán 2018 · 90.000 km', 1], ['Localidad', 'Rosario centro', 1]],
+        vendedor: 'Diego Fuentes', razon: 'Especialista en camionetas y con la menor carga activa del turno mañana.',
+        chat: [['ia', 'Hola Rodrigo, soy el asistente de ventas. ¿Qué unidad estás buscando?', '11:18'], ['cli', 'Una doble cabina 4x4, si puede ser 2022 o más nueva', '11:21'], ['ia', 'Perfecto. ¿Tenés un presupuesto en mente y pensás entregar algo en parte de pago?', '11:23'], ['cli', 'Hasta 38 palos. Entrego un sedán 2018 con 90 mil km', '11:29'], ['ia', '¿En qué plazo te gustaría cerrar la operación?', '11:31'], ['cli', 'Tengo la plata lista, quiero verla mañana temprano.', '11:42']] },
+      { id: 'l2', nombre: 'Cooperativa La Alborada', tel: '+54 9 3462 41-7730', canal: 'Email', zona: 'Venado Tuerto', tipo: 'Agro', vehiculo: 'Tractor 180 HP + pulverizadora', score: 88, estado: 'listo', hora: '10:05', ultimo: 'Necesitamos factura A y entrega antes de la campaña.',
+        senales: [['Presupuesto', 92], ['Forma de pago', 78], ['Plazo de compra', 90], ['Unidad concreta', 95], ['Datos de contacto', 100], ['Interacción', 70]],
+        datos: [['Presupuesto', '$ 240.000.000 aprox.', 1], ['Forma de pago', 'Leasing a definir', 0], ['Plazo', 'Antes de septiembre', 1], ['Unidad', 'Tractor 180 HP', 1], ['Permuta', 'No', 1], ['Localidad', 'Venado Tuerto', 1]],
+        vendedor: 'Sofía Ledesma', razon: 'Cartera agro y experiencia en operaciones con factura A y leasing.',
+        chat: [['ia', 'Buen día. ¿Qué maquinaria están evaluando?', '09:12'], ['cli', 'Un tractor de 180 HP y una pulverizadora autopropulsada', '09:31'], ['ia', '¿Manejan una fecha objetivo para tenerlas operativas?', '09:36'], ['cli', 'Necesitamos factura A y entrega antes de la campaña.', '10:05']] },
+      { id: 'l3', nombre: 'Valeria Ocampo', tel: '+54 9 11 6620-4471', canal: 'Instagram', zona: 'CABA', tipo: 'SUV', vehiculo: 'SUV compacta automática', score: 84, estado: 'listo', hora: '09:48', ultimo: '¿Cuánto quedaría de cuota si entrego 15 millones?',
+        senales: [['Presupuesto', 86], ['Forma de pago', 80], ['Plazo de compra', 82], ['Unidad concreta', 88], ['Datos de contacto', 95], ['Interacción', 74]],
+        datos: [['Presupuesto', '$ 29.000.000', 1], ['Forma de pago', 'Anticipo + crédito', 1], ['Plazo', '2 a 3 semanas', 1], ['Unidad', 'SUV compacta AT', 1], ['Permuta', 'No', 1], ['Localidad', 'CABA', 1]],
+        vendedor: 'Nahuel Ferrer', razon: 'Mejor tasa de cierre en operaciones con crédito prendario.',
+        chat: [['ia', 'Hola Valeria, contame qué estás buscando.', '09:10'], ['cli', 'Una SUV chica automática, para ciudad', '09:14'], ['ia', '¿Pensás pagarla de contado o con financiación?', '09:20'], ['cli', '¿Cuánto quedaría de cuota si entrego 15 millones?', '09:48']] },
+      { id: 'l4', nombre: 'Transporte Bermúdez SRL', tel: '+54 9 351 44-9082', canal: 'Portal', zona: 'Córdoba', tipo: 'Camiones', vehiculo: 'Camión chasis 4x2 con caja', score: 71, estado: 'calificando', hora: '09:12', ultimo: 'Estamos comparando con otra concesionaria todavía.',
+        senales: [['Presupuesto', 74], ['Forma de pago', 60], ['Plazo de compra', 55], ['Unidad concreta', 88], ['Datos de contacto', 90], ['Interacción', 62]],
+        datos: [['Presupuesto', '$ 95.000.000 estimado', 1], ['Forma de pago', 'Sin definir', 0], ['Plazo', 'Sin definir', 0], ['Unidad', 'Chasis 4x2', 1], ['Permuta', 'Posible camión 2015', 1], ['Localidad', 'Córdoba', 1]],
+        vendedor: 'Diego Fuentes', razon: 'Cartera de flotas corporativas.',
+        chat: [['ia', 'Buen día, ¿para qué tipo de carga necesitan el camión?', '08:40'], ['cli', 'Distribución urbana, hasta 8 toneladas', '08:52'], ['ia', '¿Tienen definida la forma de pago?', '08:58'], ['cli', 'Estamos comparando con otra concesionaria todavía.', '09:12']] },
+      { id: 'l5', nombre: 'Matías Sánchez', tel: '+54 9 261 33-5514', canal: 'Web', zona: 'Mendoza', tipo: 'Motos', vehiculo: 'Moto naked 300cc', score: 64, estado: 'calificando', hora: '08:55', ultimo: 'Por ahora estoy mirando precios nada más.',
+        senales: [['Presupuesto', 62], ['Forma de pago', 50], ['Plazo de compra', 40], ['Unidad concreta', 80], ['Datos de contacto', 85], ['Interacción', 68]],
+        datos: [['Presupuesto', '$ 6.500.000 aprox.', 1], ['Forma de pago', 'Sin definir', 0], ['Plazo', 'Sin apuro', 0], ['Unidad', 'Naked 300cc', 1], ['Permuta', 'No', 1], ['Localidad', 'Mendoza', 1]],
+        vendedor: 'Camila Roldán', razon: 'Responsable del segmento motos.',
+        chat: [['ia', 'Hola Matías, ¿buscás una moto en particular?', '08:31'], ['cli', 'Una naked 300, quiero saber precios', '08:38'], ['ia', '¿Para cuándo la estarías necesitando?', '08:44'], ['cli', 'Por ahora estoy mirando precios nada más.', '08:55']] },
+      { id: 'l6', nombre: 'Lorena Giménez', tel: '+54 9 223 47-1160', canal: 'WhatsApp', zona: 'Mar del Plata', tipo: 'Autos', vehiculo: 'Hatchback usado 2019', score: 58, estado: 'calificando', hora: 'ayer', ultimo: 'Todavía no sé si me conviene vender el mío.',
+        senales: [['Presupuesto', 55], ['Forma de pago', 45], ['Plazo de compra', 38], ['Unidad concreta', 70], ['Datos de contacto', 90], ['Interacción', 55]],
+        datos: [['Presupuesto', 'Sin definir', 0], ['Forma de pago', 'Sin definir', 0], ['Plazo', 'Sin definir', 0], ['Unidad', 'Hatchback 2019', 1], ['Permuta', 'Evaluando', 0], ['Localidad', 'Mar del Plata', 1]],
+        vendedor: 'Camila Roldán', razon: 'Turno tarde disponible.',
+        chat: [['ia', 'Hola Lorena, ¿en qué te puedo ayudar?', 'ayer'], ['cli', 'Quiero cambiar mi auto por uno más nuevo', 'ayer'], ['ia', '¿Ya tenés una tasación de tu unidad actual?', 'ayer'], ['cli', 'Todavía no sé si me conviene vender el mío.', 'ayer']] },
+      { id: 'l7', nombre: 'Ignacio Vera', tel: '+54 9 381 52-3307', canal: 'Presencial', zona: 'Tucumán', tipo: 'Utilitarios', vehiculo: 'Furgón para reparto', score: 81, estado: 'derivado', hora: 'ayer', ultimo: 'Derivado a Nahuel Ferrer · reunión hoy 17:00',
+        senales: [['Presupuesto', 84], ['Forma de pago', 82], ['Plazo de compra', 80], ['Unidad concreta', 85], ['Datos de contacto', 95], ['Interacción', 72]],
+        datos: [['Presupuesto', '$ 21.000.000', 1], ['Forma de pago', 'Contado', 1], ['Plazo', '10 días', 1], ['Unidad', 'Furgón mediano', 1], ['Permuta', 'No', 1], ['Localidad', 'Tucumán', 1]],
+        vendedor: 'Nahuel Ferrer', razon: 'Ya asignado, reunión agendada.',
+        chat: [['ia', '¿Qué capacidad de carga necesitás?', 'ayer'], ['cli', 'Un furgón mediano, para reparto de bebidas', 'ayer'], ['ia', 'Perfecto, te derivo con un asesor para ver disponibilidad.', 'ayer']] },
+      { id: 'l8', nombre: 'Estancia El Ombú', tel: '+54 9 2954 60-2233', canal: 'Portal', zona: 'Santa Rosa', tipo: 'Agro', vehiculo: 'Cosechadora usada', score: 46, estado: 'calificando', hora: 'ayer', ultimo: 'Consultamos por curiosidad, no compramos este año.',
+        senales: [['Presupuesto', 40], ['Forma de pago', 30], ['Plazo de compra', 22], ['Unidad concreta', 65], ['Datos de contacto', 80], ['Interacción', 45]],
+        datos: [['Presupuesto', 'Sin definir', 0], ['Forma de pago', 'Sin definir', 0], ['Plazo', 'Próximo ejercicio', 0], ['Unidad', 'Cosechadora usada', 1], ['Permuta', 'No', 1], ['Localidad', 'Santa Rosa', 1]],
+        vendedor: 'Sofía Ledesma', razon: 'Seguimiento a largo plazo.',
+        chat: [['ia', 'Buen día, ¿qué maquinaria están buscando?', 'ayer'], ['cli', 'Una cosechadora usada, para ver precios', 'ayer'], ['ia', '¿Tienen fecha estimada de compra?', 'ayer'], ['cli', 'Consultamos por curiosidad, no compramos este año.', 'ayer']] }
+    ];
+    this.UNIDADES = [
+      ['Pick-up 4x4 doble cabina', 'Camionetas', 2023, '42.000 km', 37200000, 'Disponible', 24, 6],
+      ['SUV compacta automática', 'SUV', 2022, '58.000 km', 28900000, 'Reservada', 41, 4],
+      ['Hatchback full', 'Autos', 2021, '71.000 km', 19400000, 'Disponible', 63, 3],
+      ['Naked 300cc', 'Motos', 2024, '3.100 km', 6300000, 'Disponible', 12, 9],
+      ['Scooter 150cc', 'Motos', 2023, '9.800 km', 3850000, 'Disponible', 37, 2],
+      ['Camión chasis 4x2', 'Camiones', 2019, '310.000 km', 94500000, 'En preparación', 78, 1],
+      ['Tractor 180 HP', 'Agro', 2020, '2.400 h', 176000000, 'Disponible', 52, 3],
+      ['Pulverizadora autopropulsada', 'Agro', 2018, '4.900 h', 132000000, 'Disponible', 96, 1],
+      ['Furgón mediano', 'Utilitarios', 2022, '86.000 km', 21100000, 'Reservada', 29, 5],
+      ['Sedán mediano', 'Autos', 2020, '95.000 km', 16800000, 'Disponible', 84, 2],
+      ['Pick-up cabina simple', 'Camionetas', 2021, '118.000 km', 24700000, 'Disponible', 47, 4],
+      ['SUV 7 plazas', 'SUV', 2023, '31.000 km', 46500000, 'Disponible', 18, 7]
+    ];
+    this.DET = {
+      'Pick-up 4x4 doble cabina': ['Salón Centro', 'Listo para vender', 30800000, [['12 ago', 'Service completo y correa de distribución', 'Taller propio', 420000], ['14 ago', 'Lavado y detailing interior', 'Lavadero ByS', 95000], ['15 ago', 'Juego de cubiertas', 'Neumáticos Sur', 780000]]],
+      'SUV compacta automática': ['Salón Centro', 'Listo para vender', 24100000, [['08 ago', 'Cambio de aceite y filtros', 'Taller propio', 185000], ['09 ago', 'Pulido y lavado', 'Lavadero ByS', 110000]]],
+      'Hatchback full': ['Chapa y pintura (externo)', 'En taller', 15900000, [['05 ago', 'Reparación de paragolpes trasero', 'Chapería Gómez', 340000], ['11 ago', 'Pintura de puerta lateral', 'Chapería Gómez', 260000]]],
+      'Naked 300cc': ['Salón Centro', 'Listo para vender', 5450000, [['18 ago', 'Lavado y encerado', 'Lavadero ByS', 42000]]],
+      'Scooter 150cc': ['Sucursal Norte', 'Listo para vender', 3250000, []],
+      'Camión chasis 4x2': ['Taller propio', 'Esperando repuesto', 79000000, [['02 ago', 'Diagnóstico de caja', 'Taller propio', 260000], ['06 ago', 'Repuesto de embrague (pedido)', 'Repuestos Litoral', 1850000], ['19 ago', 'Mano de obra embrague', 'Taller propio', 940000]]],
+      'Tractor 180 HP': ['Sucursal Norte', 'Listo para vender', 149000000, [['01 ago', 'Service de 2.400 horas', 'Servicio Agro SA', 2100000], ['03 ago', 'Hidrolavado de chasis', 'Lavadero ByS', 180000]]],
+      'Pulverizadora autopropulsada': ['Sucursal Norte', 'En preparación', 112000000, [['07 ago', 'Calibración de picos', 'Servicio Agro SA', 860000], ['16 ago', 'Cambio de mangueras', 'Repuestos Litoral', 640000]]],
+      'Furgón mediano': ['Lavadero', 'En lavado', 17800000, [['20 ago', 'Detailing completo', 'Lavadero ByS', 130000]]],
+      'Sedán mediano': ['Salón Centro', 'Listo para vender', 13900000, [['04 ago', 'Alineación y balanceo', 'Neumáticos Sur', 95000], ['04 ago', 'Lavado', 'Lavadero ByS', 38000]]],
+      'Pick-up cabina simple': ['Taller propio', 'En preparación', 20400000, [['13 ago', 'Cambio de amortiguadores', 'Taller propio', 520000], ['17 ago', 'Service básico', 'Taller propio', 210000]]],
+      'SUV 7 plazas': ['Salón Centro', 'Listo para vender', 39200000, [['10 ago', 'Service oficial', 'Concesionario oficial', 690000], ['10 ago', 'Lavado premium', 'Lavadero ByS', 120000]]]
+    };
+    this.CAJA_INICIAL = 42500000;
+    this.MOVS = [
+      ['01 ago', 'Service de 2.400 horas · Tractor 180 HP', 'Taller mecánico', 'Servicio Agro SA', -2100000],
+      ['02 ago', 'Seña de Silvia Duarte', 'Seña', 'Sedán mediano 2020', 3000000],
+      ['04 ago', 'Alineación y lavado · Sedán mediano', 'Lavado y detailing', 'Neumáticos Sur / Lavadero ByS', -133000],
+      ['05 ago', 'Compra de unidad usada', 'Compra de unidad', 'Hatchback full 2021', -15900000],
+      ['06 ago', 'Repuesto de embrague · Camión 4x2', 'Repuestos', 'Repuestos Litoral', -1850000],
+      ['07 ago', 'Venta de Sedán mediano', 'Venta de unidad', 'Silvia Duarte', 13800000],
+      ['09 ago', 'Pulido y lavado · SUV compacta', 'Lavado y detailing', 'Lavadero ByS', -110000],
+      ['11 ago', 'Chapa y pintura · Hatchback full', 'Chapa y pintura', 'Chapería Gómez', -600000],
+      ['12 ago', 'Alquiler y servicios del salón', 'Gastos fijos', 'Agosto', -2450000],
+      ['14 ago', 'Venta de Pulverizadora', 'Venta de unidad', 'Agro Del Sur', 132000000],
+      ['15 ago', 'Cubiertas · Pick-up 4x4', 'Repuestos', 'Neumáticos Sur', -780000],
+      ['17 ago', 'Comisiones de vendedores', 'Comisiones', 'Quincena 1', -3180000],
+      ['19 ago', 'Mano de obra embrague · Camión 4x2', 'Taller mecánico', 'Taller propio', -940000],
+      ['20 ago', 'Pauta en portales y redes', 'Publicidad', 'Agosto', -1150000],
+      ['22 ago', 'Compra de unidad usada', 'Compra de unidad', 'SUV 7 plazas 2023', -39200000],
+      ['25 ago', 'Seña de Hernán Cáceres', 'Seña', 'Pick-up cabina simple', 2500000]
+    ];
+    this.PIPE = [
+      ['Contacto', 'Rodrigo Paz|Pick-up 4x4 2023|37200000|Diego Fuentes|1|92', 'Valeria Ocampo|SUV compacta AT|28900000|Nahuel Ferrer|2|84', 'Matías Sánchez|Naked 300cc|6300000|Camila Roldán|3|64'],
+      ['Calificado', 'Coop. La Alborada|Tractor 180 HP|176000000|Sofía Ledesma|4|88', 'Ignacio Vera|Furgón mediano|21100000|Nahuel Ferrer|2|81'],
+      ['Test drive', 'Marcos Aliaga|SUV 7 plazas|46500000|Diego Fuentes|6|79', 'Julia Bertoni|Hatchback full|19400000|Camila Roldán|5|76'],
+      ['Negociación', 'Transporte Bermúdez|Camión chasis 4x2|94500000|Diego Fuentes|11|71', 'Hernán Cáceres|Pick-up cab. simple|24700000|Nahuel Ferrer|8|83'],
+      ['Cerrado', 'Silvia Duarte|Sedán mediano|16800000|Camila Roldán|14|90', 'Agro Del Sur|Pulverizadora|132000000|Sofía Ledesma|21|94']
+    ];
+  }
+
+  componentWillUnmount() { if (this._onR) window.removeEventListener('resize', this._onR); }
+  componentDidMount() {
+    this._onR = () => {
+      const w = window.innerWidth;
+      if (Math.abs(w - (this.state.w || 0)) > 8) this.setState({ w: w });
+    };
+    window.addEventListener('resize', this._onR);
+    this._onR();
+    let t = 'claro';
+    try { t = localStorage.getItem('vg-tema') || 'claro'; } catch (e) {}
+    this.aplicarTema(t);
+  }
+  aplicarTema(t) {
+    try { document.documentElement.setAttribute('data-theme', t === 'oscuro' ? 'dark' : 'light'); } catch (e) {}
+    try { localStorage.setItem('vg-tema', t); } catch (e) {}
+    this.setState({ tema: t });
+  }
+
+  fmt(n) { return '$ ' + n.toLocaleString('es-AR'); }
+  cShort(n) { return '$ ' + (n / 1000000).toFixed(1).replace('.', ',') + ' M'; }
+  umbralVal() { return this.state.umbral ?? this.props.umbralDerivacion ?? 80; }
+  leadsVal() { return this.state.leads ?? this.LEADS; }
+  tiposVal() { return this.state.tipos ?? String(this.props.vehicleTypes ?? 'Autos, Motos, Camionetas, SUV, Camiones, Agro, Utilitarios').split(',').map(s => s.trim()).filter(Boolean); }
+  pesosVal() { return this.state.pesos ?? [['Presupuesto declarado', 20], ['Forma de pago', 18], ['Plazo de compra', 22], ['Unidad concreta', 15], ['Datos de contacto', 10], ['Nivel de interacción', 15]]; }
+  scoreColor(s) { return s >= this.umbralVal() ? 'var(--hot)' : s >= 60 ? 'var(--ink)' : 'var(--mut)'; }
+
+  toast(t) {
+    this.setState({ toast: t });
+    clearTimeout(this._tt);
+    this._tt = setTimeout(() => this.setState({ toast: null }), 2600);
+  }
+  go(tab) { this.setState({ tab: tab, menu: false }); }
+  setSub(tab, v) { this.setState(s => ({ sub: Object.assign({}, s.sub, { [tab]: v }) })); }
+  subOf(tab, def) { return this.state.sub[tab] ?? def; }
+
+  derivar() {
+    const id = this.state.leadId;
+    const leads = this.leadsVal().map(l => l.id === id ? Object.assign({}, l, { estado: 'derivado', ultimo: 'Derivado a ' + l.vendedor }) : l);
+    const l = leads.find(x => x.id === id);
+    this.setState({ leads });
+    this.toast(l.nombre + ' derivado a ' + l.vendedor);
+  }
+  move(cliente, dir) { this.toast(cliente + (dir > 0 ? ' avanzó de etapa' : ' volvió a la etapa anterior')); }
+
+  rrVal() {
+    return this.state.rr ?? {
+      modo: 'Reparto parejo entre todos', puntero: 0,
+      orden: [
+        ['Diego Fuentes', 'Camionetas · Camiones', true, 4, 8, 26],
+        ['Sofía Ledesma', 'Agro · Flotas', true, 4, 6, 29],
+        ['Nahuel Ferrer', 'SUV · Utilitarios', true, 4, 8, 28],
+        ['Camila Roldán', 'Motos · Autos', true, 4, 10, 27],
+        ['Bruno Iriarte', 'Autos usados', false, 3, 8, 19],
+        ['Paula Meder', 'Postventa · Atención', true, 3, 4, 11]
+      ]
+    };
+  }
+  rrHabiles(rr) { return rr.orden.map((v, i) => [v, i]).filter(x => x[0][2] && x[0][3] < x[0][4]); }
+  // reparto parejo: siempre el hábil con menos leads del día; empate lo resuelve el puntero
+  rrProximo(rr) {
+    const hab = this.rrHabiles(rr);
+    if (!hab.length) return -1;
+    const min = Math.min.apply(null, hab.map(x => x[0][3]));
+    const empatados = hab.filter(x => x[0][3] === min).map(x => x[1]);
+    const n = rr.orden.length;
+    for (let i = 0; i < n; i++) {
+      const idx = (rr.puntero + i) % n;
+      if (empatados.indexOf(idx) !== -1) return idx;
+    }
+    return empatados[0];
+  }
+  rrMejor(rr) {
+    const hab = this.rrHabiles(rr);
+    if (!hab.length) return -1;
+    return hab.slice().sort((a, b) => b[0][5] - a[0][5])[0][1];
+  }
+  rrSuma(rr, idx, puntero) {
+    const orden = rr.orden.map((v, j) => j === idx ? [v[0], v[1], v[2], v[3] + 1, v[4], v[5]] : v);
+    return { modo: rr.modo, puntero: puntero, orden };
+  }
+  rrAsignar() {
+    const rr = this.rrVal();
+    const idx = this.rrProximo(rr);
+    if (idx < 0) { this.toast('Nadie disponible en la ronda: todos con tope alcanzado'); return; }
+    const nuevo = this.rrSuma(rr, idx, (idx + 1) % rr.orden.length);
+    const sig = this.rrProximo(nuevo);
+    this.setState({ rr: nuevo });
+    this.toast('Lead asignado a ' + rr.orden[idx][0] + ' · ' + (nuevo.orden[idx][3]) + ' hoy' + (sig >= 0 ? ' · sigue ' + rr.orden[sig][0] : ''));
+  }
+  rrLote(cant) {
+    let rr = this.rrVal();
+    const dados = {};
+    for (let i = 0; i < cant; i++) {
+      const idx = this.rrProximo(rr);
+      if (idx < 0) break;
+      dados[rr.orden[idx][0]] = (dados[rr.orden[idx][0]] || 0) + 1;
+      rr = this.rrSuma(rr, idx, (idx + 1) % rr.orden.length);
+    }
+    this.setState({ rr });
+    const det = Object.keys(dados).map(k => k.split(' ')[0] + ' ' + dados[k]).join(' · ');
+    this.toast(cant + ' leads repartidos parejo — ' + (det || 'sin vendedores hábiles'));
+  }
+  rrAsignarTop() {
+    const rr = this.rrVal();
+    const idx = this.rrMejor(rr);
+    if (idx < 0) { this.toast('Nadie disponible para tomar el lead excepcional'); return; }
+    this.setState({ rr: this.rrSuma(rr, idx, rr.puntero) });
+    this.toast('Lead excepcional derivado a ' + rr.orden[idx][0] + ' · mejor cierre ' + rr.orden[idx][5] + '%');
+  }
+  rrToggle(i) {
+    const rr = this.rrVal();
+    const orden = rr.orden.map((v, j) => j === i ? [v[0], v[1], !v[2], v[3], v[4], v[5]] : v);
+    this.setState({ rr: { modo: rr.modo, puntero: rr.puntero, orden } });
+  }
+  tasVal() { return this.state.tas ?? { tipo: 'Autos', anio: 2021, km: 70000, estado: 'bueno' }; }
+  setTas(k, v) { this.setState({ tas: Object.assign({}, this.tasVal(), { [k]: v }) }); }
+
+  poly(vals, w, h, pad) {
+    const max = Math.max.apply(null, vals), min = Math.min.apply(null, vals);
+    const rng = (max - min) || 1, n = vals.length;
+    return vals.map((v, i) => [(i / (n - 1)) * w, h - pad - ((v - min) / rng) * (h - pad * 2)]);
+  }
+  linePath(pts) { return pts.map((p, i) => (i ? 'L' : 'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1)).join(' '); }
+  areaPath(pts, h) { return this.linePath(pts) + ' L' + pts[pts.length - 1][0].toFixed(1) + ' ' + h + ' L0 ' + h + ' Z'; }
+  donut(items) {
+    const total = items.reduce((a, b) => a + b[1], 0) || 1;
+    let acc = 0;
+    const segs = items.map((it, i) => {
+      const pct = it[1] / total * 100;
+      const s = { label: it[0], n: it[1], pct: Math.round(pct) + '%', dash: pct.toFixed(2) + ' ' + (100 - pct).toFixed(2), offset: (-acc).toFixed(2), op: Math.max(0.22, 1 - i * 0.15).toFixed(2) };
+      acc += pct;
+      return s;
+    });
+    return { total, segs };
+  }
+
+  renderVals() {
+    const umbral = this.umbralVal();
+    const leads = this.leadsVal();
+    const tipos = this.tiposVal();
+    const empresa = this.state.empresa ?? this.props.companyName ?? 'ByS Automotores';
+    const tab = this.state.tab;
+    const dens = this.props.densidad ?? 'compacta';
+    const sc = s => this.scoreColor(s);
+    const claro = this.state.tema !== 'oscuro';
+    const w = this.state.w || (typeof window !== 'undefined' && window.innerWidth ? window.innerWidth : 1440);
+    const mov = w < 760, med = w >= 760 && w < 1100;
+
+    const filtro = this.state.filtro;
+    const pasa = l => filtro === 'todos' ? true : filtro === 'calientes' ? l.score >= umbral && l.estado !== 'derivado' : filtro === 'calificando' ? l.estado === 'calificando' && l.score < umbral : l.estado === 'derivado';
+    const ordenados = leads.slice().sort((a, b) => b.score - a.score);
+    const nCal = leads.filter(l => l.score >= umbral && l.estado !== 'derivado').length;
+
+    const mkLead = l => {
+      const derivado = l.estado === 'derivado';
+      const caliente = !derivado && l.score >= umbral;
+      const activo = l.id === this.state.leadId;
+      return {
+        id: l.id, nombre: l.nombre, canal: l.canal, tipo: l.tipo, hora: l.hora, ultimo: l.ultimo,
+        vehiculo: l.vehiculo, score: l.score, scoreColor: sc(l.score),
+        estadoLabel: derivado ? 'derivado' : caliente ? 'derivar' : 'calificando',
+        estadoColor: derivado ? 'var(--ok)' : caliente ? 'var(--hot)' : 'var(--fnt)',
+        fondo: activo ? 'var(--sf)' : 'transparent',
+        borde: activo ? 'var(--ink)' : 'transparent',
+        abrir: () => this.setState({ tab: 'agente', leadId: l.id, menu: false })
+      };
+    };
+
+    const s = leads.find(l => l.id === this.state.leadId) || leads[0];
+    const yaDerivado = s.estado === 'derivado';
+    const sel = {
+      nombre: s.nombre, telefono: s.tel, canal: s.canal, zona: s.zona,
+      score: s.score, scorePct: s.score + '%', scoreColor: sc(s.score),
+      veredicto: s.score >= umbral ? (yaDerivado ? 'Ya fue derivado al vendedor.' : 'Listo para derivar: intención de compra confirmada.') : 'Sigue en calificación, faltan datos clave.',
+      btnLabel: yaDerivado ? 'Ver asignación' : s.score >= umbral ? 'Derivar ahora' : 'Derivar igual',
+      btnFondo: s.score >= umbral && !yaDerivado ? 'var(--hot)' : 'var(--btn)',
+      btnTexto: s.score >= umbral && !yaDerivado ? '#FFFFFF' : 'var(--btnink)',
+      vendedor: s.vendedor, razonVendedor: s.razon,
+      senales: s.senales.map(x => ({ k: x[0], v: x[1], pct: x[1] + '%', color: x[1] >= 80 ? 'var(--ink)' : x[1] >= 55 ? 'var(--ac)' : 'var(--fnt)' })),
+      datos: s.datos.map(d => ({ k: d[0], v: d[1], icono: d[2] ? '●' : '○', color: d[2] ? 'var(--ok)' : 'var(--fnt)' })),
+      chat: ((this.props.mostrarChatCompleto ?? true) ? s.chat : s.chat.slice(-2)).map(m => ({
+        texto_: m[1], hora: m[2], quien: m[0] === 'ia' ? 'agente IA' : s.nombre.split(' ')[0],
+        align: m[0] === 'ia' ? 'flex-start' : 'flex-end',
+        fondo: m[0] === 'ia' ? 'var(--sf)' : 'var(--btn)',
+        texto: m[0] === 'ia' ? 'var(--ink)' : 'var(--btnink)',
+        borde: m[0] === 'ia' ? 'var(--ln)' : 'var(--btn)'
+      }))
+    };
+
+    const mkFiltro = (id, label, n) => ({
+      label, n, set: () => this.setState({ filtro: id }),
+      borde: filtro === id ? 'var(--ink)' : 'transparent',
+      texto: filtro === id ? 'var(--ink)' : 'var(--mut)'
+    });
+
+    const pesos = this.pesosVal();
+    const totalPesos = pesos.reduce((a, b) => a + b[1], 0);
+    const accBase = this.state.acciones ?? [
+      ['Asignar al vendedor con menos carga del segmento', true],
+      ['Notificar por WhatsApp al vendedor asignado', true],
+      ['Crear oportunidad en el pipeline en etapa Calificado', true],
+      ['Avisar al supervisor si nadie responde en 15 min', false]
+    ];
+
+    const tf = this.state.tipoFiltro;
+    const unidades = this.UNIDADES.filter(u => tf === 'Todos' ? true : u[1] === tf);
+    const valorStock = unidades.reduce((a, u) => a + u[4], 0);
+    const pipeColors = ['var(--ln)', 'var(--ac)', 'var(--ac)', 'var(--hot)', 'var(--ok)'];
+
+    return {
+      empresa, tipos, tiposLinea: tipos.join(' · '),
+      inicial: (empresa || 'A').trim().charAt(0).toUpperCase() || 'A',
+      rootCols: mov ? 'minmax(0,1fr)' : (med ? '190px minmax(0,1fr)' : '230px minmax(0,1fr)'),
+      rootRows: mov ? 'auto minmax(0,1fr)' : 'minmax(0,1fr)',
+      asideDir: 'column',
+      asideAlign: 'stretch',
+      asideGap: '0px',
+      asidePad: '0px',
+      asideOvX: 'hidden',
+      asideBorder: mov ? '1px solid var(--navLine)' : '0px',
+      brandGap: med ? '9px' : '11px',
+      brandPad: mov ? '10px 12px' : (med ? '18px 12px 16px' : '18px 16px 16px'),
+      brandBorderR: '0px',
+      brandBorderB: mov ? '0px' : '1px solid var(--navLine)',
+      esMovil: mov,
+      menuLabel: this.state.menu ? 'Cerrar' : 'Secciones',
+      toggleMenu: () => this.setState(s => ({ menu: !s.menu })),
+      navVisible: !mov || !!this.state.menu,
+      drawerFlex: mov ? '0 0 auto' : '1 1 auto',
+      drawerBorder: mov ? '1px solid var(--navLine)' : '0px',
+      navMax: mov ? '62vh' : 'none',
+      navItemPad: mov ? '13px 12px' : '9px 11px',
+      tapMin: mov ? '44px' : '0px',
+      kpiCols: mov ? 'repeat(2,minmax(0,1fr))' : 'repeat(auto-fit,minmax(196px,1fr))',
+      logoW: (mov || med) ? '30px' : '40px',
+      logoH: (mov || med) ? '27px' : '36px',
+      navPad: mov ? '8px' : '12px 8px',
+      footDir: mov ? 'column' : 'column',
+      footAlign: 'stretch',
+      footGap: '12px',
+      footPad: mov ? '10px 12px 14px' : '14px 14px 16px',
+      footBorder: '1px solid var(--navLine)',
+      esAncho: !mov,
+      headPad: mov ? '12px 14px 11px' : '17px 24px 14px',
+      mainPad: mov ? '16px 14px 36px' : (med ? '20px 18px 40px' : '24px 24px 44px'),
+      gapGrande: mov ? '18px' : '28px',
+      bandejaCols: (mov || med) ? 'minmax(0,1fr)' : 'minmax(0,320px) minmax(0,1fr)',
+      listaMax: mov ? '360px' : 'calc(100vh - 300px)',
+      chatMax: mov ? '420px' : 'calc(100vh - 420px)',
+      subtituloMarca: tipos.length + ' tipos · 3 sucursales',
+      kicker: ({ caja: 'Ingresos y egresos', panel: 'Resumen operativo', agente: 'Atención automatizada', clientes: 'Gestión de personas', comercial: 'Oportunidades y cierres', inventario: 'Stock de unidades', metricas: 'Rendimiento', equipo: 'Vendedores y reparto', ajustes: 'Configuración' })[tab],
+      titulo: ({ caja: 'Caja', panel: 'Panel operativo', agente: 'Agente IA', clientes: 'Clientes', comercial: 'Comercial', inventario: 'Inventario', metricas: 'Métricas', equipo: 'Equipo', ajustes: 'Ajustes' })[tab],
+      trend: (() => {
+        const meses = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago'];
+        const leads = [212, 238, 255, 271, 289, 264, 301, 318];
+        const cierres = [28, 31, 26, 34, 39, 33, 36, 41];
+        const p1 = this.poly(leads, 320, 110, 10), p2 = this.poly(cierres, 320, 110, 10);
+        return { line: this.linePath(p1), area: this.areaPath(p1, 110), line2: this.linePath(p2), meses: meses.map((m, i) => ({ mes: m, n: leads[i] })) };
+      })(),
+      donutMix: this.donut([['Autos', 12], ['Motos', 10], ['Camionetas', 8], ['SUV', 5], ['Agro', 4], ['Camiones', 2]]),
+      donutPerdidas: this.donut([['Precio o financiación', 34], ['Compró en otra agencia', 26], ['Sin stock del modelo', 18], ['Tasación de permuta baja', 13], ['Dejó de responder', 9]]),
+      heat: (() => {
+        const cols = ['08–10', '10–12', '12–14', '14–16', '16–18', '18–20'];
+        const dias = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+        const M = [[6, 11, 9, 12, 14, 8], [7, 13, 10, 14, 16, 9], [8, 12, 11, 13, 15, 10], [9, 14, 12, 16, 18, 11], [11, 17, 14, 19, 22, 13], [14, 21, 18, 24, 28, 16], [4, 7, 6, 8, 9, 5]];
+        return {
+          cols, escala: ['0.14', '0.32', '0.52', '0.74', '1'], pico: 'Pico: sábado de 16 a 18',
+          rows: dias.map((d, i) => ({ dia: d, cells: M[i].map(v => ({ o: (0.10 + 0.90 * v / 28).toFixed(2) })) }))
+        };
+      })(),
+      umbral, umbralPct: umbral + '%', nCalientes: nCal,
+      rowPad: dens === 'compacta' ? '9px' : dens === 'espaciada' ? '17px' : '13px',
+      toast: this.state.toast, hayToast: !!this.state.toast,
+      modoClaro: () => this.aplicarTema('claro'), modoOscuro: () => this.aplicarTema('oscuro'),
+      claroFondo: claro ? 'var(--btn)' : 'transparent', claroTexto: claro ? 'var(--btnink)' : 'var(--mut)',
+      oscuroFondo: claro ? 'transparent' : 'var(--btn)', oscuroTexto: claro ? 'var(--mut)' : 'var(--btnink)',
+
+      esPanel: tab === 'panel', esAgente: tab === 'agente', esClientes: tab === 'clientes',
+      esComercial: tab === 'comercial', esInventario: tab === 'inventario', esMetricas: tab === 'metricas',
+      esEquipo: tab === 'equipo', esAjustes: tab === 'ajustes', esCaja: tab === 'caja',
+      goCaja: () => this.go('caja'),
+      subEsUnidades: this.subOf('inventario', 'unidades') === 'unidades',
+      subEsPrep: this.subOf('inventario', 'unidades') === 'prep',
+      subUnidades: () => this.setSub('inventario', 'unidades'),
+      subPrep: () => this.setSub('inventario', 'prep'),
+      subEsMovs: this.subOf('caja', 'movs') === 'movs',
+      subEsResumen: this.subOf('caja', 'movs') === 'resumen',
+      subMovs: () => this.setSub('caja', 'movs'),
+      subResumen: () => this.setSub('caja', 'resumen'),
+      goPanel: () => this.go('panel'), goAgente: () => this.go('agente'), goClientes: () => this.go('clientes'),
+      goComercial: () => this.go('comercial'), goInventario: () => this.go('inventario'),
+      goMetricas: () => this.go('metricas'), goEquipo: () => this.go('equipo'), goAjustes: () => this.go('ajustes'),
+      goAtencion: () => { this.go('clientes'); this.setSub('clientes', 'atencion'); },
+      esAncho2: !mov,
+
+      subEsBandeja: this.subOf('agente', 'bandeja') === 'bandeja',
+      subEsReglas: this.subOf('agente', 'bandeja') === 'reglas',
+      subEsGuion: this.subOf('agente', 'bandeja') === 'guion',
+      subBandeja: () => this.setSub('agente', 'bandeja'),
+      subReglas: () => this.setSub('agente', 'reglas'),
+      subGuion: () => this.setSub('agente', 'guion'),
+      subEsPersonas: this.subOf('clientes', 'personas') === 'personas',
+      subEsAtencion: this.subOf('clientes', 'personas') === 'atencion',
+      subPersonas: () => this.setSub('clientes', 'personas'),
+      subAtencion: () => this.setSub('clientes', 'atencion'),
+      subEsPipeline: this.subOf('comercial', 'pipeline') === 'pipeline',
+      subEsCotizaciones: this.subOf('comercial', 'pipeline') === 'cotizaciones',
+      subPipeline: () => this.setSub('comercial', 'pipeline'),
+      subCotizaciones: () => this.setSub('comercial', 'cotizaciones'),
+      subEsComercialM: this.subOf('metricas', 'comercial') === 'comercial',
+      subEsAgenteM: this.subOf('metricas', 'comercial') === 'agente',
+      subComercialM: () => this.setSub('metricas', 'comercial'),
+      subAgenteM: () => this.setSub('metricas', 'agente'),
+
+      kpis: [
+        { label: 'Leads del mes', valor: '318', delta: '+14% vs julio', color: 'var(--ok)' },
+        { label: 'Derivados por IA', valor: '96', delta: '30% del total', color: 'var(--mut)' },
+        { label: 'Tasa de cierre', valor: '23%', delta: '+5 pts', color: 'var(--ok)' },
+        { label: 'Unidades vendidas', valor: '41', delta: 'meta 45', color: 'var(--hot)' },
+        { label: 'Facturación', valor: '$ 1.284 M', delta: '+9% vs julio', color: 'var(--ok)' }
+      ],
+      embudo: [
+        { etapa: 'Consultas recibidas', n: 318, pct: '100%', color: 'var(--ln)' },
+        { etapa: 'Calificadas por IA', n: 241, pct: '76%', color: 'var(--mut)' },
+        { etapa: 'Derivadas (≥ ' + umbral + ')', n: 96, pct: '30%', color: 'var(--ac)' },
+        { etapa: 'Con visita o test drive', n: 68, pct: '21%', color: 'var(--hot)' },
+        { etapa: 'Cerradas', n: 41, pct: '13%', color: 'var(--ok)' }
+      ],
+      calientes: ordenados.filter(l => l.score >= umbral).slice(0, 4).map(mkLead),
+      canales: [
+        { nombre: 'WhatsApp', n: 142, pct: '100%' }, { nombre: 'Portales', n: 71, pct: '50%' },
+        { nombre: 'Web propia', n: 48, pct: '34%' }, { nombre: 'Instagram', n: 39, pct: '27%' },
+        { nombre: 'Presencial', n: 18, pct: '13%' }
+      ],
+      porTipo: [
+        { nombre: 'Autos', n: 12, pct: '100%' }, { nombre: 'Motos', n: 10, pct: '83%' },
+        { nombre: 'Camionetas', n: 8, pct: '67%' }, { nombre: 'SUV', n: 5, pct: '42%' },
+        { nombre: 'Agro', n: 4, pct: '33%' }, { nombre: 'Camiones', n: 2, pct: '17%' }
+      ],
+      atencionResumen: [
+        { label: 'Tickets abiertos', valor: '23', color: 'var(--ink)' },
+        { label: 'Fuera de SLA', valor: '4', color: 'var(--hot)' },
+        { label: 'Primera respuesta media', valor: '9 min', color: 'var(--ink)' },
+        { label: 'Satisfacción postventa', valor: '4,4 / 5', color: 'var(--ok)' }
+      ],
+
+      filtros: [
+        mkFiltro('todos', 'Todos', leads.length),
+        mkFiltro('calientes', '≥ ' + umbral, nCal),
+        mkFiltro('calificando', 'Calificando', leads.filter(l => l.estado === 'calificando' && l.score < umbral).length),
+        mkFiltro('derivados', 'Derivados', leads.filter(l => l.estado === 'derivado').length)
+      ],
+      listaLeads: ordenados.filter(pasa).map(mkLead),
+      sel, derivar: () => this.derivar(),
+
+      pesos: pesos.map((p, i) => ({
+        k: p[0], v: p[1],
+        set: e => { const v = parseInt(e.target.value, 10); this.setState({ pesos: pesos.map((x, j) => j === i ? [x[0], v] : x) }); }
+      })),
+      totalPesos, totalPesosColor: totalPesos === 100 ? 'var(--ok)' : 'var(--hot)',
+      setUmbral: e => this.setState({ umbral: parseInt(e.target.value, 10) }),
+      nSobreUmbral: leads.filter(l => l.score >= umbral).length, nTotal: leads.length,
+      acciones: accBase.map((a, i) => ({
+        label: a[0], marca: a[1] ? '✓' : '',
+        marcaFondo: a[1] ? 'var(--btn)' : 'transparent',
+        marcaBorde: a[1] ? 'var(--btn)' : 'var(--ln)',
+        marcaTexto: 'var(--btnink)',
+        texto: a[1] ? 'var(--ink)' : 'var(--mut)',
+        toggle: () => this.setState({ acciones: accBase.map((x, j) => j === i ? [x[0], !x[1]] : x) })
+      })),
+      guion: [
+        { n: '01', q: '¿Qué tipo de vehículo estás buscando y para qué uso?', senal: 'Unidad concreta' },
+        { n: '02', q: '¿Tenés un modelo o año en mente?', senal: 'Unidad concreta' },
+        { n: '03', q: '¿Con qué presupuesto estás trabajando?', senal: 'Presupuesto' },
+        { n: '04', q: '¿Pensás pagarlo de contado, con crédito o entregando algo en parte de pago?', senal: 'Forma de pago' },
+        { n: '05', q: '¿En qué plazo te gustaría tenerlo?', senal: 'Plazo de compra' },
+        { n: '06', q: '¿En qué localidad estás? Te confirmo la sucursal más cercana.', senal: 'Datos de contacto' }
+      ],
+      canalesConf: [
+        { nombre: 'WhatsApp Business', estado: 'conectado', color: 'var(--ok)' },
+        { nombre: 'Chat del sitio web', estado: 'conectado', color: 'var(--ok)' },
+        { nombre: 'Instagram Direct', estado: 'conectado', color: 'var(--ok)' },
+        { nombre: 'Portales de clasificados', estado: 'parcial', color: 'var(--hot)' },
+        { nombre: 'Email de ventas', estado: 'pendiente', color: 'var(--fnt)' }
+      ],
+
+      personas: leads.map(l => ({
+        nombre: l.nombre, origen: l.canal + ' · ' + l.zona, tel: l.tel, interes: l.vehiculo,
+        score: l.score, scoreColor: sc(l.score),
+        etapa: l.estado === 'derivado' ? 'Asignado' : l.score >= umbral ? 'Por derivar' : 'Calificando',
+        vendedor: l.estado === 'derivado' || l.score >= umbral ? l.vendedor : '—', ultimo: l.hora
+      })),
+      colasAtencion: [
+        { titulo: 'Nuevos', n: 3, items: [
+          { asunto: 'Pide turno de service de 10.000 km', cliente: 'Silvia Duarte', unidad: 'Sedán mediano 2020', prio: 'normal', prioColor: 'var(--ln)', sla: 'en 3 h' },
+          { asunto: 'Consulta por transferencia y patentamiento', cliente: 'Ignacio Vera', unidad: 'Furgón mediano', prio: 'normal', prioColor: 'var(--ln)', sla: 'en 5 h' },
+          { asunto: 'Solicita tasación de permuta', cliente: 'Lorena Giménez', unidad: 'Hatchback 2019', prio: 'baja', prioColor: 'var(--ln)', sla: 'en 1 día' }
+        ] },
+        { titulo: 'En curso', n: 3, items: [
+          { asunto: 'Ruido en tren delantero tras entrega', cliente: 'Marcos Aliaga', unidad: 'SUV 7 plazas', prio: 'alta', prioColor: 'var(--hot)', sla: 'vence en 40 min' },
+          { asunto: 'Falta certificado de dominio', cliente: 'Transporte Bermúdez', unidad: 'Camión 4x2', prio: 'alta', prioColor: 'var(--hot)', sla: 'vence hoy' },
+          { asunto: 'Reprogramación de entrega', cliente: 'Agro Del Sur', unidad: 'Pulverizadora', prio: 'normal', prioColor: 'var(--ln)', sla: 'en 2 días' }
+        ] },
+        { titulo: 'Esperando cliente', n: 2, items: [
+          { asunto: 'Envío de documentación pendiente', cliente: 'Julia Bertoni', unidad: 'Hatchback full', prio: 'normal', prioColor: 'var(--ln)', sla: 'sin respuesta 2 días' },
+          { asunto: 'Confirmación de cuenta bancaria', cliente: 'Hernán Cáceres', unidad: 'Pick-up cab. simple', prio: 'baja', prioColor: 'var(--ln)', sla: 'sin respuesta 1 día' }
+        ] },
+        { titulo: 'Resueltos hoy', n: 2, items: [
+          { asunto: 'Duplicado de factura', cliente: 'Coop. La Alborada', unidad: 'Tractor 180 HP', prio: 'resuelto', prioColor: 'var(--ok)', sla: 'cerrado 10:20' },
+          { asunto: 'Alta de garantía extendida', cliente: 'Valeria Ocampo', unidad: 'SUV compacta', prio: 'resuelto', prioColor: 'var(--ok)', sla: 'cerrado 09:05' }
+        ] }
+      ],
+
+      pipeline: this.PIPE.map((col, ci) => {
+        const items = col.slice(1).map(str => {
+          const f = str.split('|');
+          return {
+            cliente: f[0], unidad: f[1], monto: this.cShort(parseInt(f[2], 10)), vendedor: f[3].split(' ')[0], dias: f[4],
+            score: f[5], scoreColor: sc(parseInt(f[5], 10)),
+            adelante: () => this.move(f[0], 1), atras: () => this.move(f[0], -1)
+          };
+        });
+        const total = col.slice(1).reduce((a, str) => a + parseInt(str.split('|')[2], 10), 0);
+        return { titulo: col[0], n: items.length, monto: this.cShort(total), color: pipeColors[ci], items };
+      }),
+      cotizaciones: [
+        ['0412', 'Rodrigo Paz', 'Pick-up 4x4 doble cabina 2023', 37200000, 'Sedán 2018 · $ 11,2 M', 'enviada', 'var(--ac)'],
+        ['0411', 'Coop. La Alborada', 'Tractor 180 HP', 176000000, 'No', 'en revisión', 'var(--hot)'],
+        ['0409', 'Hernán Cáceres', 'Pick-up cabina simple 2021', 24700000, 'Moto 2020 · $ 3,1 M', 'aceptada', 'var(--ok)'],
+        ['0408', 'Valeria Ocampo', 'SUV compacta automática', 28900000, 'No', 'enviada', 'var(--ac)'],
+        ['0405', 'Marcos Aliaga', 'SUV 7 plazas 2023', 46500000, 'SUV 2017 · $ 14,8 M', 'vencida', 'var(--fnt)'],
+        ['0403', 'Silvia Duarte', 'Sedán mediano 2020', 16800000, 'No', 'facturada', 'var(--ok)'],
+        ['0401', 'Julia Bertoni', 'Hatchback full 2021', 19400000, 'Hatch 2014 · $ 5,4 M', 'en revisión', 'var(--hot)']
+      ].map(c => ({ nro: c[0], cliente: c[1], unidad: c[2], total: this.fmt(c[3]), permuta: c[4], estado: c[5], color: c[6] })),
+
+      filtrosTipo: ['Todos'].concat(tipos).map(t => ({
+        label: t, set: () => this.setState({ tipoFiltro: t }),
+        borde: tf === t ? 'var(--btn)' : 'var(--ln)',
+        fondo: tf === t ? 'var(--btn)' : 'var(--sf)',
+        texto: tf === t ? 'var(--btnink)' : 'var(--ink2)'
+      })),
+      unidades: unidades.map(u => {
+        const d = this.DET[u[0]] || ['Salón Centro', 'Listo para vender', Math.round(u[4] * 0.8), []];
+        const gastos = d[3].reduce((a, t) => a + t[3], 0);
+        const invertido = d[2] + gastos;
+        const margen = u[4] - invertido;
+        return {
+          modelo: u[0], tipo: u[1], anio: u[2], km: u[3], precio: this.fmt(u[4]), dias: u[6], interesados: u[7],
+          diasColor: u[6] > 80 ? 'var(--hot)' : u[6] > 45 ? 'var(--ink2)' : 'var(--ok)',
+          estado: u[5],
+          estadoColor: u[5] === 'Disponible' ? 'var(--ok)' : u[5] === 'Reservada' ? 'var(--hot)' : 'var(--fnt)',
+          ubicacion: d[0], etapa: d[1],
+          etapaColor: d[1] === 'Listo para vender' ? 'var(--ok)' : d[1] === 'Esperando repuesto' ? 'var(--hot)' : 'var(--mut)',
+          invertido: this.cShort(invertido), gastos: this.cShort(gastos),
+          margen: this.cShort(margen), margenColor: margen > 0 ? 'var(--ok)' : 'var(--hot)'
+        };
+      }),
+      nUnidades: unidades.length, valorStock: this.cShort(valorStock),
+      invertidoStock: this.cShort(unidades.reduce((a, u) => {
+        const d = this.DET[u[0]] || [0, 0, Math.round(u[4] * 0.8), []];
+        return a + d[2] + d[3].reduce((x, t) => x + t[3], 0);
+      }, 0)),
+      gastoPrepTotal: this.cShort(Object.keys(this.DET).reduce((a, k) => a + this.DET[k][3].reduce((x, t) => x + t[3], 0), 0)),
+      prepUnidades: this.UNIDADES.map(u => {
+        const d = this.DET[u[0]] || ['Salón Centro', 'Listo para vender', Math.round(u[4] * 0.8), []];
+        const gastos = d[3].reduce((a, t) => a + t[3], 0);
+        const invertido = d[2] + gastos;
+        const margen = u[4] - invertido;
+        return {
+          modelo: u[0], tipo: u[1], anio: u[2], km: u[3], precio: this.fmt(u[4]),
+          ubicacion: d[0], etapa: d[1],
+          etapaColor: d[1] === 'Listo para vender' ? 'var(--ok)' : d[1] === 'Esperando repuesto' ? 'var(--hot)' : 'var(--mut)',
+          compra: this.fmt(d[2]), gastos: this.fmt(gastos), invertido: this.fmt(invertido),
+          margen: this.fmt(margen), margenColor: margen > 0 ? 'var(--ok)' : 'var(--hot)',
+          sinTrabajos: d[3].length === 0,
+          trabajos: d[3].map(t => ({ fecha: t[0], trabajo: t[1], proveedor: t[2], costo: this.fmt(t[3]) }))
+        };
+      }).sort((a, b) => (a.etapa === 'Listo para vender' ? 1 : 0) - (b.etapa === 'Listo para vender' ? 1 : 0)),
+      movimientos: (() => {
+        let saldo = this.CAJA_INICIAL;
+        return this.MOVS.map(m => {
+          saldo += m[4];
+          return {
+            fecha: m[0], concepto: m[1], categoria: m[2], referencia: m[3],
+            monto: (m[4] > 0 ? '+ ' : '− ') + this.fmt(Math.abs(m[4])).replace('$ ', '$ '),
+            color: m[4] > 0 ? 'var(--ok)' : 'var(--hot)',
+            saldo: this.cShort(saldo)
+          };
+        }).reverse();
+      })(),
+      cajaKpis: (() => {
+        const ing = this.MOVS.filter(m => m[4] > 0).reduce((a, m) => a + m[4], 0);
+        const egr = this.MOVS.filter(m => m[4] < 0).reduce((a, m) => a - m[4], 0);
+        const saldo = this.CAJA_INICIAL + ing - egr;
+        const prep = Object.keys(this.DET).reduce((a, k) => a + this.DET[k][3].reduce((x, t) => x + t[3], 0), 0);
+        return [
+          { label: 'Saldo actual', valor: this.cShort(saldo), delta: 'inicial ' + this.cShort(this.CAJA_INICIAL), color: 'var(--mut)', valorColor: 'var(--ink)' },
+          { label: 'Ingresos del mes', valor: this.cShort(ing), delta: this.MOVS.filter(m => m[4] > 0).length + ' movimientos', color: 'var(--ok)', valorColor: 'var(--ink)' },
+          { label: 'Egresos del mes', valor: this.cShort(egr), delta: this.MOVS.filter(m => m[4] < 0).length + ' movimientos', color: 'var(--hot)', valorColor: 'var(--ink)' },
+          { label: 'Resultado', valor: this.cShort(ing - egr), delta: ing - egr > 0 ? 'positivo' : 'negativo', color: ing - egr > 0 ? 'var(--ok)' : 'var(--hot)', valorColor: ing - egr > 0 ? 'var(--ok)' : 'var(--hot)' },
+          { label: 'Gasto en preparación', valor: this.cShort(prep), delta: 'taller, lavado y repuestos', color: 'var(--mut)', valorColor: 'var(--ink)' }
+        ];
+      })(),
+      egresosCat: (() => {
+        const m = {};
+        this.MOVS.filter(x => x[4] < 0).forEach(x => { m[x[2]] = (m[x[2]] || 0) - x[4]; });
+        const tot = Object.keys(m).reduce((a, k) => a + m[k], 0) || 1;
+        return Object.keys(m).sort((a, b) => m[b] - m[a]).map(k => ({ k, v: this.cShort(m[k]), pct: Math.round(m[k] / tot * 100) + '%' }));
+      })(),
+      ingresosCat: (() => {
+        const m = {};
+        this.MOVS.filter(x => x[4] > 0).forEach(x => { m[x[2]] = (m[x[2]] || 0) + x[4]; });
+        const tot = Object.keys(m).reduce((a, k) => a + m[k], 0) || 1;
+        return Object.keys(m).sort((a, b) => m[b] - m[a]).map(k => ({ k, v: this.cShort(m[k]), pct: Math.round(m[k] / tot * 100) + '%' }));
+      })(),
+      invPorUnidad: this.UNIDADES.map(u => {
+        const d = this.DET[u[0]] || ['', '', Math.round(u[4] * 0.8), []];
+        const g = d[3].reduce((a, t) => a + t[3], 0);
+        return { modelo: u[0], dias: u[6], gastos: this.cShort(g), invertido: this.cShort(d[2] + g), _n: d[2] + g };
+      }).sort((a, b) => b._n - a._n).slice(0, 6),
+
+      serieMes: [['ene', 28], ['feb', 31], ['mar', 26], ['abr', 34], ['may', 39], ['jun', 33], ['jul', 36], ['ago', 41]].map(m => ({
+        mes: m[0], n: m[1], h: Math.round(m[1] / 41 * 100) + '%',
+        color: m[0] === 'ago' ? 'var(--hot)' : 'var(--ac)'
+      })),
+      perdidas: [
+        { k: 'Precio / financiación', pct: '34%' }, { k: 'Compró en otra agencia', pct: '26%' },
+        { k: 'Sin stock del modelo', pct: '18%' }, { k: 'Tasación de permuta baja', pct: '13%' },
+        { k: 'Dejó de responder', pct: '9%' }
+      ],
+      rotacion: [
+        { k: 'Motos', pct: '22%', dias: 24 }, { k: 'SUV', pct: '35%', dias: 38 },
+        { k: 'Autos', pct: '46%', dias: 51 }, { k: 'Camionetas', pct: '43%', dias: 47 },
+        { k: 'Agro', pct: '68%', dias: 74 }, { k: 'Camiones', pct: '78%', dias: 86 }
+      ],
+      kpisAgente: [
+        { label: 'Conversaciones', valor: '241', delta: '96% sin humano', color: 'var(--mut)' },
+        { label: 'Score promedio', valor: '67', delta: '+4 vs julio', color: 'var(--ok)' },
+        { label: 'Derivaciones', valor: '96', delta: 'umbral ' + umbral, color: 'var(--mut)' },
+        { label: 'Tiempo a derivación', valor: '18 min', delta: '−7 min', color: 'var(--ok)' },
+        { label: 'Falsos positivos', valor: '7%', delta: 'sin intención real', color: 'var(--hot)' }
+      ],
+      cierrePorScore: [
+        { rango: '0-39', pct: '2%', h: '5%', color: 'var(--ln)' },
+        { rango: '40-59', pct: '7%', h: '16%', color: 'var(--bar)' },
+        { rango: '60-79', pct: '19%', h: '43%', color: 'var(--ac)' },
+        { rango: '80-89', pct: '38%', h: '86%', color: 'var(--hot)' },
+        { rango: '90-100', pct: '44%', h: '100%', color: 'var(--ok)' }
+      ],
+
+      equipo: [
+        ['Diego Fuentes', 'Camionetas · Camiones', 34, 9, '26%', '6 min', 82],
+        ['Sofía Ledesma', 'Agro · Flotas', 21, 6, '29%', '11 min', 64],
+        ['Nahuel Ferrer', 'SUV · Utilitarios', 29, 8, '28%', '5 min', 71],
+        ['Camila Roldán', 'Motos · Autos', 41, 11, '27%', '8 min', 94],
+        ['Bruno Iriarte', 'Autos usados', 26, 5, '19%', '14 min', 58],
+        ['Paula Meder', 'Postventa · Atención', 18, 2, '11%', '4 min', 40]
+      ].map(v => ({
+        nombre: v[0], especialidad: v[1], asignados: v[2], cierres: v[3], tasa: v[4], respuesta: v[5],
+        tasaColor: parseInt(v[4], 10) >= 27 ? 'var(--ok)' : parseInt(v[4], 10) >= 19 ? 'var(--ink)' : 'var(--hot)',
+        cargaPct: v[6] + '%', cargaColor: v[6] > 85 ? 'var(--hot)' : 'var(--ink2)'
+      })),
+
+      subEsTestdrive: this.subOf('comercial', 'pipeline') === 'testdrive',
+      subEsTasacion: this.subOf('comercial', 'pipeline') === 'tasacion',
+      subTestdrive: () => this.setSub('comercial', 'testdrive'),
+      subTasacion: () => this.setSub('comercial', 'tasacion'),
+      subEsVendedores: this.subOf('equipo', 'vendedores') === 'vendedores',
+      subEsRR: this.subOf('equipo', 'vendedores') === 'rr',
+      subEsTTR: this.subOf('equipo', 'vendedores') === 'ttr',
+      subVendedores: () => this.setSub('equipo', 'vendedores'),
+      subRR: () => this.setSub('equipo', 'rr'),
+      subTTR: () => this.setSub('equipo', 'ttr'),
+
+      tdStats: [
+        { label: 'Agendados esta semana', valor: '18', delta: '+4 vs semana previa', color: 'var(--ok)' },
+        { label: 'Confirmados', valor: '13', delta: '5 sin confirmar', color: 'var(--hot)' },
+        { label: 'Asistencia', valor: '78%', delta: 'objetivo 85%', color: 'var(--hot)' },
+        { label: 'Cierre post test drive', valor: '41%', delta: 'vs 23% general', color: 'var(--ok)' }
+      ],
+      tdSemana: [
+        ['Lun', '24', [['09:30', 'Rodrigo Paz', 'Pick-up 4x4 doble cabina', 'Diego', 'confirmado'], ['16:00', 'Julia Bertoni', 'Hatchback full', 'Camila', 'confirmado']]],
+        ['Mar', '25', [['10:00', 'Valeria Ocampo', 'SUV compacta automática', 'Nahuel', 'confirmado'], ['12:30', 'Matías Sánchez', 'Naked 300cc', 'Camila', 'sin confirmar'], ['18:00', 'Hernán Cáceres', 'Pick-up cabina simple', 'Nahuel', 'confirmado']]],
+        ['Mié', '26', [['08:45', 'Marcos Aliaga', 'SUV 7 plazas', 'Diego', 'reprogramado'], ['15:15', 'Ignacio Vera', 'Furgón mediano', 'Nahuel', 'confirmado']]],
+        ['Jue', '27', [['09:00', 'Coop. La Alborada', 'Tractor 180 HP · en campo', 'Sofía', 'confirmado'], ['17:30', 'Lorena Giménez', 'Hatchback usado 2019', 'Camila', 'sin confirmar']]],
+        ['Vie', '28', [['11:00', 'Transporte Bermúdez', 'Camión chasis 4x2', 'Diego', 'sin confirmar'], ['14:00', 'Silvia Duarte', 'Sedán mediano', 'Bruno', 'confirmado']]]
+      ].map(d => ({
+        dia: d[0], fecha: d[1], n: d[2].length,
+        items: d[2].map(t => ({
+          hora: t[0], cliente: t[1], unidad: t[2], vendedor: t[3], estado: t[4],
+          color: t[4] === 'confirmado' ? 'var(--ok)' : t[4] === 'sin confirmar' ? 'var(--hot)' : 'var(--fnt)',
+          accion: () => this.toast(t[4] === 'confirmado' ? 'Recordatorio enviado a ' + t[1] : 'Pedido de confirmación enviado a ' + t[1])
+        }))
+      })),
+
+      ttrKpis: [
+        { label: 'TTR 1º contacto', valor: '7 min', delta: 'objetivo 5 min', color: 'var(--hot)' },
+        { label: 'Mediana', valor: '4 min', delta: 'dentro de objetivo', color: 'var(--ok)' },
+        { label: 'Dentro de SLA', valor: '86%', delta: '+6 pts vs julio', color: 'var(--ok)' },
+        { label: 'Vencidos hoy', valor: '4', delta: '3 reasignados', color: 'var(--hot)' },
+        { label: 'Leads sin tocar', valor: '2', delta: 'más de 2 h', color: 'var(--hot)' }
+      ],
+      ttrRiesgo: [
+        ['Rodrigo Paz', 'WhatsApp · score 92', 'Diego Fuentes', 'caliente', '1 min', '88%', 'var(--hot)'],
+        ['Valeria Ocampo', 'Instagram · score 84', 'Nahuel Ferrer', 'caliente', '3 min', '54%', 'var(--hot)'],
+        ['Coop. La Alborada', 'Email · score 88', 'Sofía Ledesma', 'normal', '9 min', '38%', 'var(--ink2)'],
+        ['Transporte Bermúdez', 'Portal · score 71', 'Diego Fuentes', 'normal', '12 min', '22%', 'var(--ink2)']
+      ].map(r => ({
+        cliente: r[0], origen: r[1], vendedor: r[2], prio: r[3], restante: r[4], pct: r[5], color: r[6],
+        reasignar: () => this.toast(r[0] + ' reasignado por la ronda de reparto')
+      })),
+      ttrVendedores: [
+        ['Diego Fuentes', '6 min', '22 min', '88%', 1],
+        ['Sofía Ledesma', '11 min', '41 min', '74%', 3],
+        ['Nahuel Ferrer', '5 min', '18 min', '92%', 0],
+        ['Camila Roldán', '8 min', '26 min', '85%', 2],
+        ['Bruno Iriarte', '14 min', '52 min', '63%', 5],
+        ['Paula Meder', '4 min', '15 min', '95%', 0]
+      ].map(v => ({
+        nombre: v[0], primer: v[1], respuesta: v[2], slaPct: v[3], vencidos: v[4],
+        pcColor: parseInt(v[1], 10) <= 6 ? 'var(--ok)' : parseInt(v[1], 10) <= 9 ? 'var(--ink2)' : 'var(--hot)',
+        slaColor: parseInt(v[3], 10) >= 85 ? 'var(--ok)' : parseInt(v[3], 10) >= 75 ? 'var(--ink2)' : 'var(--hot)',
+        vencColor: v[4] === 0 ? 'var(--ok)' : v[4] <= 2 ? 'var(--ink2)' : 'var(--hot)'
+      })),
+      slaObjetivos: [
+        { k: 'Lead caliente (≥ ' + umbral + ')', desc: 'Derivado por el agente IA', v: '5 min' },
+        { k: 'Lead normal', desc: 'Consulta en calificación', v: '15 min' },
+        { k: 'Consulta de postventa', desc: 'Service, documentación, garantía', v: '60 min' },
+        { k: 'Fuera de horario', desc: 'El agente responde y agenda', v: '8 h' }
+      ],
+
+      tas: (() => {
+        const t = this.tasVal();
+        const BASE = { Autos: 26000000, Motos: 7500000, Camionetas: 45000000, SUV: 52000000, Camiones: 130000000, Agro: 210000000, Utilitarios: 28000000, 'Náutica': 60000000 };
+        const DEM = { Autos: 1, Motos: 1.03, Camionetas: 1.02, SUV: 1.04, Camiones: 0.96, Agro: 0.98, Utilitarios: 1.01, 'Náutica': 0.94 };
+        const EST = { excelente: 1.05, bueno: 1, regular: 0.9, 'a reparar': 0.78 };
+        const horas = t.tipo === 'Agro' || t.tipo === 'Camiones';
+        const base = BASE[t.tipo] ?? 26000000;
+        const edad = Math.max(0, 2026 - t.anio);
+        const v1 = base * Math.pow(0.93, edad);
+        const esperado = edad * (horas ? 400 : 12000);
+        const exceso = Math.max(0, t.km - esperado);
+        const v2 = v1 * (1 - Math.min(0.22, exceso / 10000 * 0.012));
+        const v3 = v2 * (EST[t.estado] ?? 1);
+        const mercado = v3 * (DEM[t.tipo] ?? 1);
+        const toma = mercado * 0.88;
+        const sign = n => (n >= 0 ? '+ ' : '− ') + this.fmt(Math.abs(Math.round(n))).replace('$ ', '');
+        return {
+          anio: t.anio, km: t.km,
+          kmLabel: t.km.toLocaleString('es-AR') + (horas ? ' h' : ' km'),
+          kmNota: exceso > 0 ? (horas ? Math.round(exceso) + ' h' : exceso.toLocaleString('es-AR') + ' km') + ' por encima del uso esperado para el año' : 'Uso por debajo del promedio para el año: no penaliza',
+          toma: this.fmt(Math.round(toma / 100000) * 100000),
+          mercado: this.fmt(Math.round(mercado / 100000) * 100000),
+          rango: this.fmt(Math.round(toma * 0.96 / 100000) * 100000) + ' – ' + this.fmt(Math.round(toma * 1.04 / 100000) * 100000),
+          margen: this.fmt(Math.round((mercado - toma) / 100000) * 100000),
+          desglose: [
+            { k: 'Referencia de mercado, unidad nueva', v: this.fmt(Math.round(base)), color: 'var(--ink)' },
+            { k: 'Antigüedad · ' + edad + ' años', v: sign(v1 - base), color: 'var(--hot)' },
+            { k: 'Uso · ' + (horas ? 'horas' : 'kilometraje'), v: sign(v2 - v1), color: v2 < v1 ? 'var(--hot)' : 'var(--mut)' },
+            { k: 'Estado general · ' + t.estado, v: sign(v3 - v2), color: v3 >= v2 ? 'var(--ok)' : 'var(--hot)' },
+            { k: 'Demanda del segmento · ' + t.tipo, v: sign(mercado - v3), color: mercado >= v3 ? 'var(--ok)' : 'var(--hot)' },
+            { k: 'Margen de agencia · 12%', v: sign(toma - mercado), color: 'var(--ac)' }
+          ],
+          comparables: [
+            { desc: t.tipo + ' ' + (t.anio + 1) + ' · menor uso', origen: 'vendido hace 12 días', precio: this.fmt(Math.round(mercado * 1.11 / 100000) * 100000) },
+            { desc: t.tipo + ' ' + t.anio + ' · uso similar', origen: 'publicado en portal', precio: this.fmt(Math.round(mercado * 1.02 / 100000) * 100000) },
+            { desc: t.tipo + ' ' + (t.anio - 1) + ' · a reacondicionar', origen: 'permuta tomada en julio', precio: this.fmt(Math.round(mercado * 0.86 / 100000) * 100000) }
+          ],
+          usar: () => this.toast('Tasación aplicada como parte de pago'),
+          enviar: () => this.toast('Tasación enviada al cliente por WhatsApp')
+        };
+      })(),
+      tasTipos: tipos.map(t => ({
+        label: t, borde: this.tasVal().tipo === t ? 'var(--ink)' : 'transparent',
+        texto: this.tasVal().tipo === t ? 'var(--ink)' : 'var(--fnt)',
+        set: () => this.setTas('tipo', t)
+      })),
+      tasEstados: ['excelente', 'bueno', 'regular', 'a reparar'].map(e => ({
+        label: e, borde: this.tasVal().estado === e ? 'var(--ink)' : 'transparent',
+        texto: this.tasVal().estado === e ? 'var(--ink)' : 'var(--fnt)',
+        set: () => this.setTas('estado', e)
+      })),
+      setTasAnio: e => this.setTas('anio', parseInt(e.target.value, 10)),
+      setTasKm: e => this.setTas('km', parseInt(e.target.value, 10)),
+
+      rr: (() => {
+        const rr = this.rrVal();
+        const prox = this.rrProximo(rr);
+        const mejor = this.rrMejor(rr);
+        const hab = this.rrHabiles(rr);
+        const cargas = hab.map(x => x[0][3]);
+        const minC = cargas.length ? Math.min.apply(null, cargas) : 0;
+        const maxC = cargas.length ? Math.max.apply(null, cargas) : 0;
+        const MODOS = [
+          ['Reparto parejo entre todos', 'Cada lead va al vendedor con menos leads del día. Con 10 leads y 2 vendedores: 5 y 5.'],
+          ['Parejo por especialidad', 'Reparte parejo, pero solo entre los vendedores del segmento del vehículo.'],
+          ['Round robin puro', 'Orden estricto de la lista, sin mirar cuántos lleva cada uno.'],
+          ['Manual del supervisor', 'Los derivados quedan en cola caliente y el supervisor asigna.']
+        ];
+        return {
+          modo: rr.modo,
+          asignar: () => this.rrAsignar(),
+          asignarLote: () => this.rrLote(10),
+          asignarTop: () => this.rrAsignarTop(),
+          balance: hab.length
+            ? 'Reparto parejo entre ' + hab.length + ' vendedores hábiles · hoy llevan entre ' + minC + ' y ' + maxC + (maxC - minC <= 1 ? ' leads: la ronda está equilibrada' : ' leads')
+            : 'Ningún vendedor hábil: todos ausentes o con el tope alcanzado',
+          excepcional: mejor >= 0 ? rr.orden[mejor][0] + ' · ' + rr.orden[mejor][5] + '% de cierre' : 'sin vendedor disponible',
+          orden: rr.orden.map((v, i) => {
+            const es = i === prox;
+            const tope = v[3] >= v[4];
+            return {
+              n: String(i + 1).padStart(2, '0'), nombre: v[0], esp: v[1], hoy: v[3], tope: v[4],
+              tasa: v[5] + '%',
+              tasaColor: i === mejor ? 'var(--ok)' : 'var(--ink2)',
+              nColor: es ? 'var(--ink)' : 'var(--fnt)',
+              fondo: es ? 'var(--sf)' : 'transparent',
+              marca: es ? 'próximo · le toca por reparto' : i === mejor ? 'mejor cierre · toma los excepcionales' : tope ? 'tope alcanzado' : v[2] ? 'en la ronda' : 'fuera de la ronda',
+              marcaColor: es ? 'var(--hot)' : i === mejor ? 'var(--ok)' : tope || !v[2] ? 'var(--fnt)' : 'var(--mut)',
+              cargaPct: Math.round(v[3] / v[4] * 100) + '%',
+              cargaColor: tope ? 'var(--hot)' : 'var(--ink2)',
+              disp: v[2] ? 'disponible' : 'ausente',
+              dispColor: v[2] ? 'var(--ok)' : 'var(--fnt)',
+              dispBorde: v[2] ? 'var(--ok)' : 'var(--ln)',
+              toggle: () => this.rrToggle(i)
+            };
+          }),
+          modos: MODOS.map(m => ({
+            label: m[0], desc: m[1],
+            marcaFondo: rr.modo === m[0] ? 'var(--btn)' : 'transparent',
+            marcaBorde: rr.modo === m[0] ? 'var(--btn)' : 'var(--ln)',
+            texto: rr.modo === m[0] ? 'var(--ink)' : 'var(--ink2)',
+            set: () => this.setState({ rr: { modo: m[0], puntero: rr.puntero, orden: rr.orden } })
+          })),
+          reglas: [
+            { k: 'Entra a la ronda con', v: 'score ≥ ' + umbral },
+            { k: 'Salta la ronda y va al mejor con', v: 'score ≥ 95' },
+            { k: 'Si no responde en', v: '15 min → siguiente' },
+            { k: 'Tope diario por vendedor', v: 'según fila' },
+            { k: 'Leads fuera de horario', v: 'a la ronda de la mañana' }
+          ]
+        };
+      })(),
+
+      setEmpresa: e => this.setState({ empresa: e.target.value }),
+      tiposToggle: this.TIPOS_BASE.map(t => {
+        const on = tipos.indexOf(t) !== -1;
+        return {
+          label: t, borde: on ? 'var(--ink)' : 'transparent', texto: on ? 'var(--ink)' : 'var(--fnt)',
+          toggle: () => this.setState({ tipos: on ? tipos.filter(x => x !== t) : tipos.concat([t]) })
+        };
+      }),
+      opsConf: this.state.ops ?? [
+        { k: 'Alcance', desc: 'Sucursales activas en el sistema', v: '3 sucursales' },
+        { k: 'Moneda', desc: 'Para cotizaciones y reportes', v: 'ARS' },
+        { k: 'Horario del agente IA', desc: 'Fuera de horario deja mensaje', v: '24 / 7' },
+        { k: 'Reasignación automática', desc: 'Si el vendedor no responde', v: '15 min' }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>
