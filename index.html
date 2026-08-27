@@ -14,7 +14,7 @@
   *{box-sizing:border-box}
   :root{
     --nav:#0A0A0B; --navInk:#E8E6E1; --navMut:#8B8880; --navLine:rgba(255,255,255,.10);
-    --bg:#F6F5F2; --sf:#FFFFFF; --sf2:#FAF9F6;
+    --bg:#F6F5F2; --sf:#FFFFFF; --sf2:#FAF9F6; --sf3:#F1EEE7;
     --ln:#E5E2DB; --ln2:#EFEDE7;
     --ink:#131211; --ink2:#454340; --mut:#726F69; --fnt:#A3A09A;
     --ac:#8A6B18; --hot:#A3441C; --ok:#1F7A55;
@@ -23,7 +23,7 @@
     --shadow:0 1px 2px rgba(19,18,17,.05), 0 10px 24px -14px rgba(19,18,17,.20);
   }
   :root[data-theme="dark"]{
-    --bg:#0C0C0D; --sf:#151517; --sf2:#1A1A1D;
+    --bg:#0C0C0D; --sf:#151517; --sf2:#1A1A1D; --sf3:#202024;
     --ln:#2A2A2D; --ln2:#212124;
     --ink:#F1EFEA; --ink2:#C6C3BC; --mut:#8B8880; --fnt:#6A6862;
     --ac:#D8B546; --hot:#E0885F; --ok:#5FBE93;
@@ -304,7 +304,7 @@
     <!-- INBOX -->
     <sc-if value="{{ esInbox }}">
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:28px;align-items:start;max-width:1300px">
-      <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;flex-direction:column;gap:16px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:20px">
         <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:11px;border-bottom:1px solid var(--ln)">
           <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Aprobaciones pendientes</span>
           <span style="font:400 12px/1 'Source Serif 4',Georgia,serif;color:var(--ink2)">{{ nAprobaciones }}</span>
@@ -328,7 +328,7 @@
           </div>
         </sc-for>
       </div>
-      <div style="display:flex;flex-direction:column;gap:16px">
+      <div style="display:flex;flex-direction:column;gap:16px;background:var(--sf3);border:1px solid var(--ln2);border-radius:12px;padding:20px">
         <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:11px;border-bottom:1px solid var(--ln)">
           <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Llamados de atención</span>
           <span style="font:400 12px/1 'Source Serif 4',Georgia,serif;color:var(--ink2)">{{ nAvisos }}</span>
@@ -370,7 +370,7 @@
 
       <sc-if value="{{ subEsBandeja }}" hint-placeholder-val="{{ true }}">
       <div style="display:grid;grid-template-columns:{{ bandejaCols }};gap:{{ gapGrande }};align-items:start">
-        <div style="display:flex;flex-direction:column;gap:18px">
+        <div style="display:flex;flex-direction:column;gap:18px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:16px">
           <div style="display:flex;gap:16px;flex-wrap:wrap">
             <sc-for list="{{ filtros }}" as="f" hint-placeholder-count="4">
               <button onClick="{{ f.set }}" style="border:0;border-bottom:1px solid {{ f.borde }};background:transparent;color:{{ f.texto }};padding:0 0 5px;font:500 11px/1 'Helvetica Neue',Helvetica,Arial,sans-serif;cursor:pointer">{{ f.label }} <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--fnt)">{{ f.n }}</span></button>
@@ -393,7 +393,7 @@
           </div>
         </div>
 
-        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;align-items:start">
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:28px;align-items:start;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:22px">
           <div style="min-width:0;display:flex;flex-direction:column;gap:24px">
             <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:20px;padding-bottom:20px;border-bottom:1px solid var(--ln)">
               <div style="display:flex;flex-direction:column;gap:7px">
@@ -468,7 +468,7 @@
 
       <sc-if value="{{ subEsReglas }}">
       <div style="display:grid;grid-template-columns:1.2fr 1fr;gap:56px;align-items:start;max-width:1180px">
-        <div style="display:flex;flex-direction:column;gap:26px">
+        <div style="display:flex;flex-direction:column;gap:26px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:22px">
           <div style="display:flex;flex-direction:column;gap:7px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Peso de cada señal</span>
             <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">El score final es la suma ponderada. Los pesos deben totalizar 100.</span>
@@ -488,7 +488,7 @@
           </div>
         </div>
 
-        <div style="display:flex;flex-direction:column;gap:44px">
+        <div style="display:flex;flex-direction:column;gap:44px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
           <div style="display:flex;flex-direction:column;gap:18px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Umbral de derivación</span>
             <div style="display:flex;align-items:baseline;gap:10px">
@@ -515,7 +515,7 @@
 
       <sc-if value="{{ subEsGuion }}">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;max-width:1180px">
-        <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;flex-direction:column;gap:24px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:22px">
           <div style="display:flex;flex-direction:column;gap:7px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Preguntas que hace el agente</span>
             <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">En orden. Cada respuesta alimenta una señal del score.</span>
@@ -532,7 +532,7 @@
             </sc-for>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:44px">
+        <div style="display:flex;flex-direction:column;gap:44px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
           <div style="display:flex;flex-direction:column;gap:16px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Tono y límites</span>
             <textarea style="width:100%;min-height:170px;resize:vertical;border:1px solid var(--ln);border-radius:8px;padding:16px;font:400 13px/1.7 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2);outline:0;background:var(--sf)">Trato cordial y directo, tuteo. Nunca confirma precio final ni bonificaciones: eso lo cierra el vendedor. Si el cliente pide financiación, deriva a Créditos. Si menciona reclamo o service, deriva a Atención.</textarea>
@@ -554,7 +554,7 @@
 
       <sc-if value="{{ subEsBase }}">
       <div style="display:grid;grid-template-columns:1.25fr 1fr;gap:56px;align-items:start;max-width:1180px">
-        <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;flex-direction:column;gap:24px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:22px">
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px">
             <div style="display:flex;flex-direction:column;gap:7px">
               <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Lo que el bot sabe responder</span>
@@ -579,7 +579,7 @@
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:40px">
-          <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;flex-direction:column;gap:16px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:20px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Horarios que informa</span>
             <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
               <sc-for list="{{ kbHorarios }}" as="h" hint-placeholder-count="3">
@@ -590,7 +590,7 @@
               </sc-for>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;flex-direction:column;gap:14px;background:var(--sf3);border:1px solid var(--ln2);border-radius:12px;padding:20px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Cómo lo usa el bot</span>
             <span style="font:400 12px/1.7 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">Antes de responder, el agente busca acá. Si la respuesta está, la usa con sus palabras. Si no está, dice que lo consulta con el equipo y crea una entrada sugerida para que el gerente la complete.</span>
             <div style="background:var(--sf);border:1px solid var(--ln);border-left:2px solid var(--ac);border-radius:8px;padding:14px 16px;display:flex;flex-direction:column;gap:7px">
@@ -621,7 +621,7 @@
       </div>
 
       <sc-if value="{{ subEsPersonas }}" hint-placeholder-val="{{ true }}">
-      <div style="display:flex;flex-direction:column;min-width:1080px">
+      <div style="display:flex;flex-direction:column;min-width:1080px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:20px">
         <div style="display:grid;grid-template-columns:1.5fr 1fr 1.4fr .6fr .9fr .9fr .7fr;gap:20px;padding:0 4px 12px;border-bottom:1px solid var(--ln)">
           <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Cliente</span>
           <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Teléfono</span>
@@ -649,7 +649,7 @@
       </sc-if>
 
       <sc-if value="{{ subEsAtencion }}">
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:32px;align-items:start;min-width:1100px">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:32px;align-items:start;min-width:1100px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
         <sc-for list="{{ colasAtencion }}" as="col" hint-placeholder-count="4">
           <div style="display:flex;flex-direction:column;gap:14px">
             <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:11px;border-bottom:1px solid var(--ln)">
@@ -734,7 +734,7 @@
       </div>
 
       <sc-if value="{{ subEsPipeline }}" hint-placeholder-val="{{ true }}">
-      <div style="display:grid;grid-template-columns:repeat(5,minmax(220px,1fr));gap:26px;align-items:start;min-width:1200px">
+      <div style="display:grid;grid-template-columns:repeat(5,minmax(220px,1fr));gap:26px;align-items:start;min-width:1200px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
         <sc-for list="{{ pipeline }}" as="col" hint-placeholder-count="5">
           <div style="display:flex;flex-direction:column;gap:14px">
             <div style="display:flex;flex-direction:column;gap:8px;padding-bottom:11px;border-bottom:1px solid {{ col.color }}">
@@ -767,7 +767,7 @@
       </sc-if>
 
       <sc-if value="{{ subEsCotizaciones }}">
-      <div style="display:flex;flex-direction:column;max-width:1400px;min-width:1000px">
+      <div style="display:flex;flex-direction:column;max-width:1400px;min-width:1000px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:20px">
         <div style="display:grid;grid-template-columns:.55fr 1.3fr 1.5fr 1fr 1fr .9fr;gap:20px;padding:0 4px 12px;border-bottom:1px solid var(--ln)">
           <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Nº</span>
           <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Cliente</span>
@@ -800,7 +800,7 @@
             </div>
           </sc-for>
         </div>
-        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:24px;align-items:start">
+        <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:24px;align-items:start;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
           <sc-for list="{{ tdSemana }}" as="d" hint-placeholder-count="5">
             <div style="display:flex;flex-direction:column;gap:14px">
               <div style="display:flex;align-items:baseline;justify-content:space-between;gap:10px;padding-bottom:11px;border-bottom:1px solid var(--ln)">
@@ -853,7 +853,7 @@
         </div>
       </div>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:48px 56px;align-items:start;max-width:1180px">
-        <div style="display:flex;flex-direction:column;gap:34px">
+        <div style="display:flex;flex-direction:column;gap:34px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:22px">
           <div style="display:flex;flex-direction:column;gap:7px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Tasación de usados</span>
             <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Para permutas y compra directa. El valor de toma ya descuenta el margen de agencia.</span>
@@ -891,7 +891,7 @@
           </div>
         </div>
 
-        <div style="display:flex;flex-direction:column;gap:34px">
+        <div style="display:flex;flex-direction:column;gap:34px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
           <div style="display:flex;flex-direction:column;gap:10px;padding-bottom:24px;border-bottom:1px solid var(--ln)">
             <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Valor de toma sugerido</span>
             <span style="font:400 46px/1 'Source Serif 4',Georgia,serif;letter-spacing:-0.03em;color:var(--ink);white-space:nowrap">{{ tas.toma }}</span>
@@ -932,7 +932,7 @@
 
       <sc-if value="{{ subEsPresupuestos }}">
       <div style="display:grid;grid-template-columns:1.15fr 1fr;gap:56px;align-items:start;max-width:1240px">
-        <div style="display:flex;flex-direction:column;gap:26px">
+        <div style="display:flex;flex-direction:column;gap:26px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
           <div style="display:flex;flex-direction:column;gap:7px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Nuevo presupuesto</span>
             <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">El catálogo se autocompleta desde Inventario. Antes de enviarse, la IA valida las reglas internas; si algo no cierra, pasa al gerente.</span>
@@ -978,7 +978,7 @@
             </div>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:16px">
+        <div style="display:flex;flex-direction:column;gap:16px;background:var(--sf3);border:1px solid var(--ln2);border-radius:12px;padding:20px">
           <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px;padding-bottom:11px;border-bottom:1px solid var(--ln)">
             <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Esperando aprobación del gerente</span>
             <span style="font:400 12px/1 'Source Serif 4',Georgia,serif;color:var(--ink2)">{{ nPresupPend }}</span>
@@ -1529,7 +1529,7 @@
             </div>
           </sc-for>
         </div>
-        <div style="display:flex;flex-direction:column;gap:24px;max-width:900px">
+        <div style="display:flex;flex-direction:column;gap:24px;max-width:900px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:22px">
           <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Tasa de cierre según score al derivar</span>
           <div style="display:grid;grid-template-columns:repeat(5,1fr);gap:20px;align-items:end;height:190px;border-bottom:1px solid var(--ln)">
             <sc-for list="{{ cierrePorScore }}" as="b" hint-placeholder-count="5">
@@ -1567,7 +1567,7 @@
             </div>
           </sc-for>
         </div>
-        <div style="display:flex;flex-direction:column;min-width:1050px">
+        <div style="display:flex;flex-direction:column;min-width:1050px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:20px">
           <div style="display:grid;grid-template-columns:1.6fr .7fr .9fr .8fr .7fr .7fr 1fr .6fr;gap:18px;padding:0 4px 12px;border-bottom:1px solid var(--ln)">
             <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Campaña</span>
             <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Estado</span>
@@ -1630,7 +1630,7 @@
         </div>
       </div>
       <sc-if value="{{ vistaGerente }}" hint-placeholder-val="{{ true }}">
-      <div style="display:flex;flex-direction:column">
+      <div style="display:flex;flex-direction:column;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:20px">
       <div style="display:grid;grid-template-columns:1.3fr 1.1fr .6fr .6fr .6fr .8fr 1fr;gap:20px;padding:0 4px 12px;border-bottom:1px solid var(--ln)">
         <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Vendedor</span>
         <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Especialidad</span>
@@ -1657,7 +1657,7 @@
       </div>
       </sc-if>
       <sc-if value="{{ vistaPublica }}">
-      <div style="display:flex;flex-direction:column;max-width:860px">
+      <div style="display:flex;flex-direction:column;max-width:860px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
         <sc-for list="{{ rankingPublico }}" as="v" hint-placeholder-count="6">
           <div style="display:grid;grid-template-columns:44px minmax(0,1.4fr) .8fr .6fr auto;gap:20px;padding:17px 4px;border-bottom:1px solid var(--ln2);align-items:center;background:{{ v.fondo }}">
             <span style="font:600 22px/1 'Source Serif 4',Georgia,serif;color:{{ v.posColor }}">{{ v.pos }}</span>
@@ -1684,7 +1684,7 @@
 
       <sc-if value="{{ subEsRR }}">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(560px,1fr));gap:48px 56px;align-items:start;max-width:1240px">
-        <div style="display:flex;flex-direction:column;gap:30px">
+        <div style="display:flex;flex-direction:column;gap:30px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
           <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px">
             <div style="display:flex;flex-direction:column;gap:7px">
               <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Ronda de reparto</span>
@@ -1728,7 +1728,7 @@
           </div>
         </div>
 
-        <div style="display:flex;flex-direction:column;gap:40px">
+        <div style="display:flex;flex-direction:column;gap:40px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:22px">
           <div style="display:flex;flex-direction:column;gap:14px">
             <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Criterio de reparto</span>
             <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
@@ -1770,7 +1770,7 @@
           </sc-for>
         </div>
 
-        <div style="display:flex;flex-direction:column;gap:20px">
+        <div style="display:flex;flex-direction:column;gap:20px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:22px">
           <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Con el reloj corriendo</span>
           <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln)">
             <sc-for list="{{ ttrRiesgo }}" as="r" hint-placeholder-count="4">
@@ -1792,7 +1792,7 @@
         </div>
 
         <div style="display:grid;grid-template-columns:1.5fr 1fr;gap:56px;align-items:start">
-          <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;flex-direction:column;gap:20px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
             <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">TTR por vendedor</span>
             <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln)">
               <div style="display:grid;grid-template-columns:1.2fr .8fr .8fr 1fr .6fr;gap:18px;padding:12px 4px;border-bottom:1px solid var(--ln2)">
@@ -1816,7 +1816,7 @@
               </sc-for>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:20px">
+          <div style="display:flex;flex-direction:column;gap:20px;background:var(--sf3);border:1px solid var(--ln2);border-radius:12px;padding:22px">
             <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Objetivos de SLA</span>
             <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
               <sc-for list="{{ slaObjetivos }}" as="s" hint-placeholder-count="4">
@@ -1867,7 +1867,7 @@
               </sc-for>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;flex-direction:column;gap:14px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:20px">
             <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Últimas compulsas</span>
             <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
               <sc-for list="{{ compHistorial }}" as="h" hint-placeholder-count="4">
@@ -1881,7 +1881,7 @@
           </div>
         </div>
         <div style="display:flex;flex-direction:column;gap:34px">
-          <div style="display:flex;flex-direction:column;gap:16px">
+          <div style="display:flex;flex-direction:column;gap:16px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:20px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Ranking de la compulsa</span>
             <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Entra a la compulsa el top 3 por conversión de los últimos 30 días. El que acepta un lead y no lo cierra, baja: el ranking se defiende cerrando.</span>
             <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
@@ -1898,7 +1898,7 @@
               </sc-for>
             </div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;flex-direction:column;gap:14px;background:var(--sf3);border:1px solid var(--ln2);border-radius:12px;padding:20px">
             <span style="font:400 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;color:var(--fnt)">Reglas de la compulsa</span>
             <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
               <sc-for list="{{ compReglas }}" as="r" hint-placeholder-count="4">
@@ -1964,7 +1964,7 @@
     <!-- TAREAS -->
     <sc-if value="{{ esTareas }}">
     <div style="display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:48px;align-items:start;max-width:1280px">
-      <div style="display:flex;flex-direction:column;gap:20px">
+      <div style="display:flex;flex-direction:column;gap:20px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:20px">
         <div style="display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap">
           <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Tareas que el gerente asigna a los vendedores. Al asignar, le llega la notificación por WhatsApp; si vence sin hacerse, aparece en el Inbox.</span>
         </div>
@@ -1989,7 +1989,7 @@
           </sc-for>
         </div>
       </div>
-      <div style="display:flex;flex-direction:column;gap:24px">
+      <div style="display:flex;flex-direction:column;gap:24px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:20px">
         <div style="display:flex;flex-direction:column;gap:7px">
           <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Nueva tarea</span>
           <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Se notifica al vendedor apenas la creás.</span>
@@ -2039,7 +2039,7 @@
 
       <sc-if value="{{ subEsAjGeneral }}" hint-placeholder-val="{{ true }}">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;max-width:1050px">
-      <div style="display:flex;flex-direction:column;gap:34px">
+      <div style="display:flex;flex-direction:column;gap:34px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:22px">
         <div style="display:flex;flex-direction:column;gap:7px">
           <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Identidad de la empresa</span>
           <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Lo que cambies acá se refleja en toda la aplicación.</span>
@@ -2059,7 +2059,7 @@
         </div>
       </div>
 
-      <div style="display:flex;flex-direction:column;gap:40px">
+      <div style="display:flex;flex-direction:column;gap:40px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
         <div style="display:flex;flex-direction:column;gap:18px">
           <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Operación</span>
           <div style="display:flex;flex-direction:column;gap:0;border-top:1px solid var(--ln2)">
@@ -2083,7 +2083,7 @@
       </sc-if>
 
       <sc-if value="{{ subEsAjMarcas }}">
-      <div style="display:flex;flex-direction:column;gap:26px;max-width:900px">
+      <div style="display:flex;flex-direction:column;gap:26px;max-width:900px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:22px">
         <div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;flex-wrap:wrap">
           <div style="display:flex;flex-direction:column;gap:7px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Marcas que comercializa</span>
@@ -2109,7 +2109,7 @@
 
       <sc-if value="{{ subEsAjImport }}">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:start;max-width:1050px">
-        <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;flex-direction:column;gap:24px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:22px">
           <div style="display:flex;flex-direction:column;gap:7px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Importar desde el sistema anterior</span>
             <span style="font:400 12px/1.6 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--mut)">Subí el CSV que exporta tu sistema viejo: clientes, stock o histórico de ventas. No hace falta que las columnas coincidan.</span>
@@ -2131,7 +2131,7 @@
             </sc-for>
           </div>
         </div>
-        <div style="display:flex;flex-direction:column;gap:24px">
+        <div style="display:flex;flex-direction:column;gap:24px;background:var(--sf2);border:1px solid var(--ln2);border-radius:12px;padding:22px">
           <div style="display:flex;flex-direction:column;gap:16px">
             <span style="font:400 22px/1.2 'Source Serif 4',Georgia,serif;color:var(--ink)">Middleware formateador con IA</span>
             <span style="font:400 12px/1.7 'Helvetica Neue',Helvetica,Arial,sans-serif;color:var(--ink2)">Recomendado: antes de importar, un paso de IA lee el CSV crudo, detecta qué es cada columna ("tel_cel_2" → teléfono, "obs" → notas), normaliza formatos y separa duplicados. Vos solo confirmás el mapeo propuesto.</span>
@@ -2158,7 +2158,7 @@
             <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.1em;text-transform:uppercase;color:var(--ac)">rol actual · admin</span>
           </span>
         </div>
-        <div style="display:flex;flex-direction:column;min-width:900px">
+        <div style="display:flex;flex-direction:column;min-width:900px;background:var(--sf);border:1px solid var(--ln);border-radius:12px;box-shadow:var(--shadow);padding:20px">
           <div style="display:grid;grid-template-columns:110px minmax(0,.9fr) minmax(0,1.6fr) minmax(0,1.4fr);gap:18px;padding:0 4px 12px;border-bottom:1px solid var(--ln)">
             <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Cuándo</span>
             <span style="font:400 9px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.12em;text-transform:uppercase;color:var(--fnt)">Quién</span>
